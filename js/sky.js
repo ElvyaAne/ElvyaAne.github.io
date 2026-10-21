@@ -207,7 +207,7 @@ ridge.addEventListener('pointerleave', () => { tip.style.opacity = 0; if (hi) hi
 
 
 const bc = $('beamc'), bx = bc.getContext('2d'), hero = $('observatory');
-let BW = 0, BH = 0;
+let BW = 0, BH = 0, pool = null, poolA = 0;
 const motes = Array.from({length:46}, () => ({t:Math.random(), u:Math.random()*2-1, v:.0004+Math.random()*.0009, p:Math.random()*6.28}));
 function bsize(){ const dpr = Math.min(devicePixelRatio||1,2), r = hero.getBoundingClientRect(); BW = r.width; BH = r.height; bc.width = BW*dpr; bc.height = BH*dpr; bx.setTransform(dpr,0,0,dpr,0,0); }
 function beam(t){
@@ -232,10 +232,12 @@ function beam(t){
     bx.lineTo(ox - px*w0, oy - py*w0); bx.closePath(); bx.fill();
   };
   for (let k=0;k<12;k++){ const f = 2.3 - k*.19; cone(S*f, .009 + k*.002, 2 + f*1.8); }
-  if (cur){
-    const tx = cur.x - hr.left, ty = cur.y - hr.top, d = Math.hypot(tx-ox, ty-oy), w = Math.max(18, d*Math.tan(S)*1.7);
+  if (cur) pool = cur;
+  poolA += ((cur ? 1 : 0) - poolA)*.12;
+  if (pool && poolA > .01){
+    const tx = pool.x - hr.left, ty = pool.y - hr.top, d = Math.hypot(tx-ox, ty-oy), w = Math.max(18, d*Math.tan(S)*1.7);
     const g = bx.createRadialGradient(tx, ty, 0, tx, ty, w*1.6);
-    g.addColorStop(0, 'rgba(255,246,232,.22)'); g.addColorStop(.35, 'rgba(255,240,226,.10)'); g.addColorStop(1, 'rgba(184,218,255,0)');
+    g.addColorStop(0, `rgba(255,246,232,${.22*poolA})`); g.addColorStop(.35, `rgba(255,240,226,${.10*poolA})`); g.addColorStop(1, 'rgba(184,218,255,0)');
     bx.fillStyle = g; bx.beginPath(); bx.arc(tx, ty, w*1.6, 0, 6.29); bx.fill();
   }
   if (!reduce) for (const q of motes){
@@ -246,6 +248,12 @@ function beam(t){
   }
   const gl = bx.createRadialGradient(ox, oy, 0, ox, oy, 16); gl.addColorStop(0, 'rgba(255,250,240,.75)'); gl.addColorStop(1, 'rgba(255,240,226,0)');
   bx.fillStyle = gl; bx.beginPath(); bx.arc(ox, oy, 16, 0, 6.29); bx.fill();
+  const fz = Math.max(0, Math.min(170, (BH - oy - 20)*.8));
+  if (fz > 0){
+    const fg = bx.createLinearGradient(0, BH - fz, 0, BH);
+    fg.addColorStop(0, 'rgba(0,0,0,0)'); fg.addColorStop(.5, 'rgba(0,0,0,.35)'); fg.addColorStop(.8, 'rgba(0,0,0,.8)'); fg.addColorStop(1, 'rgba(0,0,0,1)');
+    bx.globalCompositeOperation = 'destination-out'; bx.fillStyle = fg; bx.fillRect(0, BH - fz, BW, fz); bx.globalCompositeOperation = 'source-over';
+  }
 }
 addEventListener('resize', bsize); bsize();
 
