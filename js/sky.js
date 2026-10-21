@@ -285,6 +285,7 @@ function applyLC(st){
   if (!isNaN(d)) $('lcFresh').textContent = 'updated ' + d.toLocaleDateString('en-CA', {month:'short', day:'numeric'});
 }
 applyLC(FALLBACK);
+fetch('data/leetcode.json', {cache: 'no-store'}).then(r => r.ok ? r.json() : null).then(d => { if (d) applyLC(d); }).catch(() => {});
 
 addEventListener('scroll', () => { atmo(); navOn(); }, {passive:true});
 addEventListener('resize', () => { nsize(); atmo(); });
