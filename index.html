@@ -27,6 +27,20 @@
 html{background:var(--night)}
 body{background:var(--night);color:var(--mist);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 ::selection{background:var(--lav);color:var(--night)}
+/* scrollbars: solid steel thumb on a dark rail, squared corners so it reads as a control */
+::-webkit-scrollbar{width:14px;height:14px}
+::-webkit-scrollbar-track{background:#08131e;border-left:1px solid var(--line)}
+::-webkit-scrollbar-thumb{background:var(--haze);border:3px solid #08131e;border-radius:3px;min-height:48px}
+::-webkit-scrollbar-thumb:hover{background:var(--lav)}
+::-webkit-scrollbar-thumb:active{background:var(--sky)}
+::-webkit-scrollbar-button,::-webkit-scrollbar-corner{display:none;background:transparent}
+.body::-webkit-scrollbar{width:12px}
+.body::-webkit-scrollbar-track{background:rgba(8,19,30,.55);border-left:1px solid var(--line)}
+.body::-webkit-scrollbar-thumb{border:2px solid transparent;background-clip:padding-box}
+@supports not selector(::-webkit-scrollbar){
+  html{scrollbar-color:var(--haze) #08131e}
+  .body{scrollbar-color:var(--haze) rgba(8,19,30,.55)}
+}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--sky);outline-offset:3px;border-radius:4px}
 .mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.04em}
