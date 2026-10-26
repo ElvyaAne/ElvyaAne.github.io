@@ -8,7 +8,7 @@ const N = {
     html:`<span class="lab">origin star</span><h2>hi, I'm Elvya</h2>
       <p>I study <b>computer science and math at uOttawa</b>, I'm on the Dean's Honour List, and I build things whenever an idea won't leave me alone.</p>
       <p>Favorite kind of night: 2am, deep in a rabbit hole about space or math, three monitors glowing.</p>
-      <dl class="kv"><dt>studying</dt><dd>CS + Math, co-op</dd><dt>now</dt><dd>at Hack the Valley 11</dd><dt>next</dt><dd>summer 2027 internship</dd></dl>`},
+      <dl class="kv"><dt>studying</dt><dd>CS + Math, co-op</dd><dt>latest</dt><dd>won at Hack the Valley 11</dd><dt>next</dt><dd>summer 2027 internship</dd></dl>`},
   uottawa:{name:'uOttawa', d:[30,24], m:[24,28], type:'school', status:'Dean’s list',
     sum:'CS + Math, co-op program, CGPA 8.82/10, Dean’s Honour List.',
     html:`<span class="lab">school</span><h2>CS + Math</h2>
@@ -44,10 +44,10 @@ const N = {
       <p>Now training my <b>own cough-detection model</b> for it.</p>
       <div class="chips"><span>audio ML</span><span>React</span><span>Leaflet</span><span>TimescaleDB</span></div>
       <div class="btns"><a class="btn ghost" href="https://github.com/ElvyaAne/viralense" target="_blank" rel="noopener">repo ↗</a></div>`},
-  hacks:{name:'hackathons', d:[88,82], m:[50,90], type:'events', status:'live now',
-    sum:'Hack the Hill, Hack the Valley 11 right now, Stupid Ideas Hackathon next.',
+  hacks:{name:'hackathons', d:[88,82], m:[50,90], type:'events', status:'winner',
+    sum:'Hack the Hill, then a win at Hack the Valley 11.',
     html:`<span class="lab">events</span><h2>Hackathons</h2>
-      <dl class="kv"><dt>Sep 2026</dt><dd>Hack the Hill, Ottawa</dd><dt>right now</dt><dd>Hack the Valley 11, UTSC: building a biometric "are you okay?" signal for people who can't ask for help</dd><dt>Nov 2026</dt><dd>Stupid Ideas Hackathon</dd></dl>`},
+      <dl class="kv"><dt>Sep 2026</dt><dd>Hack the Hill, Ottawa</dd><dt>Oct 2026</dt><dd>Hack the Valley 11, UTSC: <b>won</b> with a biometric "are you okay?" signal for people who can't ask for help</dd></dl>`},
   intern:{name:'summer 2027', d:[50,8], m:[50,8], type:'wish', status:'looking',
     sum:'Looking for a software or ML/AI internship.',
     html:`<span class="lab">the wish</span><h2>Summer 2027</h2>
@@ -205,7 +205,7 @@ tabsEl.addEventListener('click', e => {
 });
 bodyEl.addEventListener('click', e => { const g = e.target.closest('[data-go]'); if (g) visit(g.dataset.go, true); });
 
-const quips = { classmark:'one of my favorite builds', book:'ooh, the fast one', viralens:'listen closely… *cough*', intern:'make a wish ✦', leet:'and counting!', hacks:'she’s at one right now', goal:'goals, but honest', uottawa:'home base', me:'origin star ✦' };
+const quips = { classmark:'one of my favorite builds', book:'ooh, the fast one', viralens:'listen closely… *cough*', intern:'make a wish ✦', leet:'and counting!', hacks:'fresh off a win ✦', goal:'goals, but honest', uottawa:'home base', me:'origin star ✦' };
 let pendingTab = null, landedId = null;
 const winEl = document.getElementById('win');
 function visit(id, fromNote){
