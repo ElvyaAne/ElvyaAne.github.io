@@ -44,10 +44,21 @@ const N = {
       <p>Now training my <b>own cough-detection model</b> for it.</p>
       <div class="chips"><span>audio ML</span><span>React</span><span>Leaflet</span><span>TimescaleDB</span></div>
       <div class="btns"><a class="btn ghost" href="https://github.com/ElvyaAne/viralense" target="_blank" rel="noopener">repo ↗</a></div>`},
-  hacks:{name:'hackathons', d:[88,82], m:[50,90], type:'events', status:'winner',
+  hacks:{name:'hackathons', d:[84,80], m:[50,88], type:'events', status:'winner',
     sum:'Hack the Hill, then a win at Hack the Valley 11.',
     html:`<span class="lab">events</span><h2>Hackathons</h2>
-      <dl class="kv"><dt>Sep 2026</dt><dd>Hack the Hill, Ottawa</dd><dt>Oct 2026</dt><dd>Hack the Valley 11, UTSC: <b>won</b> with a biometric "are you okay?" signal for people who can't ask for help</dd></dl>`},
+      <p>Each one gets its own star. Click through to them.</p>
+      <dl class="kv"><dt>Sep 2026</dt><dd>Hack the Hill, Ottawa</dd><dt>Oct 2026</dt><dd>Hack the Valley 11, UTSC: <b>won</b></dd></dl>`},
+  hth:{name:'Hack the Hill', d:[95,62], m:[78,76], type:'hackathon', status:'Viralens',
+    sum:'Ottawa, Sep 2026. Where Viralens was born.',
+    html:`<span class="lab">hackathon · Sep 2026</span><h2>Hack the Hill</h2>
+      <p>A hackathon in <b>Ottawa</b>, and where <b>Viralens</b> was born: sickness-risk heatmaps from cough and sneeze detection.</p>
+      <dl class="kv"><dt>when</dt><dd>Sep 2026</dd><dt>where</dt><dd>Ottawa</dd><dt>built</dt><dd>Viralens</dd></dl>`},
+  htv:{name:'Hack the Valley', d:[68,93], m:[22,90], type:'hackathon', status:'won',
+    sum:'UTSC, Oct 2026. Won with a biometric "are you okay?" signal.',
+    html:`<span class="lab">hackathon · winner</span><h2>Hack the Valley 11</h2>
+      <p><b>Won</b> at Hack the Valley 11 at UTSC with a biometric <b>"are you okay?" signal</b> for people who can't ask for help.</p>
+      <dl class="kv"><dt>when</dt><dd>Oct 2026</dd><dt>where</dt><dd>UTSC, Toronto</dd><dt>result</dt><dd><b>won</b></dd></dl>`},
   intern:{name:'summer 2027', d:[50,8], m:[50,8], type:'wish', status:'looking',
     sum:'Looking for a software or ML/AI internship.',
     html:`<span class="lab">the wish</span><h2>Summer 2027</h2>
@@ -63,7 +74,9 @@ const E = [
   ['book','leet','same muscles: C++ and data structures'],
   ['leet','intern','the grind has a destination'],
     ['me','viralens','my first ML rabbit hole'],
-  ['viralens','hacks','born at Hack the Hill'],
+  ['viralens','hth','born at Hack the Hill'],
+  ['hacks','hth','Sep 2026, Ottawa'],
+  ['hacks','htv','Oct 2026, the win'],
   ['hacks','intern','where I learn fastest'],
   ['uottawa','intern','co-op makes it possible']
 ];
@@ -205,7 +218,7 @@ tabsEl.addEventListener('click', e => {
 });
 bodyEl.addEventListener('click', e => { const g = e.target.closest('[data-go]'); if (g) visit(g.dataset.go, true); });
 
-const quips = { classmark:'one of my favorite builds', book:'ooh, the fast one', viralens:'listen closely… *cough*', intern:'make a wish ✦', leet:'and counting!', hacks:'fresh off a win ✦', goal:'goals, but honest', uottawa:'home base', me:'origin star ✦' };
+const quips = { classmark:'one of my favorite builds', book:'ooh, the fast one', viralens:'listen closely… *cough*', intern:'make a wish ✦', leet:'and counting!', hacks:'collecting these ✦', hth:'Ottawa, home turf', htv:'fresh off a win ✦', goal:'goals, but honest', uottawa:'home base', me:'origin star ✦' };
 let pendingTab = null, landedId = null;
 const winEl = document.getElementById('win');
 function visit(id, fromNote){
