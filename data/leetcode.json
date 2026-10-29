@@ -1,9 +1,9 @@
 {
   "easy": 65,
-  "medium": 10,
+  "medium": 11,
   "hard": 1,
   "all": 4096,
   "maxStreak": 16,
-  "activeDays": 45,
-  "updated": "2026-10-28"
+  "activeDays": 46,
+  "updated": "2026-10-29"
 }
