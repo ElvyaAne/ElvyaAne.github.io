@@ -37,9 +37,20 @@ h1{font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font
 .lede{font-size:clamp(17px,1.8vw,20px);color:var(--dim);max-width:52ch;margin:0 0 40px}
 
 /* course list, grouped by term */
-.term-group{margin:0 0 44px}
-.term-h{display:flex;align-items:baseline;gap:14px;margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--line);font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font-style:italic;font-weight:400;font-size:clamp(28px,3.4vw,38px);line-height:1.1}
-.term-h span{font-family:var(--f-mono);font-style:normal;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+/* timeline: a faint dashed line down the left with a glowing star at each term */
+.timeline{position:relative;padding-left:34px}
+.timeline::before{content:"";position:absolute;left:6px;top:14px;bottom:24px;border-left:1px dashed rgba(184,218,255,.28)}
+.term-group{position:relative;margin:0 0 46px}
+.term-group::before{content:"";position:absolute;left:-33px;top:12px;width:11px;height:11px;border-radius:50%;background:var(--mist);
+  box-shadow:0 0 0 4px rgba(184,218,255,.12),0 0 16px 4px rgba(155,238,255,.45)}
+.term-group:last-child{margin-bottom:0}
+.term-h{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px;margin:0 0 18px;font-weight:400}
+.term-h .yr{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--lav);padding:3px 10px;border-radius:20px;border:1px solid rgba(184,218,255,.3);background:rgba(184,218,255,.06)}
+.term-h .sn{font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font-style:italic;font-size:clamp(28px,3.4vw,38px);line-height:1.1;
+  background:linear-gradient(100deg,var(--mist) 30%,var(--sky));-webkit-background-clip:text;background-clip:text;color:transparent}
+.term-h .ct{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.term-h .ct::before{content:"✦ ";color:var(--lav);opacity:.6}
+@media (max-width:600px){.timeline{padding-left:24px}.timeline::before{left:4px}.term-group::before{left:-25px;width:9px;height:9px}}
 .courses{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
 .course{display:flex;flex-direction:column;gap:8px;height:100%;padding:20px 20px 18px;border-radius:14px;text-decoration:none;
   background:var(--glass);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--line);

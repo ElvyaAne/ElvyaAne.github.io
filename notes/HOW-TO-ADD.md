@@ -20,7 +20,7 @@ Add a block inside `"courses": [ ... ]` (put a comma between blocks):
 ```
 
 - `id` is the course's web address: this one lives at `notes/course.html?c=mat1341`. Lowercase, no spaces, and don't change it once people have the link.
-- `term` is the season and year, like `"Fall 2025"`, `"Winter 2026"` or `"Summer 2026"`. The course list groups courses by term, newest first; a course without a year shows under "Term to be added". Within a term, courses show in the order they're listed.
+- `term` is the year of study and the term, like `"Year 1 - Fall"`, `"Year 1 - Winter"` or `"Year 2 - Summer"`. The course list shows one section per term, oldest first. Courses without a term go in "More courses" at the end. Within a term, courses show in the order they're listed.
 
 ## Add a comment
 

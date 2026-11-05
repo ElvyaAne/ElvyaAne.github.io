@@ -41,23 +41,29 @@ function load(){
   return fetch('courses.json', {cache:'no-cache'}).then(r => { if (!r.ok) throw r.status; return r.json(); }).then(j => j.courses || []);
 }
 
-// Groups courses by term ("Fall 2025", "Winter 2026", ...), newest first; courses without a year go last.
-const SEASON = {winter:0, summer:1, fall:2};
-const termKey = t => { const m = String(t||'').match(/(winter|summer|fall)\s+(\d{4})/i); return m ? +m[2]*3 + SEASON[m[1].toLowerCase()] : -1; };
+// Groups courses by academic year and term ("Year 1 - Fall", "Year 1 - Winter", "Year 1 - Summer", ...), oldest first.
+const SEASON = {fall:0, winter:1, summer:2};
+const parseTerm = t => { const m = String(t||'').match(/year\s*(\d+)\s*[-–·,]?\s*(fall|winter|summer)/i); return m ? {y:+m[1], s:m[2][0].toUpperCase() + m[2].slice(1).toLowerCase()} : null; };
+const termLabel = t => { const p = parseTerm(t); return p ? `Year ${p.y} · ${p.s}` : String(t||''); };
 const card = c => `<li><a class="course" href="course.html?c=${encodeURIComponent(c.id)}">
-    <span class="top"><span class="code">${esc(c.code)}</span><span class="term">${esc(c.term)}</span></span>
+    <span class="top"><span class="code">${esc(c.code)}</span><span class="term">${esc(termLabel(c.term))}</span></span>
     <span class="nm">${esc(c.name)}</span>
     <p class="bl">${inline(c.blurb)}</p>
     <span class="meta"><span>${plural((c.comments||[]).length, 'comment')}</span><span>${plural((c.documents||[]).length, 'document')}</span></span>
   </a></li>`;
 function list(courses){
-  if (!courses.length){ $('courses').innerHTML = '<p class="empty">No courses yet.</p>'; return; }
+  const el = $('courses');
+  if (!courses.length){ el.innerHTML = '<p class="empty">No courses yet.</p>'; return; }
   const groups = new Map();
-  for (const c of courses){ const k = termKey(c.term) < 0 ? '' : c.term.trim(); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(c); }
-  const keys = [...groups.keys()].sort((a, b) => (a === '') - (b === '') || termKey(b) - termKey(a));
-  $('courses').innerHTML = keys.map(k => `<section class="term-group">
-    <h2 class="term-h">${k ? esc(k) : 'Term to be added'}<span>${plural(groups.get(k).length, 'course')}</span></h2>
-    <ol class="courses">${groups.get(k).map(card).join('')}</ol></section>`).join('');
+  for (const c of courses){ const p = parseTerm(c.term), k = p ? `${p.y}|${p.s}` : ''; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(c); }
+  if (groups.size === 1 && groups.has('')){ el.innerHTML = `<ol class="courses">${courses.map(card).join('')}</ol>`; return; }
+  const order = k => { if (!k) return Infinity; const [y, t] = k.split('|'); return +y*3 + SEASON[t.toLowerCase()]; };
+  const keys = [...groups.keys()].sort((a, b) => order(a) - order(b));
+  el.classList.add('timeline');
+  el.innerHTML = keys.map(k => { const [y, s] = k.split('|'), cs = groups.get(k);
+    return `<section class="term-group">
+    <h2 class="term-h">${k ? `<span class="yr">Year ${esc(y)}</span><span class="sn">${esc(s)}</span>` : '<span class="sn">More courses</span>'}<span class="ct">${plural(cs.length, 'course')}</span></h2>
+    <ol class="courses">${cs.map(card).join('')}</ol></section>`; }).join('');
 }
 
 function course(courses){
