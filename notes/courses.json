@@ -11,6 +11,7 @@
       "code": "ITI 1120",
       "name": "Introduction to Computing I",
       "term": "Year 1 - Fall",
+      "grade": "A-",
       "blurb": "My first programming course in a classroom.",
       "comments": [
         {
@@ -26,6 +27,7 @@
       "code": "ENG 1112",
       "name": "Technical Report Writing",
       "term": "Year 1 - Fall",
+      "grade": "A+",
       "blurb": "Writing precisely and clearly, ending in a technical report.",
       "comments": [
         {
@@ -39,8 +41,9 @@
     {
       "id": "esp1991",
       "code": "ESP 1991",
-      "name": "Spanish",
+      "name": "Elementary Spanish I",
       "term": "Year 1 - Fall",
+      "grade": "A+",
       "blurb": "Grammar, verb conjugation and vocabulary, with a dose of culture.",
       "comments": [
         {
@@ -62,6 +65,7 @@
       "code": "MAT 1339",
       "name": "Introduction to Calculus and Vectors",
       "term": "Year 1 - Fall",
+      "grade": "S",
       "blurb": "Ontario grade 12 math, sped up: functions, limits, derivatives and vectors.",
       "comments": [
         {
@@ -81,8 +85,9 @@
     {
       "id": "psy1101",
       "code": "PSY 1101",
-      "name": "Introduction to Psychology",
+      "name": "Introduction to Psychology: Foundations",
       "term": "Year 1 - Winter",
+      "grade": "A",
       "blurb": "Human behaviour, the nervous system, and how psychology runs experiments.",
       "comments": [
         {
@@ -99,6 +104,7 @@
       "code": "ITI 1121",
       "name": "Introduction to Computing II",
       "term": "Year 1 - Winter",
+      "grade": "B",
       "blurb": "Object-oriented programming in a statically typed language, and building your own data types.",
       "comments": [
         {
@@ -114,6 +120,7 @@
       "code": "MAT 1320",
       "name": "Calculus I",
       "term": "Year 1 - Winter",
+      "grade": "A+",
       "blurb": "Limits, derivatives and integrals, and all the problems they let you solve.",
       "comments": [
         {
@@ -135,6 +142,7 @@
       "code": "MAT 1348",
       "name": "Discrete Mathematics for Computing",
       "term": "Year 1 - Winter",
+      "grade": "A-",
       "blurb": "Logic, sets, proofs, counting, recurrences and graphs: the math underneath computer science.",
       "comments": [
         {
@@ -156,6 +164,7 @@
       "code": "ITI 1100",
       "name": "Digital Systems I",
       "term": "Year 1 - Winter",
+      "grade": "A",
       "blurb": "How computers work at the lowest level: binary, Boolean algebra, logic gates, combinational and sequential circuits.",
       "comments": [
         {
@@ -217,6 +226,7 @@
       "code": "CSI 2101",
       "name": "Discrete Structures",
       "term": "Year 1 - Summer",
+      "grade": "A+",
       "blurb": "Discrete math, continued: deeper topics with a programming layer, including encryption.",
       "comments": [
         {
@@ -238,6 +248,7 @@
       "code": "MAT 1341",
       "name": "Introduction to Linear Algebra",
       "term": "Year 1 - Summer",
+      "grade": "A-",
       "blurb": "Vectors, lines and planes, subspaces, span, matrices: the language of optimization.",
       "comments": [
         {
@@ -259,6 +270,7 @@
       "code": "MAT 1322",
       "name": "Calculus II",
       "term": "Year 1 - Summer",
+      "grade": "A",
       "blurb": "Integration techniques and applications, sequences and series: a little theory, mostly applications.",
       "comments": [
         {
