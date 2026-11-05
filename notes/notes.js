@@ -68,7 +68,7 @@ function course(courses){
   const ds = c.documents || [];
   $('cDocs').innerHTML = ds.length ? `<ul class="docs">${ds.map(d => { const u = d.file || d.url || '#';
     return `<li><a href="${esc(safeUrl(u))}" target="_blank" rel="noopener"><span class="ty">${esc(ext(d))}</span><span class="t">${esc(d.title || u)}${d.note ? `<small>${inline(d.note)}</small>` : ''}</span><span class="ar">↗</span></a></li>`; }).join('')}</ul>`
-    : '<p class="empty">No documents yet.</p>';
+    : `<p class="empty">${c.docsNote ? inline(c.docsNote) : 'No documents for this one.'}</p>`;
 }
 
 load().then(cs => ($('courses') ? list : course)(cs)).catch(() => {

@@ -165,6 +165,67 @@
           "note": "6 pages, including midterm and final exam summary sheets (22 MB)."
         }
       ]
+    },
+    {
+      "id": "iti1120",
+      "code": "ITI 1120",
+      "name": "Introduction to Computing I",
+      "term": "",
+      "blurb": "My first programming course in a classroom.",
+      "comments": [
+        {
+          "date": "2026-11-04",
+          "title": "Learning from someone else",
+          "text": "The prof was great. I always think the professor you have for that first relevant course dictates how much you'll like, and how well you'll perform in, the classes that build on it.\n\nThis was my first introduction to programming in a classroom. Before that, I was self-taught in anything tech related, but I realized there's a lot other people can teach you that you can't necessarily teach yourself. That really stuck with me, and it's motivated me to pay attention in class to this day."
+        }
+      ],
+      "documents": []
+    },
+    {
+      "id": "eng1112",
+      "code": "ENG 1112",
+      "name": "Technical Report Writing",
+      "term": "",
+      "blurb": "Writing precisely and clearly, ending in a technical report.",
+      "comments": [
+        {
+          "date": "2026-11-04",
+          "title": "Precise and clear",
+          "text": "I had to write a technical report, but overall the class taught me the importance of being precise and clear in my explanations, even in domains that may be considered informal.\n\nTo this day, because of this class, I can spot every grammar mistake."
+        }
+      ],
+      "documents": []
+    },
+    {
+      "id": "psy1101",
+      "code": "PSY 1101",
+      "name": "Introduction to Psychology",
+      "term": "",
+      "blurb": "Human behaviour, the nervous system, and how psychology runs experiments.",
+      "comments": [
+        {
+          "date": "2026-11-04",
+          "title": "Psychology is a science",
+          "text": "I've always had an interest in human behaviour, and this class gave me a more scientific approach to it. I got to see how different chemicals and drugs affect our nervous system and our behaviour, and which parts of our body let us do different things. Very fascinating stuff overall.\n\nI can't post the notes here because it's not authorized, but I hope this comment makes you a bit more interested in psychology, **which is indeed a science**, by the way.\n\nFun fact: did you know anything that follows the scientific method is a science? I learned that in this course, since it also covered how to design different types of experiments in psychology for a specific desired outcome."
+        }
+      ],
+      "documents": [],
+      "docsNote": "The course notes aren't authorized for sharing, so there are none here."
+    },
+    {
+      "id": "iti1121",
+      "code": "ITI 1121",
+      "name": "Introduction to Computing II",
+      "term": "",
+      "blurb": "Object-oriented programming in a statically typed language, and building your own data types.",
+      "comments": [
+        {
+          "date": "2026-11-04",
+          "title": "Static vs. dynamic",
+          "text": "I disliked this course for reasons I won't mention. I will say, though, that it was interesting to be able to make your own data types and use them in different ways.\n\nAs much as I don't like statically typed languages, they are useful, and in my opinion it's easier to \"customize\" your own stuff with them. It's a compromise I always have to make between static and dynamic languages, but both have their benefits."
+        }
+      ],
+      "documents": []
     }
   ]
 }
