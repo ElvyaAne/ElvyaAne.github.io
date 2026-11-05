@@ -226,6 +226,27 @@
         }
       ],
       "documents": []
+    },
+    {
+      "id": "mat1322",
+      "code": "MAT 1322",
+      "name": "Calculus II",
+      "term": "",
+      "blurb": "Integration techniques and applications, sequences and series: a little theory, mostly applications.",
+      "comments": [
+        {
+          "date": "2026-11-04",
+          "title": "From scary to a favourite",
+          "text": "This class scared me so much. I'd heard nightmare stories about it, I knew a lot of people ended up having to retake it, and I was scared I'd be the worst at it.\n\nIt ended up being one of my favourite courses. I liked how the material has some theory, but it's mostly applications. Overall, I like seeing how my courses apply in real life. It's something I value a lot when I'm learning literally anything. Sure, not everything needs to be super important, but if I invest a lot of time into something, I like seeing how it can benefit me.\n\nAlso, the prof I had was super chill, and I loved it."
+        }
+      ],
+      "documents": [
+        {
+          "title": "Calculus II notes",
+          "file": "files/mat1322/mat1322-notes.pdf",
+          "note": "7 pages: lecture notes and midterm/exam summary sheets (5 MB)."
+        }
+      ]
     }
   ]
 }
