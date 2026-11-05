@@ -44,6 +44,12 @@ h1{font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font
 .term-group::before{content:"";position:absolute;left:-33px;top:12px;width:11px;height:11px;border-radius:50%;background:var(--mist);
   box-shadow:0 0 0 4px rgba(184,218,255,.12),0 0 16px 4px rgba(155,238,255,.45)}
 .term-group:last-child{margin-bottom:0}
+/* a term that hasn't happened yet: hollow, softly pulsing star and a dashed placeholder */
+.term-group.next::before{background:#123050;border:1.5px solid var(--sky);box-shadow:0 0 12px 2px rgba(155,238,255,.35);animation:tbc 2.8s ease-in-out infinite}
+@keyframes tbc{50%{box-shadow:0 0 18px 6px rgba(155,238,255,.55)}}
+.term-group.next .sn{opacity:.75}
+.tbc{margin:0;max-width:420px;padding:22px 20px;border-radius:14px;border:1px dashed rgba(184,218,255,.32);color:var(--dim);
+  font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font-style:italic;font-size:22px;background:rgba(20,47,74,.35)}
 .term-h{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px;margin:0 0 18px;font-weight:400}
 .term-h .yr{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--lav);padding:3px 10px;border-radius:20px;border:1px solid rgba(184,218,255,.3);background:rgba(184,218,255,.06)}
 .term-h .sn{font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font-style:italic;font-size:clamp(28px,3.4vw,38px);line-height:1.1;

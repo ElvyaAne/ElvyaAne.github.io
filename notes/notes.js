@@ -38,7 +38,7 @@ const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
 const ext = d => { const m = (d.file || d.url || '').split(/[?#]/)[0].match(/\.([a-z0-9]{1,5})$/i); return d.type || (m ? m[1] : (d.url ? 'link' : 'file')); };
 
 function load(){
-  return fetch('courses.json', {cache:'no-cache'}).then(r => { if (!r.ok) throw r.status; return r.json(); }).then(j => j.courses || []);
+  return fetch('courses.json', {cache:'no-cache'}).then(r => { if (!r.ok) throw r.status; return r.json(); }).then(j => { const cs = j.courses || []; cs.upcoming = j.upcoming || []; return cs; });
 }
 
 // Groups courses by academic year and term ("Year 1 - Fall", "Year 1 - Winter", "Year 1 - Summer", ...), oldest first.
@@ -56,14 +56,17 @@ function list(courses){
   if (!courses.length){ el.innerHTML = '<p class="empty">No courses yet.</p>'; return; }
   const groups = new Map();
   for (const c of courses){ const p = parseTerm(c.term), k = p ? `${p.y}|${p.s}` : ''; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(c); }
+  const soon = new Map();
+  for (const u of courses.upcoming || []){ const p = parseTerm(u.term); if (p){ const k = `${p.y}|${p.s}`; soon.set(k, u.note); if (!groups.has(k)) groups.set(k, []); } }
   if (groups.size === 1 && groups.has('')){ el.innerHTML = `<ol class="courses">${courses.map(card).join('')}</ol>`; return; }
   const order = k => { if (!k) return Infinity; const [y, t] = k.split('|'); return +y*3 + SEASON[t.toLowerCase()]; };
   const keys = [...groups.keys()].sort((a, b) => order(a) - order(b));
   el.classList.add('timeline');
   el.innerHTML = keys.map(k => { const [y, s] = k.split('|'), cs = groups.get(k);
-    return `<section class="term-group">
-    <h2 class="term-h">${k ? `<span class="yr">Year ${esc(y)}</span><span class="sn">${esc(s)}</span>` : '<span class="sn">More courses</span>'}<span class="ct">${plural(cs.length, 'course')}</span></h2>
-    <ol class="courses">${cs.map(card).join('')}</ol></section>`; }).join('');
+    const next = !cs.length;
+    return `<section class="term-group${next ? ' next' : ''}">
+    <h2 class="term-h">${k ? `<span class="yr">Year ${esc(y)}</span><span class="sn">${esc(s)}</span>` : '<span class="sn">More courses</span>'}${next ? '' : `<span class="ct">${plural(cs.length, 'course')}</span>`}</h2>
+    ${next ? `<p class="tbc">${inline(soon.get(k) || 'To be continued…')}</p>` : `<ol class="courses">${cs.map(card).join('')}</ol>`}</section>`; }).join('');
 }
 
 function course(courses){
