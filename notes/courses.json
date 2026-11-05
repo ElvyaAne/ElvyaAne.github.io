@@ -247,6 +247,27 @@
           "note": "7 pages: lecture notes and midterm/exam summary sheets (5 MB)."
         }
       ]
+    },
+    {
+      "id": "csi2101",
+      "code": "CSI 2101",
+      "name": "Discrete Structures",
+      "term": "Summer",
+      "blurb": "Discrete math, continued: deeper topics with a programming layer, including encryption.",
+      "comments": [
+        {
+          "date": "2026-11-04",
+          "title": "Alice and Bob hurt me a little",
+          "text": "This class is a continuation of discrete math that goes into more in-depth topics, and I like that it has a programming layer to it.\n\nIn my course sequence I was technically supposed to take it later, but I chose to take it during the summer, and it ended up helping me a lot in one of my other courses.\n\nJust like discrete math, I like the diversity of topics. Encryption and decryption was one of my favourite parts, but even so, Alice and Bob did hurt me a little, lol (if you know, you know)."
+        }
+      ],
+      "documents": [
+        {
+          "title": "Discrete structures notes",
+          "file": "files/csi2101/csi2101-notes.pdf",
+          "note": "3 pages of midterm review sheets (3 MB)."
+        }
+      ]
     }
   ]
 }
