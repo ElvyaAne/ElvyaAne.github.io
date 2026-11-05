@@ -102,6 +102,69 @@
           "note": "9 pages. Large file (38 MB), may take a moment to open."
         }
       ]
+    },
+    {
+      "id": "mat1341",
+      "code": "MAT 1341",
+      "name": "Introduction to Linear Algebra",
+      "term": "",
+      "blurb": "Vectors, lines and planes, subspaces, span, matrices: the language of optimization.",
+      "comments": [
+        {
+          "date": "2026-11-04",
+          "title": "The math behind optimization",
+          "text": "What I liked is how crucial linear algebra is to optimization systems. It really put into perspective how things can genuinely be specified.\n\nI spent my whole high school career optimizing individual functions one by one because I was so unaware, but now it's very good to know, lol."
+        }
+      ],
+      "documents": [
+        {
+          "title": "Linear algebra notes",
+          "file": "files/mat1341/mat1341-notes.pdf",
+          "note": "2 pages of summary sheets (15 MB)."
+        }
+      ]
+    },
+    {
+      "id": "esp1991",
+      "code": "ESP 1991",
+      "name": "Spanish",
+      "term": "",
+      "blurb": "Grammar, verb conjugation and vocabulary, with a dose of culture.",
+      "comments": [
+        {
+          "date": "2026-11-04",
+          "title": "A reintroduction to a language I love",
+          "text": "I liked this course because it was a reintroduction to proper grammar and overall knowledge of the language.\n\nI had my first Spanish class when I was 9, and ever since, I've loved the culture, including the language."
+        }
+      ],
+      "documents": [
+        {
+          "title": "Spanish notes",
+          "file": "files/esp1991/esp1991-notes.pdf",
+          "note": "4 pages, including midterm summary sheets (14 MB)."
+        }
+      ]
+    },
+    {
+      "id": "mat1339",
+      "code": "MAT 1339",
+      "name": "Introduction to Calculus and Vectors",
+      "term": "",
+      "blurb": "Ontario grade 12 math, sped up: functions, limits, derivatives and vectors.",
+      "comments": [
+        {
+          "date": "2026-11-04",
+          "title": "My first uni term",
+          "text": "Since I decided to skip CEGEP and go directly to university, I had to take this as a makeup class. It's essentially a sped-up course on what you would learn in grade 12 math in Ontario.\n\nI liked this course, but it stressed me out because it was my first university term. I was so proud when I did well in it."
+        }
+      ],
+      "documents": [
+        {
+          "title": "Calculus and vectors notes",
+          "file": "files/mat1339/mat1339-notes.pdf",
+          "note": "6 pages, including midterm and final exam summary sheets (22 MB)."
+        }
+      ]
     }
   ]
 }
