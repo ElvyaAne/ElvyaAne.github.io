@@ -60,6 +60,48 @@
           "file": "files/iti1100/page-10.pdf"
         }
       ]
+    },
+    {
+      "id": "mat1348",
+      "code": "MAT 1348",
+      "name": "Discrete Mathematics for Computing",
+      "term": "Winter",
+      "blurb": "Logic, sets, proofs, counting, recurrences and graphs: the math underneath computer science.",
+      "comments": [
+        {
+          "date": "2026-11-04",
+          "title": "So many different topics",
+          "text": "The winter is brutal, so I was extra unmotivated to go above and beyond. I had a difficult start, but I ended up performing well in it by the end.\n\nWhat I loved about discrete math is how diverse the topics are. There are so many different things in it, and that's what makes it so interesting."
+        }
+      ],
+      "documents": [
+        {
+          "title": "Discrete math notes",
+          "file": "files/mat1348/mat1348-notes.pdf",
+          "note": "13 pages: summary sheets and worked problems. Large file (36 MB), may take a moment to open."
+        }
+      ]
+    },
+    {
+      "id": "mat1320",
+      "code": "MAT 1320",
+      "name": "Calculus I",
+      "term": "Winter",
+      "blurb": "Limits, derivatives and integrals, and all the problems they let you solve.",
+      "comments": [
+        {
+          "date": "2026-11-04",
+          "title": "Solving problems in unexpected ways",
+          "text": "The winter is brutal, so I was extra unmotivated to go above and beyond. I had a difficult start, but I ended up performing well in it by the end.\n\nWhat I liked about calculus is how it introduces you to solving all kinds of problems in ways you wouldn't necessarily expect."
+        }
+      ],
+      "documents": [
+        {
+          "title": "Calculus notes",
+          "file": "files/mat1320/mat1320-notes.pdf",
+          "note": "9 pages. Large file (38 MB), may take a moment to open."
+        }
+      ]
     }
   ]
 }
