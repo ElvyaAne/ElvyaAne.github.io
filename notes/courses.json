@@ -1,0 +1,39 @@
+{
+  "courses": [
+    {
+      "id": "csi2110",
+      "code": "CSI 2110",
+      "name": "Data Structures and Algorithms",
+      "term": "Fall 2026",
+      "blurb": "Placeholder: one or two lines about what this course covers.",
+      "comments": [
+        {
+          "date": "2026-11-04",
+          "title": "Placeholder comment",
+          "text": "Write what you thought of the course here: the best topic, the hardest assignment, tips for anyone taking it next.\n\nA blank line starts a new paragraph. You can use **bold**, *italics*, `code` and [links](https://github.com/ElvyaAne)."
+        }
+      ],
+      "documents": [
+        { "title": "Sample document", "file": "files/csi2110/sample.pdf", "note": "Placeholder PDF: replace with your own notes or cheat sheet." }
+      ]
+    },
+    {
+      "id": "architecture",
+      "code": "Course code",
+      "name": "Computer Architecture",
+      "term": "Fall 2026",
+      "blurb": "Placeholder: one or two lines about what this course covers.",
+      "comments": [],
+      "documents": []
+    },
+    {
+      "id": "math",
+      "code": "Course code",
+      "name": "Math course",
+      "term": "Fall 2026",
+      "blurb": "Placeholder: one or two lines about what this course covers.",
+      "comments": [],
+      "documents": []
+    }
+  ]
+}
