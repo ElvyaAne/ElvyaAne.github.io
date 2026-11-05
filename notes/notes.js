@@ -41,13 +41,23 @@ function load(){
   return fetch('courses.json', {cache:'no-cache'}).then(r => { if (!r.ok) throw r.status; return r.json(); }).then(j => j.courses || []);
 }
 
-function list(courses){
-  $('courses').innerHTML = courses.length ? courses.map(c => `<li><a class="course" href="course.html?c=${encodeURIComponent(c.id)}">
+// Groups courses by term ("Fall 2025", "Winter 2026", ...), newest first; courses without a year go last.
+const SEASON = {winter:0, summer:1, fall:2};
+const termKey = t => { const m = String(t||'').match(/(winter|summer|fall)\s+(\d{4})/i); return m ? +m[2]*3 + SEASON[m[1].toLowerCase()] : -1; };
+const card = c => `<li><a class="course" href="course.html?c=${encodeURIComponent(c.id)}">
     <span class="top"><span class="code">${esc(c.code)}</span><span class="term">${esc(c.term)}</span></span>
     <span class="nm">${esc(c.name)}</span>
     <p class="bl">${inline(c.blurb)}</p>
     <span class="meta"><span>${plural((c.comments||[]).length, 'comment')}</span><span>${plural((c.documents||[]).length, 'document')}</span></span>
-  </a></li>`).join('') : '<li class="empty">No courses yet.</li>';
+  </a></li>`;
+function list(courses){
+  if (!courses.length){ $('courses').innerHTML = '<p class="empty">No courses yet.</p>'; return; }
+  const groups = new Map();
+  for (const c of courses){ const k = termKey(c.term) < 0 ? '' : c.term.trim(); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(c); }
+  const keys = [...groups.keys()].sort((a, b) => (a === '') - (b === '') || termKey(b) - termKey(a));
+  $('courses').innerHTML = keys.map(k => `<section class="term-group">
+    <h2 class="term-h">${k ? esc(k) : 'Term to be added'}<span>${plural(groups.get(k).length, 'course')}</span></h2>
+    <ol class="courses">${groups.get(k).map(card).join('')}</ol></section>`).join('');
 }
 
 function course(courses){

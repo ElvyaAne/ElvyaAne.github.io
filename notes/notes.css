@@ -36,7 +36,10 @@ h1{font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font
   background:linear-gradient(100deg,var(--mist) 25%,var(--lav) 60%,var(--sky) 95%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.08em}
 .lede{font-size:clamp(17px,1.8vw,20px);color:var(--dim);max-width:52ch;margin:0 0 40px}
 
-/* course list */
+/* course list, grouped by term */
+.term-group{margin:0 0 44px}
+.term-h{display:flex;align-items:baseline;gap:14px;margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--line);font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font-style:italic;font-weight:400;font-size:clamp(28px,3.4vw,38px);line-height:1.1}
+.term-h span{font-family:var(--f-mono);font-style:normal;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
 .courses{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
 .course{display:flex;flex-direction:column;gap:8px;height:100%;padding:20px 20px 18px;border-radius:14px;text-decoration:none;
   background:var(--glass);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--line);
