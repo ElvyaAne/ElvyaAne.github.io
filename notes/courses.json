@@ -1,39 +1,65 @@
 {
   "courses": [
     {
-      "id": "csi2110",
-      "code": "CSI 2110",
-      "name": "Data Structures and Algorithms",
-      "term": "Fall 2026",
-      "blurb": "Placeholder: one or two lines about what this course covers.",
+      "id": "iti1100",
+      "code": "ITI 1100",
+      "name": "Digital Systems I",
+      "term": "",
+      "blurb": "How computers work at the lowest level: binary, Boolean algebra, logic gates, combinational and sequential circuits.",
       "comments": [
         {
           "date": "2026-11-04",
-          "title": "Placeholder comment",
-          "text": "Write what you thought of the course here: the best topic, the hardest assignment, tips for anyone taking it next.\n\nA blank line starts a new paragraph. You can use **bold**, *italics*, `code` and [links](https://github.com/ElvyaAne)."
+          "title": "Why I loved it",
+          "text": "What I loved about this course was learning how computers work at the lowest level. It was insightful, and it was the beginning of me seeing how everything pieces together when it comes to computers overall."
         }
       ],
       "documents": [
-        { "title": "Sample document", "file": "files/csi2110/sample.pdf", "note": "Placeholder PDF: replace with your own notes or cheat sheet." }
+        {
+          "title": "Full notes (all 10 pages)",
+          "file": "files/iti1100/iti1100-notes-all.pdf",
+          "note": "Every page in one PDF."
+        },
+        {
+          "title": "Page 1",
+          "file": "files/iti1100/page-01.pdf"
+        },
+        {
+          "title": "Page 2",
+          "file": "files/iti1100/page-02.pdf"
+        },
+        {
+          "title": "Page 3",
+          "file": "files/iti1100/page-03.pdf"
+        },
+        {
+          "title": "Page 4",
+          "file": "files/iti1100/page-04.pdf"
+        },
+        {
+          "title": "Page 5",
+          "file": "files/iti1100/page-05.pdf"
+        },
+        {
+          "title": "Page 6",
+          "file": "files/iti1100/page-06.pdf"
+        },
+        {
+          "title": "Page 7",
+          "file": "files/iti1100/page-07.pdf"
+        },
+        {
+          "title": "Page 8",
+          "file": "files/iti1100/page-08.pdf"
+        },
+        {
+          "title": "Page 9",
+          "file": "files/iti1100/page-09.pdf"
+        },
+        {
+          "title": "Page 10",
+          "file": "files/iti1100/page-10.pdf"
+        }
       ]
-    },
-    {
-      "id": "architecture",
-      "code": "Course code",
-      "name": "Computer Architecture",
-      "term": "Fall 2026",
-      "blurb": "Placeholder: one or two lines about what this course covers.",
-      "comments": [],
-      "documents": []
-    },
-    {
-      "id": "math",
-      "code": "Course code",
-      "name": "Math course",
-      "term": "Fall 2026",
-      "blurb": "Placeholder: one or two lines about what this course covers.",
-      "comments": [],
-      "documents": []
     }
   ]
 }

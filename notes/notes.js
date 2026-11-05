@@ -57,7 +57,7 @@ function course(courses){
     $('cBlurb').innerHTML = 'That course isn\'t in my notes (yet). <a href="./">See all courses</a>.';
     document.querySelector('.cols').hidden = true; return;
   }
-  document.title = `${c.code && c.code !== 'Course code' ? c.code + ' · ' : ''}${c.name} · Elvya Ané`;
+  document.title = `${c.code ? c.code + ' · ' : ''}${c.name} · Elvya Ané`;
   $('cCode').textContent = [c.code, c.term].filter(Boolean).join(' · ');
   $('cName').textContent = c.name;
   $('cBlurb').innerHTML = inline(c.blurb);
