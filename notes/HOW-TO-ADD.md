@@ -53,3 +53,7 @@ For something hosted elsewhere (Google Drive, Notion, a repo), use `"url"` inste
 The little tag next to each document (PDF, PNG, LINK…) comes from the file's extension. `note` is optional.
 
 Tip: paste the whole file into https://jsonlint.com before committing if you're unsure about commas.
+
+## After changing notes.js or notes.css
+
+Bump the `?v=` number on `notes.js` and `notes.css` in `notes/index.html` and `notes/course.html`, so browsers fetch the new version instead of a cached one.
