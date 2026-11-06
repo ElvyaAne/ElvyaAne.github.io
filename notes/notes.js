@@ -46,7 +46,7 @@ const SEASON = {fall:0, winter:1, summer:2};
 const parseTerm = t => { const m = String(t||'').match(/year\s*(\d+)\s*[-–·,]?\s*(fall|winter|summer)/i); return m ? {y:+m[1], s:m[2][0].toUpperCase() + m[2].slice(1).toLowerCase()} : null; };
 const termLabel = t => { const p = parseTerm(t); return p ? `Year ${p.y} · ${p.s}` : String(t||''); };
 const card = c => `<li><a class="course" href="course.html?c=${encodeURIComponent(c.id)}">
-    <span class="top"><span class="code">${esc(c.code)}</span><span class="tr"><span class="term">${esc(termLabel(c.term))}</span>${c.grade ? `<span class="grade"${c.gradeNote ? ` title="${esc(c.gradeNote)}"` : ''}>${esc(c.grade)}</span>` : ''}</span></span>
+    <span class="top"><span class="code">${esc(c.code)}</span><span class="term">${esc(termLabel(c.term))}</span></span>
     <span class="nm">${esc(c.name)}</span>
     <p class="bl">${inline(c.blurb)}</p>
     <span class="meta"><span>${plural((c.comments||[]).length, 'comment')}</span><span>${plural((c.documents||[]).length, 'document')}</span></span>

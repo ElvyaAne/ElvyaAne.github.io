@@ -13,7 +13,6 @@ Add a block inside `"courses": [ ... ]` (put a comma between blocks):
   "code": "MAT 1341",
   "name": "Linear Algebra",
   "term": "Year 2 - Winter",
-  "grade": "A",
   "blurb": "Vectors, matrices, and why everything is secretly a linear map.",
   "comments": [],
   "documents": []
@@ -22,7 +21,6 @@ Add a block inside `"courses": [ ... ]` (put a comma between blocks):
 
 - `id` is the course's web address: this one lives at `notes/course.html?c=mat1341`. Lowercase, no spaces, and don't change it once people have the link.
 - `term` is the year of study and the term, like `"Year 1 - Fall"`, `"Year 1 - Winter"` or `"Year 2 - Summer"`. The course list shows one section per term, oldest first. Courses without a term go in "More courses" at the end. Within a term, courses show in the order they're listed.
-- `grade` (optional) is your final grade, like `"A+"`. It shows as a small badge in the top corner of the course box. Leave it out for a course that isn't finished.
 
 ## Add a comment
 
