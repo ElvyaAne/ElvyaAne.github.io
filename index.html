@@ -267,6 +267,25 @@ footer{max-width:none;border-top:0;margin-top:-2px;background:#183350;color:#b9d
   .p4 .btns{gap:10px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* projects shelf: the builds, up front, before the sky */
+.shelf{position:relative;z-index:1;max-width:1320px;margin:0 auto;padding-block:84px 8px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.shelf .cat-head{align-items:end}
+.shelf .cat-head h2{margin-top:14px}
+.pgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px}
+.pc{grid-column:span 2;display:flex;flex-direction:column;padding:22px 22px 20px;border-radius:18px;background:linear-gradient(160deg,rgba(30,66,102,.55),rgba(13,30,46,.55));border:1px solid var(--line);transition:border-color .25s,transform .25s}
+.pc.wide{grid-column:span 3}
+.pc:hover{border-color:rgba(155,238,255,.45);transform:translateY(-2px)}
+.pc h3{font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:400;font-size:32px;line-height:1.05;margin:10px 0 8px;letter-spacing:-.01em}
+.pc.wide h3{font-size:40px}
+.pc p{color:var(--dim);margin:0 0 14px;flex:1}
+.pc .chips{margin-bottom:16px}
+.pa{display:flex;flex-wrap:wrap;gap:8px}
+.pa .btn{padding:8px 13px}
+.star.proj .lbl{color:var(--mist);border:1px solid rgba(155,238,255,.4);background:rgba(20,47,74,.75)}
+.star.proj.on .lbl{background:var(--lav);color:var(--night);border-color:var(--lav)}
+@media (max-width:980px){.pgrid{grid-template-columns:1fr 1fr}.pc,.pc.wide{grid-column:span 1}.pc.wide:first-child{grid-column:1/-1}}
+@media (max-width:600px){.shelf{padding-block:64px 0}.pgrid{grid-template-columns:1fr}.pc,.pc.wide,.pc.wide:first-child{grid-column:auto}.pc.wide h3,.pc h3{font-size:32px}}
 </style>
 </head><body>
 
@@ -284,7 +303,7 @@ footer{max-width:none;border-top:0;margin-top:-2px;background:#183350;color:#b9d
 <header class="nav">
   <a class="me" href="#observatory">Elvya Ané</a>
   <nav aria-label="Charts">
-    <a href="#observatory">Observatory</a><a href="#constellation">Constellation</a><a href="#range">The range</a><a href="#dawn">Dawn</a>
+    <a href="#observatory">Observatory</a><a href="#projects">Projects</a><a href="#constellation">Constellation</a><a href="#range">The range</a><a href="#dawn">Dawn</a>
   </nav>
   <div class="navr"><div class="hud mono"><span>Ottawa <b id="clock">--:--</b></span><span>moon <b id="moon">…</b></span></div><a class="notesbtn" href="notes/">Class notes</a></div>
 </header>
@@ -316,7 +335,7 @@ footer{max-width:none;border-top:0;margin-top:-2px;background:#183350;color:#b9d
     <h1>Elvya Ané</h1>
     <p class="tag disp-i">A <em>builder</em> who falls down <em>rabbit holes</em> for fun.</p>
     <p class="sub">Computer science &amp; math at uOttawa. Looking for a summer 2027 internship in software or ML/AI.</p>
-    <div class="links"><a href="#constellation">See what I've built ↓</a><a href="https://github.com/ElvyaAne" target="_blank" rel="noopener">GitHub ↗</a><a href="https://classmark.vercel.app" target="_blank" rel="noopener">Classmark ↗</a><a href="resume.pdf?v=14" target="_blank" rel="noopener">Resume ↗</a></div>
+    <div class="links"><a href="#projects">See what I've built ↓</a><a href="https://github.com/ElvyaAne" target="_blank" rel="noopener">GitHub ↗</a><a href="https://classmark.vercel.app" target="_blank" rel="noopener">Classmark ↗</a><a href="resume.pdf?v=14" target="_blank" rel="noopener">Resume ↗</a></div>
   </div>
   <div class="land" id="land">
     <svg viewBox="0 0 1440 420" preserveAspectRatio="xMaxYMax slice" aria-hidden="true">
@@ -353,6 +372,11 @@ footer{max-width:none;border-top:0;margin-top:-2px;background:#183350;color:#b9d
   </div>
 </section>
 
+<section class="shelf" id="projects" aria-labelledby="projTitle">
+  <div class="cat-head"><div><span class="chart">The projects</span><h2 id="projTitle">Things I've built</h2></div><span class="lab">each one is also a ringed star in the sky below ↓</span></div>
+  <div class="pgrid" id="pgrid"></div>
+</section>
+
 <div class="sky" id="sky">
   <a id="constellation" style="position:absolute;top:0" aria-hidden="true"></a>
   <canvas id="stars" aria-hidden="true"></canvas>
@@ -362,7 +386,7 @@ footer{max-width:none;border-top:0;margin-top:-2px;background:#183350;color:#b9d
       <h2>Everything I've built is a star.</h2>
       <p>My brain is a notes app with 400 tabs open, so here it is as a sky. <b>Click a star</b> to open its tab, follow the links, fall down the rabbit hole.</p>
     </div>
-    <div class="found"><b id="foundN">1 / 11</b><br>stars discovered</div>
+    <div class="found"><b id="foundN">1 / 12</b><br>stars discovered</div>
   </div>
 
   <div class="desk">

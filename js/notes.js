@@ -8,13 +8,14 @@ const N = {
     html:`<span class="lab">origin star</span><h2>hi, I'm Elvya</h2>
       <p>I study <b>computer science and math at uOttawa</b>, I'm on the Dean's Honour List, and I build things whenever an idea won't leave me alone.</p>
       <p>Favorite kind of night: 2am, deep in a rabbit hole about space or math, three monitors glowing.</p>
-      <dl class="kv"><dt>studying</dt><dd>CS + Math, co-op</dd><dt>latest</dt><dd>won at Hack the Valley 11</dd><dt>next</dt><dd>summer 2027 internship</dd></dl>`},
+      <dl class="kv"><dt>studying</dt><dd>CS + Math, co-op</dd><dt>latest</dt><dd>won at Hack the Valley 11 with Tenshi</dd><dt>next</dt><dd>summer 2027 internship</dd></dl>`},
   uottawa:{name:'uOttawa', d:[30,24], m:[24,28], type:'school', status:'Dean’s list',
     sum:'CS + Math, co-op program, CGPA 8.82/10, Dean’s Honour List.',
     html:`<span class="lab">school</span><h2>CS + Math</h2>
       <p>Double-majoring in <b>computer science and mathematics</b> at the University of Ottawa, in the co-op program.</p>
       <dl class="kv"><dt>CGPA</dt><dd>8.82 / 10</dd><dt>honours</dt><dd>Dean's Honour List</dd><dt>this term</dt><dd>data structures &amp; algorithms, math, architecture</dd><dt>speaks</dt><dd>Python · C++ · Java · TypeScript · JavaScript · SQL · Verilog</dd></dl>`},
   classmark:{name:'Classmark', d:[13,48], m:[17,50], type:'web app', status:'live',
+    proj:{tech:['Supabase','Vercel','auth-gated'], links:[['open','https://classmark.vercel.app']]},
     sum:'See your percentile among classmates; a uOttawa email unlocks your own numbers.',
     html:`<span class="lab">web app · live</span><h2>Classmark</h2>
       <p>Where do you actually stand? Classmark puts students <b>on the curve</b>: percentiles on skills and metrics against their peers.</p>
@@ -22,11 +23,13 @@ const N = {
       <div class="chips"><span>Supabase</span><span>Vercel</span><span>auth-gated</span></div>
       <div class="btns"><a class="btn" href="https://classmark.vercel.app" target="_blank" rel="noopener">open classmark ↗</a></div>`},
   goal:{name:'Goal!', d:[25,80], m:[24,74], type:'web app', status:'building',
+    proj:{tech:['Node','Express','PostgreSQL','vanilla JS'], links:[]},
     sum:'A planner that analyzes how you actually spent your time.',
     html:`<span class="lab">web app · building</span><h2>Goal!</h2>
       <p>A planning app that also <b>analyzes how you actually spent your time</b>, so a goal gets honest feedback instead of a checkbox.</p>
       <div class="chips"><span>Node</span><span>Express</span><span>PostgreSQL</span><span>vanilla JS</span></div>`},
   book:{name:'order book', d:[64,18], m:[73,20], type:'systems', status:'in progress',
+    proj:{tech:['C++','data structures','low latency'], links:[]},
     sum:'A limit order book and matching engine in C++.',
     html:`<span class="lab">systems · in progress</span><h2>Order book</h2>
       <p>A <b>limit order book and matching engine in C++</b>: price-time priority, bids and asks, the spread in between. Correct first, then fast.</p>
@@ -37,13 +40,24 @@ const N = {
       <p><b><span data-lc="total">63</span> problems solved</b>, mostly Python with some C++. Long-term goal: solve every single one. Yes, all of them.</p>
       <dl class="kv"><dt>solved</dt><dd><span data-lc="easy">53</span> easy · <span data-lc="medium">9</span> medium · <span data-lc="hard">1</span> hard</dd><dt>best streak</dt><dd><span data-lc="maxStreak">16</span> days</dd></dl>
       <div class="btns"><a class="btn ghost" href="https://leetcode.com/u/Elvya/" target="_blank" rel="noopener">profile ↗</a></div>`},
-  viralens:{name:'Viralens', d:[68,70], m:[72,64], type:'ML + web', status:'hackathon',
+  viralens:{name:'Viralens', d:[68,70], m:[72,64], type:'ML + web', status:'in progress',
+    proj:{tech:['audio ML','React','Leaflet','TimescaleDB'], links:[['repo','https://github.com/ElvyaAne/viralense']]},
     sum:'Sickness-risk heatmaps from cough detection; training my own model.',
-    html:`<span class="lab">ML + web · Hack the Hill</span><h2>Viralens</h2>
+    html:`<span class="lab">ML + web · in progress</span><h2>Viralens</h2>
       <p>Sickness-risk <b>heatmaps by city zone</b>, built from cough and sneeze detection on a laptop mic plus self-reported symptoms.</p>
-      <p>Now training my <b>own cough-detection model</b> for it.</p>
+      <p>Started at <b>Hack the Hill</b> and still in the works: I'm training my <b>own cough-detection model</b> for it, with more coming this winter.</p>
       <div class="chips"><span>audio ML</span><span>React</span><span>Leaflet</span><span>TimescaleDB</span></div>
       <div class="btns"><a class="btn ghost" href="https://github.com/ElvyaAne/viralense" target="_blank" rel="noopener">repo ↗</a></div>`},
+  tenshi:{name:'Tenshi', d:[44,79], m:[46,71], type:'safety + hardware', status:'prize winner',
+    proj:{tech:['Node','Vosk','Llama 3.2','TimescaleDB','Arduino'], links:[['Devpost','https://devpost.com/software/htv-b2k5st'],['repo','https://github.com/georgef166/HTVWinners']]},
+    sum:'A dead man’s switch for nights out: if you stop answering, a friend gets your location.',
+    html:`<span class="lab">safety + hardware · Hack the Valley 11</span><h2>Tenshi</h2>
+      <p><i>"Don't die on us :D"</i> A <b>dead man's switch for nights out</b>, for when you can't ask for help: a spiked drink, a dead phone.</p>
+      <p>It stays quiet while you're fine. Miss your check-ins and a <b>server-side escalation ladder</b> texts a trusted friend your last location and a plain-English summary, then a backup contact. Only your PIN stops it, even if your phone dies. Shout "help" and the alert goes out in about <b>a second</b>.</p>
+      <p>Plus a <b>necklace</b> (Arduino Uno R4 WiFi) for touch check-ins, with a buzzer, LED and countdown. Every AI model is self-hosted, audio is never stored, and location history is deleted after 7 days.</p>
+      <div class="chips"><span>Node + Express</span><span>Vosk</span><span>Whisper</span><span>Llama 3.2 · Ollama</span><span>TimescaleDB</span><span>Grafana</span><span>Arduino</span><span>Vultr</span></div>
+      <dl class="kv"><dt>prize</dt><dd><b>winner</b>, Project KAZE Challenge</dd><dt>team</dt><dd>with Jasmine Kumar &amp; George Farag</dd></dl>
+      <div class="btns"><a class="btn" href="https://devpost.com/software/htv-b2k5st" target="_blank" rel="noopener">devpost ↗</a><a class="btn ghost" href="https://github.com/georgef166/HTVWinners" target="_blank" rel="noopener">repo ↗</a></div>`},
   hacks:{name:'hackathons', d:[84,80], m:[50,88], type:'events', status:'winner',
     sum:'Hack the Hill, then a win at Hack the Valley 11.',
     html:`<span class="lab">events</span><h2>Hackathons</h2>
@@ -55,10 +69,10 @@ const N = {
       <p>A hackathon in <b>Ottawa</b>, and where <b>Viralens</b> was born: sickness-risk heatmaps from cough and sneeze detection.</p>
       <dl class="kv"><dt>when</dt><dd>Sep 2026</dd><dt>where</dt><dd>Ottawa</dd><dt>built</dt><dd>Viralens</dd></dl>`},
   htv:{name:'Hack the Valley', d:[68,93], m:[22,90], type:'hackathon', status:'won',
-    sum:'UTSC, Oct 2026. Won with a biometric "are you okay?" signal.',
+    sum:'UTSC, Oct 2026. Won a prize with Tenshi, an "are you okay?" safety net.',
     html:`<span class="lab">hackathon · winner</span><h2>Hack the Valley 11</h2>
-      <p><b>Won</b> at Hack the Valley 11 at UTSC with a biometric <b>"are you okay?" signal</b> for people who can't ask for help.</p>
-      <dl class="kv"><dt>when</dt><dd>Oct 2026</dd><dt>where</dt><dd>UTSC, Toronto</dd><dt>result</dt><dd><b>won</b></dd></dl>`},
+      <p><b>Won</b> at Hack the Valley 11 at UTSC with <b>Tenshi</b>, an "are you okay?" safety net for people who can't ask for help.</p>
+      <dl class="kv"><dt>when</dt><dd>Oct 2026</dd><dt>where</dt><dd>UTSC, Toronto</dd><dt>built</dt><dd>Tenshi</dd><dt>result</dt><dd><b>won</b> the Project KAZE Challenge</dd></dl>`},
   intern:{name:'summer 2027', d:[50,8], m:[50,8], type:'wish', status:'looking',
     sum:'Looking for a software or ML/AI internship.',
     html:`<span class="lab">the wish</span><h2>Summer 2027</h2>
@@ -77,6 +91,8 @@ const E = [
   ['viralens','hth','born at Hack the Hill'],
   ['hacks','hth','Sep 2026, Ottawa'],
   ['hacks','htv','Oct 2026, the win'],
+  ['htv','tenshi','built (and won) at Hack the Valley'],
+  ['viralens','tenshi','both listen for trouble'],
   ['hacks','intern','where I learn fastest'],
   ['uottawa','intern','co-op makes it possible']
 ];
@@ -96,7 +112,7 @@ let drag = null, hoverId = null, mxS = -1e4, myS = -1e4, T0 = performance.now();
 
 ids.forEach((id, i) => {
   const n = N[id], b = document.createElement('button');
-  b.type = 'button'; b.className = 'star' + (n.big ? ' big' : ''); b.dataset.id = id;
+  b.type = 'button'; b.className = 'star' + (n.big ? ' big' : '') + (n.proj ? ' proj' : ''); b.dataset.id = id;
   b.innerHTML = `<span class="dot"></span><span class="lbl">${n.name}</span>`;
   b.setAttribute('aria-label', `Open ${n.name}`);
   stage.appendChild(b); btns[id] = b;
@@ -218,7 +234,7 @@ tabsEl.addEventListener('click', e => {
 });
 bodyEl.addEventListener('click', e => { const g = e.target.closest('[data-go]'); if (g) visit(g.dataset.go, true); });
 
-const quips = { classmark:'one of my favorite builds', book:'ooh, the fast one', viralens:'listen closely… *cough*', intern:'make a wish ✦', leet:'and counting!', hacks:'collecting these ✦', hth:'Ottawa, home turf', htv:'fresh off a win ✦', goal:'goals, but honest', uottawa:'home base', me:'origin star ✦' };
+const quips = { classmark:'one of my favorite builds', book:'ooh, the fast one', viralens:'listen closely… *cough*', intern:'make a wish ✦', leet:'and counting!', hacks:'collecting these ✦', hth:'Ottawa, home turf', htv:'fresh off a win ✦', tenshi:'don’t die on us :D', goal:'goals, but honest', uottawa:'home base', me:'origin star ✦' };
 let pendingTab = null, landedId = null;
 const winEl = document.getElementById('win');
 function visit(id, fromNote){
@@ -388,6 +404,23 @@ if (!reduce) setInterval(() => { if (!document.hidden) shoot(Math.random()*W*.7,
 document.getElementById('catalogue').innerHTML = ids.map((id,i) => `<li data-id="${id}" tabindex="0"><span class="des">EA·${String(i).padStart(2,'0')}</span><span class="nm">${N[id].name}</span><span class="ds">${N[id].sum}</span><span class="st">${N[id].type} · ${N[id].status}</span></li>`).join('');
 document.getElementById('catalogue').addEventListener('click', e => { const li = e.target.closest('li'); if (li){ visit(li.dataset.id, true); stage.scrollIntoView({behavior:reduce?'auto':'smooth', block:'center'}); } });
 document.getElementById('catalogue').addEventListener('keydown', e => { if (e.key==='Enter'){ const li = e.target.closest('li'); if (li) li.click(); } });
+
+
+const PROJ = ['tenshi','classmark','viralens','goal','book'].filter(id => N[id]);
+const pgrid = document.getElementById('pgrid');
+if (pgrid){
+  pgrid.innerHTML = PROJ.map((id,i) => { const n = N[id], p = n.proj;
+    return `<article class="pc${i<2?' wide':''}"><span class="lab">${n.type} · ${n.status}</span><h3>${n.name}</h3><p>${n.sum}</p>`
+      + `<div class="chips">${p.tech.map(t => `<span>${t}</span>`).join('')}</div>`
+      + `<div class="pa"><button class="btn" type="button" data-star="${id}">open its star ✦</button>${p.links.map(([l,u]) => `<a class="btn ghost" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join('')}</div></article>`; }).join('');
+  pgrid.addEventListener('click', e => {
+    const b = e.target.closest('[data-star]'); if (!b) return;
+    const id = b.dataset.star;
+    if (mobile()){ visit(id); return; }
+    stage.scrollIntoView({behavior:reduce?'auto':'smooth', block:'center'});
+    setTimeout(() => visit(id, true), reduce ? 0 : 550);
+  });
+}
 
 
 const fmt = new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',hour:'2-digit',minute:'2-digit',hour12:false});
