@@ -2,14 +2,14 @@
   "topics": [
     { "id": "html", "title": "HTML", "tag": "web", "blurb": "The structure of a web page.", "pages": [] },
     { "id": "css", "title": "CSS", "tag": "web", "blurb": "Styling, layout and making things look right.", "pages": [] },
-    { "id": "javascript", "title": "JavaScript", "tag": "web", "blurb": "Making pages actually do things.", "pages": [] },
+    { "id": "javascript", "title": "JavaScript", "tag": "web", "blurb": "Making pages actually do things.", "thoughts": "When I learned JavaScript and started putting it into my websites, I felt like Tony Stark. The fact that my website could be interactive was something I really liked, and it felt good.\n\nThen I learned other stuff and realized I hadn't even scratched the surface of what I need to learn, lmao.", "pages": [] },
     { "id": "ruby-cpp", "title": "Ruby + C++", "tag": "languages", "together": true, "blurb": "Two languages, learned side by side in the same notes.", "pages": [
       { "file": "files/ruby-cpp/cpp.png", "caption": "C++" },
       { "file": "files/ruby-cpp/ruby.png", "caption": "Ruby" }
     ], "documents": [
       { "title": "Both on one page", "file": "files/ruby-cpp/ruby-cpp-full.png", "note": "The whole scan, C++ on top and Ruby below." }
     ] },
-    { "id": "react", "title": "React", "tag": "web", "blurb": "Building interfaces out of components.", "pages": [] },
+    { "id": "react", "title": "React", "tag": "web", "blurb": "Building interfaces out of components.", "thoughts": "I understand why it exists, but it pisses me off, I can't lie.\n\nI will say, the combination of JavaScript, HTML and CSS is absolute genius, but I find it ugly for what it is. Very useful though, I won't lie.", "pages": [] },
     { "id": "linux-terminal", "title": "Linux + terminal", "tag": "tools", "together": true, "blurb": "Getting around a computer from the command line.", "when": "June 2026", "pages": [{ "file": "files/linux-terminal/linux-terminal.jpg", "caption": "June 23-25" }] },
     { "id": "github-git", "title": "GitHub + git", "tag": "tools", "together": true, "blurb": "Version control, and sharing code with other people.", "pages": [{ "file": "files/github-git/git-branching.jpg", "caption": "Git branching" }] },
     { "id": "sql", "title": "SQL", "tag": "databases", "blurb": "Asking databases questions.", "pages": [] }

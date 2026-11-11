@@ -53,7 +53,7 @@ const card = t => { const ps = pages(t), ds = t.documents || [], cover = t.cover
     <span class="top"><span class="code">${esc(t.tag || '')}</span><span class="term">${esc(t.when || (t.together ? 'one set of notes' : ''))}</span></span>
     <span class="nm">${esc(t.title)}</span>
     ${t.blurb ? `<p class="bl">${inline(t.blurb)}</p>` : ''}
-    <span class="meta">${ps.length ? `<span>${plural(ps.length, 'page')}</span>` : '<span class="soon">pages coming soon</span>'}${ds.length ? `<span>${plural(ds.length, 'file')}</span>` : ''}</span>
+    <span class="meta">${ps.length ? `<span>${plural(ps.length, 'page')}</span>` : '<span class="soon">pages coming soon</span>'}${ds.length ? `<span>${plural(ds.length, 'file')}</span>` : ''}${t.thoughts ? '<span>my thoughts</span>' : ''}</span>
   </a></li>`; };
 
 function list(topics){
@@ -72,14 +72,14 @@ function topic(topics){
   $('tName').textContent = t.title;
   $('tBlurb').innerHTML = inline(t.blurb);
   const ps = pages(t), ds = t.documents || [];
-  $('tBody').innerHTML =
-    (t.thoughts ? `<section class="panel thoughts"><span class="lab">my thoughts</span>${paras(t.thoughts)}</section>` : '')
+  $('tBody').innerHTML = ''
+    + (t.thoughts ? `<section class="panel thoughts"><span class="lab">my thoughts</span>${paras(t.thoughts)}</section>` : '')
     + (ps.length ? `<ol class="pages">${ps.map((p, i) => `<li><a href="${esc(safeUrl(p.file))}" target="_blank" rel="noopener">
         <img src="${esc(safeUrl(p.file))}" alt="${esc(p.alt || `${t.title}, page ${i + 1}`)}" loading="lazy">
         <span class="pn">${esc(p.caption || `page ${i + 1}`)}</span></a></li>`).join('')}</ol>` : '')
     + (ds.length ? `<section class="panel"><span class="lab">files</span><ul class="docs">${ds.map(d => { const u = d.file || d.url || '#';
         return `<li><a href="${esc(safeUrl(u))}" target="_blank" rel="noopener"><span class="ty">${esc(ext(d))}</span><span class="t">${esc(d.title || u)}${d.note ? `<small>${inline(d.note)}</small>` : ''}</span><span class="ar">↗</span></a></li>`; }).join('')}</ul></section>` : '')
-    || EMPTY;
+    + (ps.length || ds.length ? '' : EMPTY);
 }
 
 // Full-size view for a note page: tap a page to open it, then ✕, Esc, or tapping outside closes it.
