@@ -82,8 +82,45 @@ function topic(topics){
     || EMPTY;
 }
 
+// Full-size view for a note page: tap a page to open it, then ✕, Esc, or tapping outside closes it.
+function lightbox(){
+  const links = [...document.querySelectorAll('.pages a')];
+  if (!links.length) return;
+  const box = document.createElement('div');
+  box.className = 'lb'; box.hidden = true;
+  box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', 'Note page');
+  box.innerHTML = `<div class="lb-bar"><span class="lb-cap"></span><a class="lb-raw" target="_blank" rel="noopener">open original ↗</a><button type="button" class="lb-x" aria-label="Close">✕</button></div>
+    <div class="lb-scroll"><img class="lb-img" alt=""></div>
+    <button type="button" class="lb-nav lb-prev" aria-label="Previous page">‹</button><button type="button" class="lb-nav lb-next" aria-label="Next page">›</button>`;
+  document.body.appendChild(box);
+  const img = box.querySelector('.lb-img'), cap = box.querySelector('.lb-cap'), raw = box.querySelector('.lb-raw'), x = box.querySelector('.lb-x'), sc = box.querySelector('.lb-scroll');
+  let at = 0, back = null;
+  const show = i => {
+    at = (i + links.length) % links.length; const a = links[at], im = a.querySelector('img');
+    img.src = a.getAttribute('href'); img.alt = im ? im.alt : '';
+    cap.textContent = `${a.querySelector('.pn')?.textContent || ''}${links.length > 1 ? `  ·  ${at + 1} / ${links.length}` : ''}`;
+    raw.href = a.getAttribute('href'); sc.scrollTop = 0;
+  };
+  const open = i => { back = document.activeElement; show(i); box.hidden = false; document.documentElement.classList.add('lb-on'); x.focus(); };
+  const close = () => { box.hidden = true; document.documentElement.classList.remove('lb-on'); if (back) back.focus(); };
+  box.classList.toggle('single', links.length < 2);
+  links.forEach((a, i) => a.addEventListener('click', e => { if (e.metaKey || e.ctrlKey || e.shiftKey) return; e.preventDefault(); open(i); }));
+  x.addEventListener('click', close);
+  box.querySelector('.lb-prev').addEventListener('click', () => show(at - 1));
+  box.querySelector('.lb-next').addEventListener('click', () => show(at + 1));
+  sc.addEventListener('click', e => { if (e.target === sc) close(); });
+  addEventListener('keydown', e => {
+    if (box.hidden) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowLeft' && links.length > 1) show(at - 1);
+    else if (e.key === 'ArrowRight' && links.length > 1) show(at + 1);
+    else if (e.key === 'Tab'){ const f = [...box.querySelectorAll('a,button')].filter(el => el.offsetParent); const i = f.indexOf(document.activeElement);
+      if (e.shiftKey && i <= 0){ e.preventDefault(); f[f.length-1].focus(); } else if (!e.shiftKey && i === f.length-1){ e.preventDefault(); f[0].focus(); } }
+  });
+}
+
 fetch('topics.json', {cache:'no-cache'}).then(r => { if (!r.ok) throw r.status; return r.json(); })
-  .then(j => ($('topics') ? list : topic)(j.topics || []))
+  .then(j => { ($('topics') ? list : topic)(j.topics || []); lightbox(); })
   .catch(() => {
     const el = $('topics') || $('tBody');
     if (el) el.innerHTML = '<p class="empty">Couldn\'t load the notes. Try refreshing.</p>';
