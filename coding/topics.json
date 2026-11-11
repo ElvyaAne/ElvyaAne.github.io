@@ -1,0 +1,12 @@
+{
+  "topics": [
+    { "id": "html", "title": "HTML", "tag": "web", "blurb": "The structure of a web page.", "pages": [] },
+    { "id": "css", "title": "CSS", "tag": "web", "blurb": "Styling, layout and making things look right.", "pages": [] },
+    { "id": "javascript", "title": "JavaScript", "tag": "web", "blurb": "Making pages actually do things.", "pages": [] },
+    { "id": "ruby-cpp", "title": "Ruby + C++", "tag": "languages", "together": true, "blurb": "Two languages, learned side by side in the same notes.", "pages": [] },
+    { "id": "react", "title": "React", "tag": "web", "blurb": "Building interfaces out of components.", "pages": [] },
+    { "id": "linux-terminal", "title": "Linux + terminal", "tag": "tools", "together": true, "blurb": "Getting around a computer from the command line.", "pages": [] },
+    { "id": "github-git", "title": "GitHub + git", "tag": "tools", "together": true, "blurb": "Version control, and sharing code with other people.", "pages": [] },
+    { "id": "sql", "title": "SQL", "tag": "databases", "blurb": "Asking databases questions.", "pages": [] }
+  ]
+}
