@@ -42,14 +42,21 @@
 /* lighter, pre-dawn sky (the colours the home page has around The range) instead of the darker class-notes night */
 body{background:linear-gradient(180deg,#1a3959 0%,#3a6089 38%,#5d7ca4 72%,#7a90b4 100%) fixed}
 .nav{background:linear-gradient(180deg,rgba(20,45,72,.7),rgba(20,45,72,0))}
-/* smaller hobby cards, grouped */
-.hgh{display:flex;align-items:center;gap:14px;margin:56px 0 18px;font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font-style:italic;font-weight:400;font-size:clamp(30px,3.6vw,42px);line-height:1}
-.hgh::after{content:"";flex:1;height:1px;background:var(--line)}
-.hsgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.hs{position:relative;padding:22px 22px 20px;border-radius:18px;background:linear-gradient(160deg,rgba(30,66,102,.55),rgba(13,30,46,.55));border:1px solid var(--line);transition:border-color .25s,transform .25s}
-.hs:hover{border-color:rgba(155,238,255,.45);transform:translateY(-2px)}
-.hs::before{content:"";position:absolute;top:22px;right:22px;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle,#fff 0 35%,var(--sky) 75%);box-shadow:0 0 10px 3px rgba(155,238,255,.55)}
-.hs h3{font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:400;font-size:32px;line-height:1.05;margin:10px 0 8px}
-.hs p{color:var(--dim);margin:0}
-@media (max-width:860px){.hsgrid{grid-template-columns:1fr 1fr}}
-@media (max-width:560px){.hsgrid{grid-template-columns:1fr}.hgh{margin-top:44px}}
+/* the other hobbies: same card, each with its own little toy on a matching panel */
+.hc.flip > .viz{order:-1}
+.hc .tryit:first-child{border-top:0}
+.viz{width:min(100%,432px)}
+.vbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-height:30px;margin-bottom:10px}
+.vchips{display:flex;gap:4px;flex-wrap:wrap}
+.vchips button,.vbtn{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;padding:4px 10px;border-radius:20px;border:1px solid var(--line);background:transparent;color:var(--dim);cursor:pointer;transition:color .2s,border-color .2s,background .2s}
+.vchips button[aria-pressed=true],.vbtn:not(.ghost){background:rgba(155,238,255,.12);color:var(--sky);border-color:rgba(155,238,255,.4)}
+.vchips button:hover,.vbtn:hover{color:var(--mist);border-color:var(--sky)}
+.vhint{font-family:var(--f-mono);font-size:10.5px;color:var(--dim);opacity:.7;margin-left:4px}
+.vbox{position:relative;aspect-ratio:1;border:1.5px solid rgba(184,218,255,.55);border-radius:10px;overflow:hidden;background:rgba(9,23,37,.55)}
+.vbox svg,.vbox canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.vinfo{display:block;margin-top:10px;min-height:1.6em}
+.vbox svg text{font-family:var(--f-mono);fill:var(--dim);letter-spacing:.08em}
+.vbox .venn circle{transition:fill-opacity .3s,stroke-opacity .3s;cursor:pointer}
+.vbox .node{cursor:pointer}
+@media (max-width:980px){.hc.flip > .viz{order:0}}
+@media (min-width:981px){.hc{grid-template-columns:minmax(0,1fr) 432px}.hc.flip{grid-template-columns:432px minmax(0,1fr)}.viz{width:100%}}

@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..600,100,1;1,9..144,300..600,100,1&family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="../notes/notes.css?v=8">
-<link rel="stylesheet" href="hobbies.css?v=3">
+<link rel="stylesheet" href="hobbies.css?v=4">
 </head><body>
 <canvas id="night" aria-hidden="true"></canvas>
 <header class="nav">
@@ -36,21 +36,79 @@
           <span class="lab sinfo" role="status"></span>
         </div>
       </article>
-  </div>
-  <h2 class="hgh"><span>Moving</span></h2>
-  <div class="hsgrid">
-      <article class="hs"><span class="lab">hobby · movement</span><h3>Gym</h3><p>Showing up, lifting, and getting a little stronger each time.</p></article>
-      <article class="hs"><span class="lab">hobby · movement</span><h3>Swimming</h3><p>Laps, quiet, and nothing but the sound of the water.</p></article>
-      <article class="hs"><span class="lab">hobby · movement</span><h3>Dancing</h3><p>Music on, overthinking off.</p></article>
-  </div>
-  <h2 class="hgh"><span>Making</span></h2>
-  <div class="hsgrid">
-      <article class="hs"><span class="lab">hobby · writing</span><h3>Poetry</h3><p>Putting feelings into as few words as they will fit.</p></article>
-      <article class="hs"><span class="lab">hobby · music</span><h3>Songwriting</h3><p>Lyrics and melodies, from a first line to a whole song.</p></article>
-      <article class="hs"><span class="lab">hobby · creating</span><h3>Content</h3><p>Making things to share: ideas, edits and little stories.</p></article>
+      <article class="hc flip">
+        <div>
+          <span class="lab">hobby · movement</span>
+          <h3>Dance</h3>
+          <p>In high school I was in a dance program where I did a bit of everything: mostly tap, jazz, ballet, contemporary, modern and hip hop.</p>
+          <p>I don't have the time I used to, and nobody's making me anymore, but I still dance sometimes.</p>
+          <p class="tryit">Pick a style and watch her move.</p>
+        </div>
+        <div class="viz" id="v-dance">
+          <div class="vbar"><div class="vchips" role="group" aria-label="Dance style"><button type="button" data-k="ballet" aria-pressed="true">ballet</button><button type="button" data-k="jazz" aria-pressed="false">jazz</button><button type="button" data-k="tap" aria-pressed="false">tap</button><button type="button" data-k="contemporary" aria-pressed="false">contemporary</button><button type="button" data-k="modern" aria-pressed="false">modern</button><button type="button" data-k="hiphop" aria-pressed="false">hip hop</button></div></div>
+          <div class="vbox"><svg viewBox="0 0 200 200" role="img" aria-label="A dancer moving in the chosen style"></svg></div>
+          <span class="lab vinfo" role="status"></span>
+        </div>
+      </article>
+      <article class="hc">
+        <div>
+          <span class="lab">hobby · music &amp; poetry</span>
+          <h3>Music &amp; poetry</h3>
+          <p>In Secondary 4 we had to write slam poetry, and I was invited to perform mine in front of my whole graduating class. I kept writing after that, just without the slam part.</p>
+          <p>I also love singing, and writing songs is where the two come together.</p>
+          <p class="tryit">Tap a circle, or hum a few notes.</p>
+        </div>
+        <div class="viz" id="v-music">
+          <div class="vbar"><button type="button" class="vbtn" data-k="hum">hum a little ♪</button><span class="vhint">sound on</span></div>
+          <div class="vbox"><svg viewBox="0 0 200 200" role="img" aria-label="Poetry and singing overlapping into songs"></svg></div>
+          <span class="lab vinfo" role="status"></span>
+        </div>
+      </article>
+      <article class="hc flip">
+        <div>
+          <span class="lab">hobby · swimming</span>
+          <h3>Swimming</h3>
+          <p>I've been swimming since I was about six. It's very physically demanding, which is what I like about it.</p>
+          <p>It's delayed gratification to the max: it takes a while to see results, but once you do, they're hard to ignore, and I just love that.</p>
+          <p class="tryit">Watch the laps add up. The results bar takes its time, just like the real thing.</p>
+        </div>
+        <div class="viz" id="v-swim">
+          <div class="vbar"><div class="vchips" role="group" aria-label="Pace"><button type="button" data-k="easy" aria-pressed="true">easy pace</button><button type="button" data-k="race" aria-pressed="false">race pace</button></div><button type="button" class="vbtn" data-k="reset">reset ↻</button></div>
+          <div class="vbox"><canvas aria-label="A swimmer doing laps in a pool"></canvas></div>
+          <span class="lab vinfo" role="status"></span>
+        </div>
+      </article>
+      <article class="hc">
+        <div>
+          <span class="lab">hobby · gym</span>
+          <h3>Gym</h3>
+          <p>In university I needed another way to exercise, so I opted for the gym. Lifting is fun, and it's nice to set little goals for yourself and feel proud once you accomplish them.</p>
+          <p class="tryit">Set a little goal, then load the bar until you hit it.</p>
+        </div>
+        <div class="viz" id="v-gym">
+          <div class="vbar"><div class="vchips" role="group" aria-label="Goal"><button type="button" data-k="40" aria-pressed="true">goal 40</button><button type="button" data-k="60" aria-pressed="false">goal 60</button><button type="button" data-k="80" aria-pressed="false">goal 80</button></div></div>
+          <div class="vbox"><svg viewBox="0 0 200 200" role="img" aria-label="A barbell you can load with plates"></svg></div>
+          <span class="lab vinfo" role="status"></span>
+        </div>
+      </article>
+      <article class="hc flip">
+        <div>
+          <span class="lab">hobby · content creation</span>
+          <h3>Content creation</h3>
+          <p>I've been on and off with content creation my whole life, but this past year I've been more consistent with it.</p>
+          <p>I like being able to talk about a topic, post about it, and then discuss it with strangers. It's given me insightful ideas I don't think I could get anywhere else.</p>
+          <p class="tryit">Post a topic and see who shows up to talk about it.</p>
+        </div>
+        <div class="viz" id="v-content">
+          <div class="vbar"><button type="button" class="vbtn" data-k="post">post a topic ✦</button><button type="button" class="vbtn ghost" data-k="reset">clear</button></div>
+          <div class="vbox"><svg viewBox="0 0 200 200" role="img" aria-label="A post that strangers join and discuss"></svg></div>
+          <span class="lab vinfo" role="status"></span>
+        </div>
+      </article>
   </div>
 </main>
 <footer>© 2026 Elvya Ané · off the clock</footer>
-<script src="hobbies.js?v=1"></script>
+<script src="hobbies.js?v=2"></script>
+<script src="play.js?v=1"></script>
 <script src="../js/scrolldot.js"></script>
 </body></html>
