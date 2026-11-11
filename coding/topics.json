@@ -10,8 +10,8 @@
       { "title": "Both on one page", "file": "files/ruby-cpp/ruby-cpp-full.png", "note": "The whole scan, C++ on top and Ruby below." }
     ] },
     { "id": "react", "title": "React", "tag": "web", "blurb": "Building interfaces out of components.", "pages": [] },
-    { "id": "linux-terminal", "title": "Linux + terminal", "tag": "tools", "together": true, "blurb": "Getting around a computer from the command line.", "pages": [] },
-    { "id": "github-git", "title": "GitHub + git", "tag": "tools", "together": true, "blurb": "Version control, and sharing code with other people.", "pages": [] },
+    { "id": "linux-terminal", "title": "Linux + terminal", "tag": "tools", "together": true, "blurb": "Getting around a computer from the command line.", "when": "June 2026", "pages": [{ "file": "files/linux-terminal/linux-terminal.jpg", "caption": "June 23-25" }] },
+    { "id": "github-git", "title": "GitHub + git", "tag": "tools", "together": true, "blurb": "Version control, and sharing code with other people.", "pages": [{ "file": "files/github-git/git-branching.jpg", "caption": "Git branching" }] },
     { "id": "sql", "title": "SQL", "tag": "databases", "blurb": "Asking databases questions.", "pages": [] }
   ]
 }
