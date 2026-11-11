@@ -16,12 +16,11 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   const svg = root.querySelector('svg'), info = root.querySelector('.vinfo');
   const d = defs(svg); glow(d, 'dg', 2.2);
   const sp = el('radialGradient', {id:'spot', cx:'.5', cy:'.35', r:'.6'}, d);
-  el('stop', {offset:'0', 'stop-color':'#9beeff', 'stop-opacity':'.22'}, sp); el('stop', {offset:'1', 'stop-color':'#9beeff', 'stop-opacity':'0'}, sp);
-  el('ellipse', {cx:100, cy:110, rx:90, ry:100, fill:'url(#spot)'}, svg);
+  el('stop', {offset:'0', 'stop-color':'#b8daff', 'stop-opacity':'.22'}, sp); el('stop', {offset:'1', 'stop-color':'#b8daff', 'stop-opacity':'0'}, sp);
   el('line', {x1:20, y1:176, x2:180, y2:176, stroke:'#b8daff', 'stroke-opacity':'.35', 'stroke-dasharray':'2 4'}, svg);
-  const shadow = el('ellipse', {cx:100, cy:177, rx:22, ry:3, fill:'#9beeff', 'fill-opacity':'.18'}, svg);
+  const shadow = el('ellipse', {cx:100, cy:177, rx:22, ry:3, fill:'#b8daff', 'fill-opacity':'.18'}, svg);
   const g = el('g', {filter:'url(#dg)', stroke:'#eaf4ff', 'stroke-width':4.2, 'stroke-linecap':'round', 'stroke-linejoin':'round', fill:'none'}, svg);
-  const tutu = el('path', {fill:'#c4fff7', 'fill-opacity':'.35', stroke:'#c4fff7', 'stroke-width':1.2}, svg);
+  const tutu = el('path', {fill:'#eaf4ff', 'fill-opacity':'.35', stroke:'#eaf4ff', 'stroke-width':1.2}, svg);
   const limbs = ['spine','larm','rarm','lleg','rleg'].map(() => el('polyline', {}, g));
   const head = el('circle', {r:8.5, fill:'#eaf4ff', stroke:'none'}, svg); head.setAttribute('filter', 'url(#dg)');
   const label = el('text', {x:100, y:194, 'text-anchor':'middle', 'font-size':7}, svg);
@@ -75,14 +74,14 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   const d = defs(svg); glow(d, 'mg', 2.5);
   const venn = el('g', {class:'venn'}, svg);
   const A = el('circle', {cx:78, cy:84, r:46, fill:'#b8daff', 'fill-opacity':'.08', stroke:'#b8daff', 'stroke-opacity':'.6', 'stroke-width':1.2}, venn);
-  const B = el('circle', {cx:122, cy:84, r:46, fill:'#9beeff', 'fill-opacity':'.08', stroke:'#9beeff', 'stroke-opacity':'.6', 'stroke-width':1.2}, venn);
+  const B = el('circle', {cx:122, cy:84, r:46, fill:'#b8daff', 'fill-opacity':'.08', stroke:'#b8daff', 'stroke-opacity':'.6', 'stroke-width':1.2}, venn);
   const cl = el('clipPath', {id:'mclip'}, d); el('circle', {cx:122, cy:84, r:46}, cl);
-  const mid = el('circle', {cx:78, cy:84, r:46, fill:'#c4fff7', 'fill-opacity':'.12', 'clip-path':'url(#mclip)', 'pointer-events':'none'}, svg);
+  const mid = el('circle', {cx:78, cy:84, r:46, fill:'#eaf4ff', 'fill-opacity':'.12', 'clip-path':'url(#mclip)', 'pointer-events':'none'}, svg);
   const t = (x, y, s, size, fill) => { const e = el('text', {x, y, 'text-anchor':'middle', 'font-size':size, 'pointer-events':'none'}, svg); e.textContent = s; if (fill) e.style.fill = fill; return e; };
   t(58, 86, 'POETRY', 7); t(142, 86, 'SINGING', 7);
   const song = t(100, 88, 'songs', 9.5, '#eaf4ff'); song.style.fontFamily = 'Fraunces, Georgia, serif'; song.style.fontStyle = 'italic'; song.style.letterSpacing = '0';
   const N = 23, bars = [], wave = el('g', {filter:'url(#mg)'}, svg);
-  for (let i = 0; i < N; i++) bars.push(el('line', {x1:22 + i*7, x2:22 + i*7, y1:166, y2:166, stroke:'#9beeff', 'stroke-width':3, 'stroke-linecap':'round'}, wave));
+  for (let i = 0; i < N; i++) bars.push(el('line', {x1:22 + i*7, x2:22 + i*7, y1:166, y2:166, stroke:'#b8daff', 'stroke-width':3, 'stroke-linecap':'round'}, wave));
   let amp = 0, hl = null, playing = 0;
   const lines = {A:'poetry · a slam piece in Sec 4, then just for me', B:'singing · the other half of it', mid:'songs · where poetry and singing meet'};
   info.textContent = lines.mid;
@@ -128,18 +127,18 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
     const dt = Math.min(50, t - (prev || t)); prev = t;
     if (!reduce){ pos += dir * speed * dt / 16; if (pos > 1){ pos = 1; dir = -1; laps++; say(); } if (pos < 0){ pos = 0; dir = 1; laps++; say(); } }
     x.clearRect(0,0,W,H);
-    const g = x.createLinearGradient(0,0,0,H); g.addColorStop(0,'rgba(155,238,255,.10)'); g.addColorStop(1,'rgba(79,132,184,.12)'); x.fillStyle = g; x.fillRect(0,0,W,H);
+    // flat water, same as the other panels
     // caustics
-    x.strokeStyle = 'rgba(196,255,247,.08)'; x.lineWidth = 1.2;
+    x.strokeStyle = 'rgba(234,244,255,.08)'; x.lineWidth = 1.2;
     for (let i = 0; i < 9; i++){ x.beginPath(); for (let px = 0; px <= W; px += 8){ const py = i*H/8 + Math.sin(px/38 + t/900 + i)*5; px ? x.lineTo(px, py) : x.moveTo(px, py); } x.stroke(); }
     // lanes
     const top = H*.12, bot = H*.78, lanes = 4, lh = (bot - top)/lanes;
-    for (let i = 0; i <= lanes; i++){ const y = top + i*lh; for (let px = 10; px < W - 10; px += 9){ x.fillStyle = (Math.floor(px/9) % 4 < 2) ? 'rgba(184,218,255,.55)' : 'rgba(155,238,255,.25)'; x.beginPath(); x.arc(px, y, 1.6, 0, 6.29); x.fill(); } }
+    for (let i = 0; i <= lanes; i++){ const y = top + i*lh; for (let px = 10; px < W - 10; px += 9){ x.fillStyle = (Math.floor(px/9) % 4 < 2) ? 'rgba(184,218,255,.55)' : 'rgba(184,218,255,.25)'; x.beginPath(); x.arc(px, y, 1.6, 0, 6.29); x.fill(); } }
     x.fillStyle = 'rgba(234,244,255,.18)'; x.fillRect(6, top, 3, bot - top); x.fillRect(W-9, top, 3, bot - top);
     // swimmer in lane 2, seen from above: cap, shoulders, alternating freestyle arms, kicking legs
     const sy = top + lh*1.5, sx = 46 + pos*(W - 92), ph = t/(speed > .006 ? 110 : 190), arm = Math.sin(ph), kick = Math.sin(ph*3);
     x.save(); x.translate(sx, sy); x.scale(dir*1.6, 1.6);
-    x.strokeStyle = '#eaf4ff'; x.fillStyle = '#eaf4ff'; x.lineCap = 'round'; x.lineJoin = 'round'; x.shadowColor = 'rgba(155,238,255,.7)'; x.shadowBlur = 6;
+    x.strokeStyle = '#eaf4ff'; x.fillStyle = '#eaf4ff'; x.lineCap = 'round'; x.lineJoin = 'round'; x.shadowColor = 'rgba(184,218,255,.7)'; x.shadowBlur = 6;
     // legs
     x.lineWidth = 3; x.beginPath(); x.moveTo(-8, -2.5); x.lineTo(-22, -3.5 + kick*1.6); x.moveTo(-8, 2.5); x.lineTo(-22, 3.5 - kick*1.6); x.stroke();
     // torso (shoulders wider than hips)
@@ -148,14 +147,14 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
     const reach = (side, k) => { const ext = (k + 1)/2; x.beginPath(); x.moveTo(3, side*5.5); x.lineTo(3 + 8*ext - 6*(1-ext), side*(6.5 + 2*(1-ext))); x.lineTo(3 + 17*ext - 12*(1-ext), side*(4 + 3*(1-ext))); x.stroke(); };
     x.lineWidth = 2.6; reach(-1, arm); reach(1, -arm);
     // head with a swim cap
-    x.fillStyle = '#9beeff'; x.beginPath(); x.arc(9.5, 0, 4.4, 0, 6.29); x.fill();
+    x.fillStyle = '#b8daff'; x.beginPath(); x.arc(9.5, 0, 4.4, 0, 6.29); x.fill();
     x.shadowBlur = 0;
     // a little splash at the feet
     x.fillStyle = 'rgba(234,244,255,.55)'; for (let i = 0; i < 4; i++){ const a = ph*2 + i*1.7; x.beginPath(); x.arc(-25 - Math.abs(Math.sin(a))*4, Math.cos(a)*5, 1.1, 0, 6.29); x.fill(); }
     x.restore();
     // ripples
     ripples = ripples.filter(r => (r.t += dt) < 1400);
-    for (const r of ripples){ const k = r.t/1400; x.strokeStyle = `rgba(196,255,247,${(1-k)*.6})`; x.lineWidth = 1.2; x.beginPath(); x.arc(r.x, r.y, 4 + k*40, 0, 6.29); x.stroke(); }
+    for (const r of ripples){ const k = r.t/1400; x.strokeStyle = `rgba(234,244,255,${(1-k)*.6})`; x.lineWidth = 1.2; x.beginPath(); x.arc(r.x, r.y, 4 + k*40, 0, 6.29); x.stroke(); }
     // results bar
     const r = results(), by = H*.88;
     x.font = '500 10px "Geist Mono", monospace'; x.fillStyle = 'rgba(160,187,214,.9)'; x.fillText('RESULTS', 14, by - 8);
@@ -180,21 +179,21 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   const big = el('text', {x:100, y:58, 'text-anchor':'middle', 'font-size':22}, svg); big.style.fill = '#eaf4ff'; big.style.fontFamily = 'Fraunces, Georgia, serif'; big.style.fontStyle = 'italic'; big.style.letterSpacing = '0';
   const sub = el('text', {x:100, y:72, 'text-anchor':'middle', 'font-size':6.5}, svg);
   el('rect', {x:30, y:150, width:140, height:5, rx:2.5, fill:'#b8daff', 'fill-opacity':'.15'}, svg);
-  const prog = el('rect', {x:30, y:150, width:0, height:5, rx:2.5, fill:'#9beeff'}, svg);
+  const prog = el('rect', {x:30, y:150, width:0, height:5, rx:2.5, fill:'#b8daff'}, svg);
   const mk = (bx, label, act) => { const g = el('g', {class:'node', role:'button', tabindex:0}, svg);
-    el('rect', {x:bx, y:166, width:58, height:18, rx:9, fill:'#9beeff', 'fill-opacity':'.12', stroke:'#9beeff', 'stroke-opacity':'.45'}, g);
-    const tx = el('text', {x:bx+29, y:178, 'text-anchor':'middle', 'font-size':7}, g); tx.textContent = label; tx.style.fill = '#9beeff';
+    el('rect', {x:bx, y:166, width:58, height:18, rx:9, fill:'#b8daff', 'fill-opacity':'.12', stroke:'#b8daff', 'stroke-opacity':'.45'}, g);
+    const tx = el('text', {x:bx+29, y:178, 'text-anchor':'middle', 'font-size':7}, g); tx.textContent = label; tx.style.fill = '#b8daff';
     g.addEventListener('click', act); g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); act(); } }); };
   mk(38, '+ 5 KG', () => { if (kg < 140){ kg += 5; draw(true); } });
   mk(104, 'UNLOAD', () => { kg = BAR; draw(); });
   function draw(added){
     plates.innerHTML = '';
-    let side = (kg - BAR)/2, i = 0; const sizes = [[20,34,'#9beeff'],[10,28,'#b8daff'],[5,22,'#c4fff7'],[2.5,16,'#eaf4ff']], done = kg >= goal;
+    let side = (kg - BAR)/2, i = 0; const sizes = [[20,34,'#b8daff'],[10,28,'#b8daff'],[5,22,'#eaf4ff'],[2.5,16,'#eaf4ff']], done = kg >= goal;
     for (const [w, h, c] of sizes) while (side >= w - 1e-9){ side -= w;
       for (const s of [-1, 1]) el('rect', {x: s < 0 ? 56 - i*7 : 140 + i*7, y:100 - h/2, width:5, height:h, rx:1.6, fill: done ? '#ffd9a8' : c, 'fill-opacity': done ? .95 : .8}, plates);
       i++; }
     big.textContent = `${kg} kg`; sub.textContent = done ? 'GOAL HIT · BE PROUD' : `${goal - kg} KG TO YOUR GOAL`;
-    prog.setAttribute('width', (140 * Math.min(1, (kg - BAR)/(goal - BAR))).toFixed(1)); prog.setAttribute('fill', done ? '#ffd9a8' : '#9beeff');
+    prog.setAttribute('width', (140 * Math.min(1, (kg - BAR)/(goal - BAR))).toFixed(1)); prog.setAttribute('fill', done ? '#ffd9a8' : '#b8daff');
     lift.style.transition = reduce ? 'none' : 'transform .5s cubic-bezier(.3,1.6,.5,1)'; lift.style.transform = done ? 'translateY(-14px)' : 'none';
     info.textContent = done ? `goal of ${goal} hit ✦ set a new one` : `goal ${goal} · the bar alone is ${BAR}`;
   }
@@ -219,7 +218,7 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
     const a = Math.random()*6.28, r = 42 + Math.random()*40, n = {x:100 + Math.cos(a)*r, y:96 + Math.sin(a)*r*.85};
     n.x = Math.max(14, Math.min(186, n.x)); n.y = Math.max(14, Math.min(176, n.y));
     n.line = el('line', {x1:100, y1:96, x2:n.x, y2:n.y, stroke:'#b8daff', 'stroke-opacity':'.35', 'stroke-dasharray':'2 3'}, linkG);
-    n.dot = el('circle', {cx:n.x, cy:n.y, r:3.4, fill:'#9beeff', class:'node'}, nodeG);
+    n.dot = el('circle', {cx:n.x, cy:n.y, r:3.4, fill:'#b8daff', class:'node'}, nodeG);
     n.dot.addEventListener('click', () => talk(n)); nodes.push(n);
     if (Math.random() < .5){ ideas++; spark(n.x, n.y - 6); }
     say();
