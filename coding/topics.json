@@ -3,7 +3,7 @@
     { "id": "html", "title": "HTML", "tag": "web", "blurb": "The structure of a web page.", "pages": [] },
     { "id": "css", "title": "CSS", "tag": "web", "blurb": "Styling, layout and making things look right.", "pages": [] },
     { "id": "javascript", "title": "JavaScript", "tag": "web", "blurb": "Making pages actually do things.", "thoughts": "When I learned JavaScript and started putting it into my websites, I felt like Tony Stark. The fact that my website could be interactive was something I really liked, and it felt good.\n\nThen I learned other stuff and realized I hadn't even scratched the surface of what I need to learn, lmao.", "pages": [] },
-    { "id": "ruby-cpp", "title": "Ruby + C++", "tag": "languages", "together": true, "blurb": "Two languages, learned side by side in the same notes.", "pages": [
+    { "id": "ruby-cpp", "title": "Ruby + C++", "tag": "languages", "together": true, "blurb": "Two languages, learned side by side in the same notes.", "thoughts": "I learned C++ and Ruby for an online assessment. I didn't end up getting the job, but it was great practice. It forced me out of my comfort zone and made me learn very quickly.\n\nIt also let me build on the basic knowledge I already had, which was great.", "pages": [
       { "file": "files/ruby-cpp/cpp.png", "caption": "C++" },
       { "file": "files/ruby-cpp/ruby.png", "caption": "Ruby" }
     ], "documents": [
