@@ -39,3 +39,6 @@
 @keyframes twinkle{40%{background:rgba(155,238,255,.35);color:#ffffff;text-shadow:0 0 14px #ffffff}}
 @media (max-width:980px){.hc{grid-template-columns:1fr}#sudoku{width:100%;max-width:480px}}
 @media (max-width:600px){.hc{padding:18px}.hc h3{font-size:36px}.spad{grid-template-columns:repeat(5,1fr)}.spad button{padding:9px 0}}
+/* lighter, pre-dawn sky (the colours the home page has around The range) instead of the darker class-notes night */
+body{background:linear-gradient(180deg,#1a3959 0%,#3a6089 38%,#5d7ca4 72%,#7a90b4 100%) fixed}
+.nav{background:linear-gradient(180deg,rgba(20,45,72,.7),rgba(20,45,72,0))}
