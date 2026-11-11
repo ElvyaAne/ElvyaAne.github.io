@@ -269,7 +269,7 @@ function scene(t){
 }
 
 
-const navs = [...document.querySelectorAll('.nav nav a')], secs = ['observatory','constellation','range','dawn'].map($);
+const navs = [...document.querySelectorAll('.nav nav a')], secs = navs.map(a => $(a.hash.slice(1)));
 function navOn(){ let k = 0; secs.forEach((s,i) => { if (s && s.getBoundingClientRect().top < innerHeight*.45) k = i; }); navs.forEach((a,i) => a.classList.toggle('on', i===k)); }
 
 

@@ -1,0 +1,44 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" type="image/png" sizes="64x64" href="../icons/favicon-64.png"><link rel="apple-touch-icon" href="../icons/apple-touch-icon.png"><link rel="manifest" href="../manifest.webmanifest"><script src="../js/moon.js"></script>
+<title>Hobbies · Elvya Ané</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..600,100,1;1,9..144,300..600,100,1&family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../notes/notes.css?v=8">
+<link rel="stylesheet" href="hobbies.css?v=1">
+</head><body>
+<canvas id="night" aria-hidden="true"></canvas>
+<header class="nav">
+  <a class="me" href="../">Elvya Ané</a>
+  <nav aria-label="Site"><a href="../">Home</a><a href="../notes/">Class notes</a><a href="./" aria-current="page">Hobbies</a></nav>
+</header>
+<main>
+  <span class="chart">Off the clock</span>
+  <h1>Hobbies</h1>
+  <p class="lede">What I do when I'm not building.</p>
+  <div class="hgrid">
+      <article class="hc">
+        <div>
+          <span class="lab">hobby · logic puzzles</span>
+          <h3>Sudoku</h3>
+          <p>Nine rows, nine columns, nine boxes, one rule: no repeats. For a while I did the daily challenge in my sudoku app, and each finished month earned a little trophy.</p>
+          <p>Life got busy, so I don't play as much as I used to, but it's still one of my favourite games and I still try to fit one in when I can.</p>
+          <span class="lab tlab">a few of my monthly trophies</span>
+          <div class="trophies" aria-label="Monthly trophies, January 2022 to November 2024: all 35 earned"></div>
+          <p class="tryit">Your turn: a fresh puzzle, generated in your browser with exactly one solution. Click a cell, then type or tap a number.</p>
+        </div>
+        <div id="sudoku">
+          <div class="sbar"><div class="slv" role="group" aria-label="Difficulty"><button type="button" data-lv="easy" aria-pressed="false">easy</button><button type="button" data-lv="medium" aria-pressed="true">medium</button><button type="button" data-lv="hard" aria-pressed="false">hard</button></div><span class="stime" aria-label="timer">0:00</span><button type="button" class="snew">new puzzle ↻</button></div>
+          <div class="sgrid" role="grid" aria-label="Sudoku board"></div>
+          <div class="spad" aria-label="Number pad"><button type="button" data-n="1">1</button><button type="button" data-n="2">2</button><button type="button" data-n="3">3</button><button type="button" data-n="4">4</button><button type="button" data-n="5">5</button><button type="button" data-n="6">6</button><button type="button" data-n="7">7</button><button type="button" data-n="8">8</button><button type="button" data-n="9">9</button><button type="button" data-n="0" aria-label="erase">⌫</button></div>
+          <span class="lab sinfo" role="status"></span>
+        </div>
+      </article>
+  </div>
+</main>
+<footer>© 2026 Elvya Ané · off the clock</footer>
+<script src="hobbies.js?v=1"></script>
+<script src="../js/scrolldot.js"></script>
+</body></html>
