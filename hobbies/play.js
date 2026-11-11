@@ -20,10 +20,16 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   el('ellipse', {cx:100, cy:110, rx:90, ry:100, fill:'url(#spot)'}, svg);
   el('line', {x1:20, y1:176, x2:180, y2:176, stroke:'#b8daff', 'stroke-opacity':'.35', 'stroke-dasharray':'2 4'}, svg);
   const shadow = el('ellipse', {cx:100, cy:177, rx:22, ry:3, fill:'#9beeff', 'fill-opacity':'.18'}, svg);
-  const g = el('g', {filter:'url(#dg)', stroke:'#eaf4ff', 'stroke-width':4.2, 'stroke-linecap':'round', 'stroke-linejoin':'round', fill:'none'}, svg);
-  const tutu = el('path', {fill:'#c4fff7', 'fill-opacity':'.35', stroke:'#c4fff7', 'stroke-width':1.2}, svg);
-  const limbs = ['spine','larm','rarm','lleg','rleg'].map(() => el('polyline', {}, g));
-  const head = el('circle', {r:8.5, fill:'#eaf4ff', stroke:'none'}, svg); head.setAttribute('filter', 'url(#dg)');
+  const fig = el('g', {filter:'url(#dg)'}, svg);
+  const tutu = el('path', {fill:'#c4fff7', 'fill-opacity':'.35', stroke:'#c4fff7', 'stroke-width':1}, fig);
+  const torso = el('path', {fill:'#eaf4ff', 'fill-opacity':'.92'}, fig);
+  const g = el('g', {stroke:'#eaf4ff', 'stroke-linecap':'round', 'stroke-linejoin':'round', fill:'none'}, fig);
+  // upper limbs a bit thicker than lower ones, so arms and legs taper like real ones
+  const seg = w => el('line', {'stroke-width':w}, g);
+  const L = {neck:seg(3), lua:seg(3.4), lfa:seg(2.6), rua:seg(3.4), rfa:seg(2.6), lth:seg(4.4), lsh:seg(3.2), rth:seg(4.4), rsh:seg(3.2), lft:seg(2.6), rft:seg(2.6)};
+  const hands = [0,1].map(() => el('circle', {r:1.9, fill:'#eaf4ff'}, fig));
+  const head = el('ellipse', {rx:7.2, ry:8.4, fill:'#eaf4ff'}, fig);
+  const bun = el('circle', {r:3.4, fill:'#eaf4ff'}, fig);
   const label = el('text', {x:100, y:194, 'text-anchor':'middle', 'font-size':7}, svg);
   // poses: [neck, hip, lElbow, lHand, rElbow, rHand, lKnee, lFoot, rKnee, rFoot]
   const P = {
@@ -52,12 +58,28 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   let last;
   function draw(t){
     const p = last = pose(t), [n, h, le, lh, re, rh, lk, lf, rk, rf] = p;
-    const dx = n[0]-h[0], dy = n[1]-h[1], L = Math.hypot(dx, dy);
-    head.setAttribute('cx', (n[0] + dx/L*13).toFixed(1)); head.setAttribute('cy', (n[1] + dy/L*13).toFixed(1));
-    limbs[0].setAttribute('points', pts([n, h]));
-    limbs[1].setAttribute('points', pts([n, le, lh])); limbs[2].setAttribute('points', pts([n, re, rh]));
-    limbs[3].setAttribute('points', pts([h, lk, lf])); limbs[4].setAttribute('points', pts([h, rk, rf]));
-    if (style === 'ballet'){ const hx = h[0], hy = h[1] - 4; tutu.setAttribute('d', `M${hx-7} ${hy}L${hx-24} ${hy+9}Q${hx} ${hy+15} ${hx+24} ${hy+9}L${hx+7} ${hy}Z`); }
+    const dx = n[0]-h[0], dy = n[1]-h[1], len = Math.hypot(dx, dy), ux = dx/len, uy = dy/len, px = -uy, py = ux;
+    const at = (p, a, b) => [p[0] + ux*a + px*b, p[1] + uy*a + py*b];
+    const sh = [at(n, -2, -8), at(n, -2, 8)], hp = [at(h, 0, -5.5), at(h, 0, 5.5)], waist = [at(h, 16, -4), at(h, 16, 4)];
+    const near = (pts2, q) => Math.hypot(pts2[0][0]-q[0], pts2[0][1]-q[1]) < Math.hypot(pts2[1][0]-q[0], pts2[1][1]-q[1]) ? pts2[0] : pts2[1];
+    const set = (ln, a, b) => { ln.setAttribute('x1', a[0].toFixed(1)); ln.setAttribute('y1', a[1].toFixed(1)); ln.setAttribute('x2', b[0].toFixed(1)); ln.setAttribute('y2', b[1].toFixed(1)); };
+    const f = v => v.toFixed(1);
+    torso.setAttribute('d', `M${f(sh[0][0])} ${f(sh[0][1])}Q${f(n[0])} ${f(n[1]-uy*1.5)} ${f(sh[1][0])} ${f(sh[1][1])}L${f(waist[1][0])} ${f(waist[1][1])}L${f(hp[1][0])} ${f(hp[1][1])}Q${f(h[0]+ux*3)} ${f(h[1]+uy*3)} ${f(hp[0][0])} ${f(hp[0][1])}L${f(waist[0][0])} ${f(waist[0][1])}Z`);
+    const hc = at(n, 12, 0); head.setAttribute('cx', f(hc[0])); head.setAttribute('cy', f(hc[1]));
+    head.setAttribute('transform', `rotate(${(Math.atan2(uy, ux)*180/Math.PI + 90).toFixed(1)} ${f(hc[0])} ${f(hc[1])})`);
+    const bn = at(n, 19, -3); bun.setAttribute('cx', f(bn[0])); bun.setAttribute('cy', f(bn[1]));
+    set(L.neck, n, at(n, 5, 0));
+    const ls = near(sh, le), rs = ls === sh[0] ? sh[1] : sh[0];
+    set(L.lua, ls, le); set(L.lfa, le, lh); set(L.rua, rs, re); set(L.rfa, re, rh);
+    hands[0].setAttribute('cx', f(lh[0])); hands[0].setAttribute('cy', f(lh[1])); hands[1].setAttribute('cx', f(rh[0])); hands[1].setAttribute('cy', f(rh[1]));
+    const lhp = near(hp, lk), rhp = lhp === hp[0] ? hp[1] : hp[0];
+    set(L.lth, lhp, lk); set(L.lsh, lk, lf); set(L.rth, rhp, rk); set(L.rsh, rk, rf);
+    // feet: short line continuing along the shin, pointed for ballet
+    const foot = (k, ft) => { const a = ft[0]-k[0], b = ft[1]-k[1], m = Math.hypot(a, b) || 1, pointed = style === 'ballet';
+      return pointed ? [ft[0] + a/m*5, ft[1] + b/m*5] : [ft[0] + (ft[0] >= k[0] ? 6 : -6), ft[1] + 1]; };
+    set(L.lft, lf, foot(lk, lf)); set(L.rft, rf, foot(rk, rf));
+    if (style === 'ballet'){ const w0 = at(h, 6, -5), w1 = at(h, 6, 5), a1 = at(h, -2, -22), a2 = at(h, -2, 22), m1 = at(h, -9, 0);
+      tutu.setAttribute('d', `M${f(w0[0])} ${f(w0[1])}L${f(a1[0])} ${f(a1[1])}Q${f(m1[0])} ${f(m1[1])} ${f(a2[0])} ${f(a2[1])}L${f(w1[0])} ${f(w1[1])}Z`); }
     else tutu.setAttribute('d', '');
     shadow.setAttribute('cx', ((lf[0] + rf[0]) / 2).toFixed(1));
   }
@@ -128,7 +150,7 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
     const dt = Math.min(50, t - (prev || t)); prev = t;
     if (!reduce){ pos += dir * speed * dt / 16; if (pos > 1){ pos = 1; dir = -1; laps++; say(); } if (pos < 0){ pos = 0; dir = 1; laps++; say(); } }
     x.clearRect(0,0,W,H);
-    const g = x.createLinearGradient(0,0,0,H); g.addColorStop(0,'rgba(79,132,184,.35)'); g.addColorStop(1,'rgba(30,66,102,.55)'); x.fillStyle = g; x.fillRect(0,0,W,H);
+    const g = x.createLinearGradient(0,0,0,H); g.addColorStop(0,'rgba(155,238,255,.10)'); g.addColorStop(1,'rgba(79,132,184,.12)'); x.fillStyle = g; x.fillRect(0,0,W,H);
     // caustics
     x.strokeStyle = 'rgba(196,255,247,.08)'; x.lineWidth = 1.2;
     for (let i = 0; i < 9; i++){ x.beginPath(); for (let px = 0; px <= W; px += 8){ const py = i*H/8 + Math.sin(px/38 + t/900 + i)*5; px ? x.lineTo(px, py) : x.moveTo(px, py); } x.stroke(); }
@@ -136,15 +158,23 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
     const top = H*.12, bot = H*.78, lanes = 4, lh = (bot - top)/lanes;
     for (let i = 0; i <= lanes; i++){ const y = top + i*lh; for (let px = 10; px < W - 10; px += 9){ x.fillStyle = (Math.floor(px/9) % 4 < 2) ? 'rgba(184,218,255,.55)' : 'rgba(155,238,255,.25)'; x.beginPath(); x.arc(px, y, 1.6, 0, 6.29); x.fill(); } }
     x.fillStyle = 'rgba(234,244,255,.18)'; x.fillRect(6, top, 3, bot - top); x.fillRect(W-9, top, 3, bot - top);
-    // swimmer in lane 2
-    const sy = top + lh*1.5, sx = 22 + pos*(W - 44), stroke = Math.sin(t/(speed > .005 ? 90 : 160));
-    x.save(); x.translate(sx, sy); x.scale(dir, 1);
-    x.fillStyle = 'rgba(155,238,255,.18)'; x.beginPath(); x.ellipse(-16, 0, 18, 5, 0, 0, 6.29); x.fill();
-    x.fillStyle = '#eaf4ff'; x.shadowColor = 'rgba(155,238,255,.9)'; x.shadowBlur = 8;
-    x.beginPath(); x.ellipse(0, 0, 15, 5, 0, 0, 6.29); x.fill(); x.beginPath(); x.arc(15, 0, 5, 0, 6.29); x.fill();
-    x.strokeStyle = '#eaf4ff'; x.lineWidth = 3; x.lineCap = 'round';
-    x.beginPath(); x.moveTo(4, -2); x.lineTo(4 + 13*stroke, -13*Math.abs(Math.cos(t/160))); x.moveTo(4, 2); x.lineTo(4 - 13*stroke, 13*Math.abs(Math.cos(t/160))); x.stroke();
-    x.restore(); x.shadowBlur = 0;
+    // swimmer in lane 2, seen from above: cap, shoulders, alternating freestyle arms, kicking legs
+    const sy = top + lh*1.5, sx = 46 + pos*(W - 92), ph = t/(speed > .006 ? 110 : 190), arm = Math.sin(ph), kick = Math.sin(ph*3);
+    x.save(); x.translate(sx, sy); x.scale(dir*1.6, 1.6);
+    x.strokeStyle = '#eaf4ff'; x.fillStyle = '#eaf4ff'; x.lineCap = 'round'; x.lineJoin = 'round'; x.shadowColor = 'rgba(155,238,255,.7)'; x.shadowBlur = 6;
+    // legs
+    x.lineWidth = 3; x.beginPath(); x.moveTo(-8, -2.5); x.lineTo(-22, -3.5 + kick*1.6); x.moveTo(-8, 2.5); x.lineTo(-22, 3.5 - kick*1.6); x.stroke();
+    // torso (shoulders wider than hips)
+    x.beginPath(); x.moveTo(-9, -3.2); x.lineTo(4, -6.2); x.quadraticCurveTo(7, 0, 4, 6.2); x.lineTo(-9, 3.2); x.closePath(); x.fill();
+    // arms: one reaching past the head, the other pulling back along the side
+    const reach = (side, k) => { const ext = (k + 1)/2; x.beginPath(); x.moveTo(3, side*5.5); x.lineTo(3 + 8*ext - 6*(1-ext), side*(6.5 + 2*(1-ext))); x.lineTo(3 + 17*ext - 12*(1-ext), side*(4 + 3*(1-ext))); x.stroke(); };
+    x.lineWidth = 2.6; reach(-1, arm); reach(1, -arm);
+    // head with a swim cap
+    x.fillStyle = '#9beeff'; x.beginPath(); x.arc(9.5, 0, 4.4, 0, 6.29); x.fill();
+    x.shadowBlur = 0;
+    // a little splash at the feet
+    x.fillStyle = 'rgba(234,244,255,.55)'; for (let i = 0; i < 4; i++){ const a = ph*2 + i*1.7; x.beginPath(); x.arc(-25 - Math.abs(Math.sin(a))*4, Math.cos(a)*5, 1.1, 0, 6.29); x.fill(); }
+    x.restore();
     // ripples
     ripples = ripples.filter(r => (r.t += dt) < 1400);
     for (const r of ripples){ const k = r.t/1400; x.strokeStyle = `rgba(196,255,247,${(1-k)*.6})`; x.lineWidth = 1.2; x.beginPath(); x.arc(r.x, r.y, 4 + k*40, 0, 6.29); x.stroke(); }
