@@ -93,7 +93,7 @@ function findStar(cx, cy){
   return null;
 }
 function nextStop(docY){
-  const tops = ['constellation','range','hobbies','dawn'].map(id => $(id).getBoundingClientRect().top + scrollY);
+  const tops = ['constellation','range','dawn'].map(id => $(id).getBoundingClientRect().top + scrollY);
   const max = document.documentElement.scrollHeight - innerHeight;
   for (const t of tops) if (t > docY + innerHeight*.35) return Math.min(t, max + innerHeight*.45);
   return max + innerHeight*.45;

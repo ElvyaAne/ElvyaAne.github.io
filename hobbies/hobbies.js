@@ -1,4 +1,28 @@
+// Hobbies page: night sky, sudoku trophies and the playable puzzle.
 (() => {
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = id => document.getElementById(id);
+// Twinkling night sky behind the page.
+const nc = $('night'), nx = nc.getContext('2d');
+let W, H, stars = [];
+function size(){
+  const dpr = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
+  nc.width = W*dpr; nc.height = H*dpr; nx.setTransform(dpr,0,0,dpr,0,0);
+  stars = Array.from({length: Math.round(W*H/2600)}, () => ({x:Math.random()*W, y:Math.random()*H, r:Math.random()<.92 ? Math.random()+.3 : Math.random()*1.4+1, p:Math.random()*6.28, s:.4+Math.random()*1.4, z:Math.random()}));
+}
+function draw(t){
+  nx.clearRect(0,0,W,H);
+  for (const s of stars){
+    const tw = reduce ? .8 : .55 + .45*Math.sin(t/1000*s.s + s.p);
+    const y = ((s.y - scrollY*s.z*.08) % H + H) % H;
+    nx.fillStyle = `rgba(234,244,255,${(.3+s.z*.7)*tw})`;
+    nx.beginPath(); nx.arc(s.x, y, s.r, 0, 6.29); nx.fill();
+  }
+  if (!reduce) requestAnimationFrame(draw);
+}
+size(); addEventListener('resize', () => { size(); if (reduce) draw(0); }); requestAnimationFrame(draw);
+if (reduce) addEventListener('scroll', () => draw(0), {passive:true});
+
 const tw = document.querySelector('.trophies');
 if (tw){
   // daily-challenge trophies: every month from Jan 2022 through Nov 2024
@@ -11,7 +35,6 @@ if (tw){
 }
 const root = document.getElementById('sudoku');
 if (!root) return;
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const grid = root.querySelector('.sgrid'), pad = root.querySelector('.spad'), info = root.querySelector('.sinfo'), clock = root.querySelector('.stime');
 
 const BOX = i => ((i/27|0)*3 + (i%9/3|0));

@@ -252,7 +252,7 @@ footer{max-width:none;border-top:0;margin-top:-2px;background:#183350;color:#b9d
   .range{grid-template-columns:1fr}
   .tally{grid-template-columns:auto 1fr;align-items:end}
 }
-@media (max-width:520px){.nav .hud span:nth-child(2){display:none}.navr{gap:10px}.notesbtn{padding:5px 10px;letter-spacing:.1em}.tally{grid-template-columns:1fr}}
+@media (max-width:520px){.nav .hud span:nth-child(2){display:none}.navr{gap:10px}.notesbtn{padding:5px 10px;letter-spacing:.1em}.nav .me{white-space:nowrap}.tally{grid-template-columns:1fr}}
 
 
 .cap2 .tch{display:none}
@@ -287,50 +287,7 @@ footer{max-width:none;border-top:0;margin-top:-2px;background:#183350;color:#b9d
 @media (max-width:980px){.pgrid{grid-template-columns:1fr 1fr}.pc,.pc.wide{grid-column:span 1}.pc.wide:first-child{grid-column:1/-1}}
 @media (max-width:600px){.shelf{padding-block:64px 0}.pgrid{grid-template-columns:1fr}.pc,.pc.wide,.pc.wide:first-child{grid-column:auto}.pc.wide h3,.pc h3{font-size:32px}}
 
-/* hobbies: off the clock, between the range and dawn */
-.hob{padding-block:96px 64px}
-.hob .cat-head{align-items:end}
-.hob .cat-head h2{margin-top:14px}
-.hgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
-.hc{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px 40px;align-items:center;padding:26px;border-radius:18px;background:linear-gradient(160deg,rgba(30,66,102,.55),rgba(13,30,46,.55));border:1px solid var(--line)}
-.hc h3{font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:400;font-size:44px;line-height:1.05;margin:10px 0 10px;letter-spacing:-.01em}
-.hc p{color:var(--dim);margin:0 0 14px;max-width:44ch}
-.hc .kv{max-width:44ch}
-.hc p b{color:var(--mist);font-weight:500}
-.trophies{display:grid;grid-template-columns:auto repeat(12,1fr);gap:6px 6px;align-items:center;max-width:44ch;margin:4px 0 18px}
-.trophies .yr{font-family:var(--f-mono);font-size:11px;color:var(--dim);padding-right:6px}
-.trophies i{display:block;width:11px;height:11px;border-radius:50%;justify-self:center;background:radial-gradient(circle,#fff6e8 0 30%,#ffd9a8 70%);box-shadow:0 0 8px 2px rgba(255,217,168,.5)}
-.trophies i.no{background:transparent;border:1px dashed rgba(255,217,168,.45);box-shadow:none}
-.trophies .ml{font-family:var(--f-mono);font-size:9.5px;color:var(--dim);text-align:center;opacity:.7}
-.hc .tlab{display:block;margin:2px 0 8px}
-.hc .tryit{margin-top:4px;padding-top:14px;border-top:1px dashed var(--line)}
-#sudoku{width:min(100%,432px)}
-.sbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
-.slv{display:flex;gap:4px}
-.slv button,.snew{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;padding:4px 10px;border-radius:20px;border:1px solid var(--line);background:transparent;color:var(--dim);cursor:pointer}
-.slv button[aria-pressed=true]{background:rgba(155,238,255,.12);color:var(--sky);border-color:rgba(155,238,255,.4)}
-.snew:hover,.slv button:hover{color:var(--mist);border-color:var(--sky)}
-.stime{font-family:var(--f-mono);font-size:12px;color:var(--lav);font-variant-numeric:tabular-nums}
-.sgrid{display:grid;grid-template-columns:repeat(9,1fr);aspect-ratio:1;border:1.5px solid rgba(184,218,255,.55);border-radius:10px;overflow:hidden;background:rgba(9,23,37,.55)}
-.sc{appearance:none;border:0;border-right:1px solid rgba(184,218,255,.12);border-bottom:1px solid rgba(184,218,255,.12);background:transparent;color:var(--sky);font-family:var(--f-display);font-size:clamp(17px,4.4vw,24px);padding:0;cursor:pointer;transition:background .15s,color .15s;min-width:0}
-.sc:nth-child(9n){border-right:0}.sc:nth-child(n+73){border-bottom:0}
-.sc.br{border-right:1.5px solid rgba(184,218,255,.45)}.sc.bb{border-bottom:1.5px solid rgba(184,218,255,.45)}
-.sc.given{color:var(--mist);font-weight:500}
-.sc.peer{background:rgba(184,218,255,.06)}
-.sc.same{background:rgba(155,238,255,.16);text-shadow:0 0 10px rgba(155,238,255,.8)}
-.sc.sel{background:rgba(184,218,255,.26);box-shadow:inset 0 0 0 1.5px var(--sky)}
-.sc.bad{color:#ffb4be;text-shadow:0 0 10px rgba(255,140,160,.6)}
-.sc:focus-visible{outline:none}
-.spad{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;margin-top:10px}
-.spad button{font-family:var(--f-display);font-size:18px;padding:6px 0;border-radius:8px;border:1px solid var(--line);background:rgba(13,30,46,.5);color:var(--mist);cursor:pointer;transition:border-color .2s,opacity .2s}
-.spad button:hover{border-color:var(--sky)}
-.spad button.full{opacity:.3}
-.spad [data-n="0"]{font-family:var(--f-mono);font-size:13px}
-.sinfo{display:block;margin-top:10px}
-#sudoku.solved .sc{animation:twinkle .9s ease-out both}
-@keyframes twinkle{40%{background:rgba(155,238,255,.35);color:#ffffff;text-shadow:0 0 14px #ffffff}}
-@media (max-width:980px){.hc{grid-template-columns:1fr}#sudoku{width:100%;max-width:480px}}
-@media (max-width:600px){.hob{padding-block:64px 40px}.hc{padding:18px}.hc h3{font-size:36px}.spad{grid-template-columns:repeat(5,1fr)}.spad button{padding:9px 0}}
+@media (max-width:440px){.nav .hud{display:none}}
 </style>
 </head><body>
 
@@ -348,9 +305,9 @@ footer{max-width:none;border-top:0;margin-top:-2px;background:#183350;color:#b9d
 <header class="nav">
   <a class="me" href="#observatory">Elvya Ané</a>
   <nav aria-label="Charts">
-    <a href="#observatory">Observatory</a><a href="#projects">Projects</a><a href="#constellation">Constellation</a><a href="#range">The range</a><a href="#hobbies">Hobbies</a><a href="#dawn">Dawn</a>
+    <a href="#observatory">Observatory</a><a href="#projects">Projects</a><a href="#constellation">Constellation</a><a href="#range">The range</a><a href="#dawn">Dawn</a>
   </nav>
-  <div class="navr"><div class="hud mono"><span>Ottawa <b id="clock">--:--</b></span><span>moon <b id="moon">…</b></span></div><a class="notesbtn" href="notes/">Class notes</a></div>
+  <div class="navr"><div class="hud mono"><span>Ottawa <b id="clock">--:--</b></span><span>moon <b id="moon">…</b></span></div><a class="notesbtn" href="notes/">Class notes</a><a class="notesbtn" href="hobbies/">Hobbies</a></div>
 </header>
 
 <section class="plate p1" id="observatory">
@@ -488,31 +445,6 @@ footer{max-width:none;border-top:0;margin-top:-2px;background:#183350;color:#b9d
   </div>
 </section>
 
-<section class="plate hob" id="hobbies" aria-labelledby="hobTitle">
-  <div class="wrap">
-    <div class="cat-head"><div><span class="chart">Off the clock</span><h2 id="hobTitle">Hobbies</h2></div><span class="lab">what I do when I'm not building</span></div>
-    <div class="hgrid">
-      <article class="hc">
-        <div>
-          <span class="lab">hobby · logic puzzles</span>
-          <h3>Sudoku</h3>
-          <p>Nine rows, nine columns, nine boxes, one rule: no repeats. For a while I did the daily challenge in my sudoku app, and each finished month earned a little trophy.</p>
-          <p>Life got busy, so I don't play as much as I used to, but it's still one of my favourite games and I still try to fit one in when I can.</p>
-          <span class="lab tlab">a few of my monthly trophies</span>
-          <div class="trophies" aria-label="Monthly trophies, January 2022 to November 2024: all 35 earned"></div>
-          <p class="tryit">Your turn: a fresh puzzle, generated in your browser with exactly one solution. Click a cell, then type or tap a number.</p>
-        </div>
-        <div id="sudoku">
-          <div class="sbar"><div class="slv" role="group" aria-label="Difficulty"><button type="button" data-lv="easy" aria-pressed="false">easy</button><button type="button" data-lv="medium" aria-pressed="true">medium</button><button type="button" data-lv="hard" aria-pressed="false">hard</button></div><span class="stime" aria-label="timer">0:00</span><button type="button" class="snew">new puzzle ↻</button></div>
-          <div class="sgrid" role="grid" aria-label="Sudoku board"></div>
-          <div class="spad" aria-label="Number pad"><button type="button" data-n="1">1</button><button type="button" data-n="2">2</button><button type="button" data-n="3">3</button><button type="button" data-n="4">4</button><button type="button" data-n="5">5</button><button type="button" data-n="6">6</button><button type="button" data-n="7">7</button><button type="button" data-n="8">8</button><button type="button" data-n="9">9</button><button type="button" data-n="0" aria-label="erase">⌫</button></div>
-          <span class="lab sinfo" role="status"></span>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
 <section class="plate p4" id="dawn">
   <div id="sun" aria-hidden="true"></div>
   <div class="copy wrap">
@@ -537,7 +469,6 @@ footer{max-width:none;border-top:0;margin-top:-2px;background:#183350;color:#b9d
 
 
 <script src="js/notes.js"></script>
-<script src="js/sudoku.js"></script>
 <script src="js/scrolldot.js"></script>
 
 </body></html>
