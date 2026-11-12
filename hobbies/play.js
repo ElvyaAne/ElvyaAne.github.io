@@ -297,4 +297,54 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   root.querySelector('[data-k="reset"]').addEventListener('click', clear);
   clear(); info.textContent = 'post a topic, then tap a stranger';
 })();
+
+/* ---------- candy crush: a tiny match-three made of stars ---------- */
+(() => {
+  const root = document.getElementById('v-match'); if (!root) return;
+  const svg = root.querySelector('svg'), info = root.querySelector('.vinfo');
+  const d = defs(svg); glow(d, 'xg', 1.6);
+  const N = 7, S = 200/N, COLS = ['#eaf4ff', '#b8daff', '#ffd9a8', '#d9c8ff', '#9fc3e8'];
+  const SHAPES = [ // star, diamond, circle, heart-ish, square: so colour isn't the only clue
+    r => `M0 ${-r}L${r*.3} ${-r*.3}L${r} 0L${r*.3} ${r*.3}L0 ${r}L${-r*.3} ${r*.3}L${-r} 0L${-r*.3} ${-r*.3}Z`,
+    r => `M0 ${-r}L${r*.8} 0L0 ${r}L${-r*.8} 0Z`,
+    r => `M${-r*.85} 0A${r*.85} ${r*.85} 0 1 0 ${r*.85} 0A${r*.85} ${r*.85} 0 1 0 ${-r*.85} 0Z`,
+    r => `M0 ${r*.9}C${-r*1.2} ${-r*.1} ${-r*.5} ${-r*1} 0 ${-r*.35}C${r*.5} ${-r*1} ${r*1.2} ${-r*.1} 0 ${r*.9}Z`,
+    r => `M${-r*.7} ${-r*.7}H${r*.7}V${r*.7}H${-r*.7}Z`];
+  const g = el('g', {filter:'url(#xg)'}, svg), selR = el('rect', {width:S-4, height:S-4, rx:5, fill:'none', stroke:'#eaf4ff', 'stroke-width':1.2, opacity:0}, svg);
+  let B = [], sel = -1, score = 0, busy = false;
+  const rnd = () => Math.random()*COLS.length|0;
+  function fresh(){ do { B = Array.from({length:N*N}, rnd); } while (runs().size); score = 0; sel = -1; draw(); say(); }
+  function runs(){ const m = new Set();
+    for (let r = 0; r < N; r++) for (let c = 0; c < N; c++){ const i = r*N+c, v = B[i]; if (v < 0) continue;
+      if (c <= N-3 && B[i+1] === v && B[i+2] === v){ let k = c; while (k < N && B[r*N+k] === v) m.add(r*N + k++); }
+      if (r <= N-3 && B[i+N] === v && B[i+2*N] === v){ let k = r; while (k < N && B[k*N+c] === v) m.add(k++*N + c); } }
+    return m; }
+  function draw(pop){ g.innerHTML = '';
+    B.forEach((v, i) => { if (v < 0) return; const x = (i%N + .5)*S, y = ((i/N|0) + .5)*S;
+      const p = el('path', {d:SHAPES[v](S*.32), fill:COLS[v], transform:`translate(${x.toFixed(1)} ${y.toFixed(1)})`, 'data-i':i}, g);
+      if (pop && pop.has(i) && !reduce) p.animate([{opacity:0, transform:`translate(${x}px, ${y - 14}px)`}, {opacity:1, transform:`translate(${x}px, ${y}px)`}], {duration:260, easing:'ease-out'}); });
+    if (sel >= 0){ selR.setAttribute('x', (sel%N*S + 2).toFixed(1)); selR.setAttribute('y', ((sel/N|0)*S + 2).toFixed(1)); selR.setAttribute('opacity', 1); } else selR.setAttribute('opacity', 0); }
+  const say = msg => info.textContent = msg || `my level: 4200 · your score: ${score}`;
+  const wait = ms => new Promise(r => setTimeout(r, reduce ? 0 : ms));
+  async function resolve(){ let chain = 0, m;
+    while ((m = runs()).size){ chain++; score += m.size * chain;
+      const els = [...g.querySelectorAll('path')].filter(p => m.has(+p.dataset.i));
+      if (!reduce) els.forEach(p => p.animate([{opacity:1}, {opacity:0}], {duration:220, fill:'forwards'}));
+      await wait(230); m.forEach(i => B[i] = -1);
+      const born = new Set();
+      for (let c = 0; c < N; c++){ const col = []; for (let r = N-1; r >= 0; r--) if (B[r*N+c] >= 0) col.push(B[r*N+c]);
+        for (let r = N-1, k = 0; r >= 0; r--, k++){ if (k < col.length) B[r*N+c] = col[k]; else { B[r*N+c] = rnd(); born.add(r*N+c); } } }
+      draw(born); say(chain > 1 ? `chain ×${chain} ✦ your score: ${score}` : null); await wait(280); }
+    return chain; }
+  svg.addEventListener('click', async e => {
+    const t = e.target.closest('path[data-i]'); if (!t || busy) return; const i = +t.dataset.i;
+    if (sel < 0){ sel = i; draw(); return; }
+    const a = sel, adj = Math.abs(a - i) === N || (Math.abs(a - i) === 1 && (a/N|0) === (i/N|0)); sel = -1;
+    if (!adj){ sel = i; draw(); return; }
+    busy = true; [B[a], B[i]] = [B[i], B[a]]; draw();
+    if (!(await resolve())){ await wait(180); [B[a], B[i]] = [B[i], B[a]]; draw(); say('no match there, try another swap'); }
+    busy = false; });
+  root.querySelector('[data-k="new"]').addEventListener('click', () => { if (!busy) fresh(); });
+  fresh();
+})();
 })();
