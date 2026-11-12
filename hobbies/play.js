@@ -148,7 +148,10 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   root.querySelector('[data-k="hum"]').addEventListener('click', () => {
     pick('mid');
     const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
-    const ac = new AC(), notes = [392, 440, 523.25, 587.33, 523.25, 440, 392, 329.63], now = ac.currentTime;
+    // iPhones mute web audio on silent mode unless the page asks for media playback
+    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch(e){}
+    const ac = new AC(); if (ac.state === 'suspended') ac.resume();
+    const notes = [392, 440, 523.25, 587.33, 523.25, 440, 392, 329.63], now = ac.currentTime;
     notes.forEach((f, i) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.value = f;
       g.gain.setValueAtTime(0, now + i*.32); g.gain.linearRampToValueAtTime(.08, now + i*.32 + .05); g.gain.exponentialRampToValueAtTime(.0001, now + i*.32 + .42);
       o.connect(g).connect(ac.destination); o.start(now + i*.32); o.stop(now + i*.32 + .45); });
