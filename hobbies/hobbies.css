@@ -52,8 +52,7 @@ body{background:linear-gradient(180deg,#1a3959 0%,#3a6089 38%,#5d7ca4 72%,#7a90b
 .vchips button[aria-pressed=true],.vbtn:not(.ghost){background:rgba(155,238,255,.12);color:var(--sky);border-color:rgba(155,238,255,.4)}
 .vchips button:hover,.vbtn:hover{color:var(--mist);border-color:var(--sky)}
 .vhint{font-family:var(--f-mono);font-size:10.5px;color:var(--dim);opacity:.7;margin-left:4px}
-.vbox{position:relative;aspect-ratio:1;border:1.5px solid rgba(184,218,255,.55);border-radius:10px;overflow:hidden;background:transparent}
-.optA .vbox{background:rgba(9,23,37,.55)}
+.vbox{position:relative;aspect-ratio:1;border:1.5px solid rgba(184,218,255,.55);border-radius:10px;overflow:hidden;background:rgba(9,23,37,.55)}
 .vbox svg,.vbox canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .vinfo{display:block;margin-top:10px;min-height:1.6em}
 .vbox svg text{font-family:var(--f-mono);fill:var(--dim);letter-spacing:.08em}
@@ -61,3 +60,4 @@ body{background:linear-gradient(180deg,#1a3959 0%,#3a6089 38%,#5d7ca4 72%,#7a90b
 .vbox .node{cursor:pointer}
 @media (max-width:980px){.hc.flip > .viz{order:0}}
 @media (min-width:981px){.hc{grid-template-columns:minmax(0,1fr) 432px}.hc.flip{grid-template-columns:432px minmax(0,1fr)}.viz{width:100%}}
+#v-match path[data-i],#v-sol [data-at]{cursor:pointer}

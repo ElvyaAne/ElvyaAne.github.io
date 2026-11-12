@@ -24,27 +24,81 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   const limbs = ['spine','larm','rarm','lleg','rleg'].map(() => el('polyline', {}, g));
   const head = el('circle', {r:8.5, fill:'#eaf4ff', stroke:'none'}, svg); head.setAttribute('filter', 'url(#dg)');
   const label = el('text', {x:100, y:194, 'text-anchor':'middle', 'font-size':7}, svg);
-  // poses: [neck, hip, lElbow, lHand, rElbow, rHand, lKnee, lFoot, rKnee, rFoot]
+  // Each style is a short loop of its signature moves. A key is a set of joint angles in degrees
+  // (0 = pointing down, 90 = to her right, 180 = up, -90 = to her left); she faces right.
+  // Keys: t torso lean, la/lf left upper/fore arm, ra/rf right arm, lt/ls left thigh/shin, rt/rs right leg, up = rise off the floor.
+  const K = (t, la, lf, ra, rf, lt, ls, rt, rs, up = 0) => ({t, la, lf, ra, rf, lt, ls, rt, rs, up});
   const P = {
-    ballet:{ms:1900, name:'ballet', a:[[100,72],[100,118],[88,52],[96,34],[112,52],[104,34],[98,145],[100,172],[122,128],[148,118]],
-                                   b:[[100,70],[100,117],[80,76],[62,70],[120,76],[138,70],[98,144],[100,170],[104,146],[100,170]]},
-    jazz:{ms:900, name:'jazz', a:[[104,72],[100,120],[84,60],[74,44],[120,86],[132,100],[90,146],[84,172],[116,142],[124,168]],
-                              b:[[96,72],[100,120],[80,86],[68,100],[122,58],[132,42],[88,144],[80,170],[112,146],[118,172]]},
-    tap:{ms:420, name:'tap', a:[[100,74],[100,122],[90,96],[84,116],[112,96],[120,114],[96,148],[92,174],[110,146],[126,166]],
-                            b:[[100,74],[100,122],[88,96],[80,112],[110,96],[116,116],[92,146],[78,166],[106,148],[108,174]]},
-    contemporary:{ms:2200, name:'contemporary', a:[[86,82],[100,124],[70,70],[54,58],[98,96],[116,104],[92,148],[88,174],[118,142],[132,166]],
-                                               b:[[112,74],[100,120],[100,52],[94,32],[132,64],[150,52],[96,146],[98,172],[80,136],[62,148]]},
-    modern:{ms:1100, name:'modern', a:[[100,72],[100,120],[76,72],[76,50],[124,72],[124,94],[84,140],[84,168],[116,140],[116,168]],
-                                   b:[[100,72],[100,120],[76,72],[76,94],[124,72],[124,50],[88,144],[76,170],[112,144],[124,170]]},
-    hiphop:{ms:640, name:'hip hop', a:[[98,80],[100,126],[84,96],[98,104],[118,88],[130,72],[84,148],[80,174],[118,146],[122,174]],
-                                    b:[[102,82],[100,128],[80,84],[70,70],[114,98],[102,106],[82,150],[78,174],[116,150],[120,174]]},
+    // first position, plié, relevé in passé with arms in fifth, arabesque
+    ballet:{ms:900, name:'ballet', move:['first position', 'plié', 'passé on relevé', 'arabesque', 'arabesque', 'passé on relevé'], keys:[
+      K(0, -30, 10, 30, -10, -6, -6, 6, 6),
+      K(0, -70, -20, 70, 20, -28, 22, 28, -22),
+      K(0, -150, 112, 150, -112, 0, 0, 78, -50, 4),
+      K(14, -98, -92, 112, 108, 0, 0, -100, -98, 4),
+      K(14, -98, -92, 112, 108, 0, 0, -100, -98, 4),
+      K(0, -150, 112, 150, -112, 0, 0, 78, -50, 4)]},
+    // jazz walk with isolations and jazz hands, then a high front kick (grand battement)
+    jazz:{ms:430, name:'jazz', move:['jazz walk, jazz hands', 'jazz walk, jazz hands', 'jazz walk, jazz hands', 'jazz walk, jazz hands', 'kick', 'kick'], keys:[
+      K(-8, -145, -165, 140, 160, -14, -4, 18, 30),
+      K(8, -95, -95, 95, 95, -20, -32, 10, 4),
+      K(-8, -145, -165, 140, 160, -14, -4, 18, 30),
+      K(8, -95, -95, 95, 95, -20, -32, 10, 4),
+      K(-6, -128, -135, 120, 126, -2, -2, 155, 158),
+      K(-6, -128, -135, 120, 126, -2, -2, 155, 158)]},
+    // upright and relaxed, all in the feet: shuffle (brush forward, brush back), ball change, heel drop
+    tap:{ms:200, name:'tap', move:['shuffle', 'shuffle', 'ball change', 'heel drop', 'shuffle', 'shuffle', 'ball change', 'heel drop'], keys:[
+      K(0, -18, -8, 22, 30, -4, 4, 28, 48),
+      K(0, -10, 0, 12, 18, -4, 4, 6, -28),
+      K(0, -16, -6, 18, 26, -10, -42, 4, 4),
+      K(0, -14, -4, 14, 22, 12, -8, 12, -8, -2),
+      K(0, -22, -30, 18, 8, 28, 48, 4, -4),
+      K(0, -12, -18, 10, 0, 6, -28, 4, -4),
+      K(0, -18, -26, 16, 6, 4, 4, -10, -42),
+      K(0, -14, -22, 14, 4, 12, -8, 12, -8, -2)]},
+    // fluid: curl in (contraction), release into a reaching lunge, then a tilt with the leg to the side
+    contemporary:{ms:1050, name:'contemporary', move:['curl', 'release and reach', 'tilt', 'release and reach'], keys:[
+      K(28, 40, 110, 30, 95, 40, -25, 50, -12),
+      K(-16, -168, -150, 160, 176, -28, -12, 34, 0),
+      K(-48, -62, -50, 148, 138, -6, -6, 122, 122),
+      K(-16, -168, -150, 160, 176, -28, -12, 34, 0)]},
+    // angular shapes: parallel stance with flexed arms, contraction, Horton flat back, lateral T
+    modern:{ms:800, name:'modern', move:['parallel, flexed arms', 'contraction', 'flat back', 'parallel, flexed arms', 'lateral T', 'lateral T'], keys:[
+      K(0, -90, 180, 90, 0, -6, -6, 6, 6),
+      K(20, 60, 125, 70, 135, 14, -10, 20, -10),
+      K(88, 92, 92, 88, 88, -10, -10, 10, 10),
+      K(0, -90, 180, 90, 0, -6, -6, 6, 6),
+      K(-88, -92, -92, -86, -86, 0, 0, 90, 90),
+      K(-88, -92, -92, -86, -86, 0, 0, 90, 90)]},
+    // bouncy grooves: the running man, then a two-step with the arms
+    hiphop:{ms:300, name:'hip hop', move:['running man', 'running man', 'running man', 'running man', 'two-step', 'two-step', 'two-step', 'two-step'], keys:[
+      K(8, 40, 160, -40, 140, 12, -12, 100, 0),
+      K(4, -20, 120, 30, 170, -32, -22, 14, -14),
+      K(8, -40, 140, 40, 160, 100, 0, 12, -12),
+      K(4, 30, 170, -20, 120, 14, -14, -32, -22),
+      K(10, -30, 80, 30, -60, -24, -4, 20, 30),
+      K(14, -20, 40, 40, -20, -10, 14, 30, -10),
+      K(10, -30, -60, 30, 80, -20, -30, 24, 4),
+      K(14, -40, 20, 20, 40, -30, 10, 10, -14)]},
   };
-  let style = 'ballet', from = null, t0 = performance.now(), switchT = 0;
+  const UA = 19, FA = 18, TH = 26, SH = 26, SP = 46, FLOOR = 176;
+  const v = (a, l) => [Math.sin(a*Math.PI/180)*l, Math.cos(a*Math.PI/180)*l];
+  const add = (p, q) => [p[0]+q[0], p[1]+q[1]];
+  function solve(k){
+    const hip0 = [0, 0], neck = add(hip0, [Math.sin(k.t*Math.PI/180)*SP, -Math.cos(k.t*Math.PI/180)*SP]);
+    const le = add(neck, v(k.la, UA)), lh = add(le, v(k.lf, FA)), re = add(neck, v(k.ra, UA)), rh = add(re, v(k.rf, FA));
+    const lk = add(hip0, v(k.lt, TH)), lf = add(lk, v(k.ls, SH)), rk = add(hip0, v(k.rt, TH)), rf = add(rk, v(k.rs, SH));
+    // keep her standing on the floor: the lowest foot touches it (minus any relevé or jump)
+    const low = Math.max(lf[1], rf[1]), dx = 100, dy = FLOOR - low - k.up;
+    return [neck, hip0, le, lh, re, rh, lk, lf, rk, rf].map(p => [p[0] + dx, p[1] + dy]);
+  }
+  const mix = (a, b, e) => { const o = {}; for (const key in a) o[key] = a[key] + (b[key] - a[key])*e; return o; };
+  let style = 'ballet', from = null, t0 = performance.now(), switchT = 0, step = -1;
   const lerp = (a, b, k) => a.map((p, i) => [p[0] + (b[i][0]-p[0])*k, p[1] + (b[i][1]-p[1])*k]);
   const pts = arr => arr.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ');
   function pose(t){
-    const s = P[style], ph = reduce ? 0 : (1 - Math.cos((t - t0) / s.ms * Math.PI)) / 2;
-    let p = lerp(s.a, s.b, ph);
+    const s = P[style], n = s.keys.length, f = reduce ? 0 : (t - t0) / s.ms, i = Math.floor(f) % n, e = f - Math.floor(f), sm = e*e*(3-2*e);
+    if (i !== step){ step = i; info.textContent = `${s.name} · ${s.move[i]}`; }
+    let p = solve(mix(s.keys[i], s.keys[(i+1) % n], sm));
     if (from){ const k = Math.min(1, (t - switchT) / 350); p = lerp(from, p, k*k*(3-2*k)); if (k >= 1) from = null; }
     return p;
   }
@@ -56,13 +110,14 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
     limbs[0].setAttribute('points', pts([n, h]));
     limbs[1].setAttribute('points', pts([n, le, lh])); limbs[2].setAttribute('points', pts([n, re, rh]));
     limbs[3].setAttribute('points', pts([h, lk, lf])); limbs[4].setAttribute('points', pts([h, rk, rf]));
-    if (style === 'ballet'){ const hx = h[0], hy = h[1] - 4; tutu.setAttribute('d', `M${hx-7} ${hy}L${hx-24} ${hy+9}Q${hx} ${hy+15} ${hx+24} ${hy+9}L${hx+7} ${hy}Z`); }
+    if (style === 'ballet'){ const ux = dx/L, uy = dy/L, px = -uy, py = ux, at = (a, b) => `${(h[0]+ux*a+px*b).toFixed(1)} ${(h[1]+uy*a+py*b).toFixed(1)}`;
+      tutu.setAttribute('d', `M${at(5,-6)}L${at(-3,-24)}Q${at(-10,0)} ${at(-3,24)}L${at(5,6)}Z`); }
     else tutu.setAttribute('d', '');
     shadow.setAttribute('cx', ((lf[0] + rf[0]) / 2).toFixed(1));
   }
   const vis = onScreen(root, () => requestAnimationFrame(loop));
   function loop(t){ draw(t); if (!reduce && vis()) requestAnimationFrame(loop); }
-  function set(k){ from = last; switchT = performance.now(); style = k; t0 = switchT; label.textContent = P[k].name.toUpperCase(); info.textContent = `${P[k].name} · one of the styles I learned`; if (reduce) requestAnimationFrame(loop); }
+  function set(k){ from = last; switchT = performance.now(); style = k; t0 = switchT; label.textContent = P[k].name.toUpperCase(); step = -1; if (reduce) requestAnimationFrame(loop); }
   chips(root, set);
   set('ballet'); draw(performance.now());
 })();
@@ -93,7 +148,10 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   root.querySelector('[data-k="hum"]').addEventListener('click', () => {
     pick('mid');
     const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
-    const ac = new AC(), notes = [392, 440, 523.25, 587.33, 523.25, 440, 392, 329.63], now = ac.currentTime;
+    // iPhones mute web audio on silent mode unless the page asks for media playback
+    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch(e){}
+    const ac = new AC(); if (ac.state === 'suspended') ac.resume();
+    const notes = [392, 440, 523.25, 587.33, 523.25, 440, 392, 329.63], now = ac.currentTime;
     notes.forEach((f, i) => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.value = f;
       g.gain.setValueAtTime(0, now + i*.32); g.gain.linearRampToValueAtTime(.08, now + i*.32 + .05); g.gain.exponentialRampToValueAtTime(.0001, now + i*.32 + .42);
       o.connect(g).connect(ac.destination); o.start(now + i*.32); o.stop(now + i*.32 + .45); });
@@ -238,5 +296,146 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   });
   root.querySelector('[data-k="reset"]').addEventListener('click', clear);
   clear(); info.textContent = 'post a topic, then tap a stranger';
+})();
+
+/* ---------- candy crush: a tiny match-three made of stars ---------- */
+(() => {
+  const root = document.getElementById('v-match'); if (!root) return;
+  const svg = root.querySelector('svg'), info = root.querySelector('.vinfo');
+  const d = defs(svg); glow(d, 'xg', 1.6);
+  const N = 7, S = 200/N, COLS = ['#eaf4ff', '#b8daff', '#ffd9a8', '#d9c8ff', '#9fc3e8'];
+  const SHAPES = [ // star, diamond, circle, heart-ish, square: so colour isn't the only clue
+    r => `M0 ${-r}L${r*.3} ${-r*.3}L${r} 0L${r*.3} ${r*.3}L0 ${r}L${-r*.3} ${r*.3}L${-r} 0L${-r*.3} ${-r*.3}Z`,
+    r => `M0 ${-r}L${r*.8} 0L0 ${r}L${-r*.8} 0Z`,
+    r => `M${-r*.85} 0A${r*.85} ${r*.85} 0 1 0 ${r*.85} 0A${r*.85} ${r*.85} 0 1 0 ${-r*.85} 0Z`,
+    r => `M0 ${r*.9}C${-r*1.2} ${-r*.1} ${-r*.5} ${-r*1} 0 ${-r*.35}C${r*.5} ${-r*1} ${r*1.2} ${-r*.1} 0 ${r*.9}Z`,
+    r => `M${-r*.7} ${-r*.7}H${r*.7}V${r*.7}H${-r*.7}Z`];
+  const g = el('g', {filter:'url(#xg)'}, svg), selR = el('rect', {width:S-4, height:S-4, rx:5, fill:'none', stroke:'#eaf4ff', 'stroke-width':1.2, opacity:0}, svg);
+  let B = [], sel = -1, score = 0, busy = false;
+  const rnd = () => Math.random()*COLS.length|0;
+  function fresh(){ do { B = Array.from({length:N*N}, rnd); } while (runs().size); score = 0; sel = -1; draw(); say(); }
+  function runs(){ const m = new Set();
+    for (let r = 0; r < N; r++) for (let c = 0; c < N; c++){ const i = r*N+c, v = B[i]; if (v < 0) continue;
+      if (c <= N-3 && B[i+1] === v && B[i+2] === v){ let k = c; while (k < N && B[r*N+k] === v) m.add(r*N + k++); }
+      if (r <= N-3 && B[i+N] === v && B[i+2*N] === v){ let k = r; while (k < N && B[k*N+c] === v) m.add(k++*N + c); } }
+    return m; }
+  function draw(pop){ g.innerHTML = '';
+    B.forEach((v, i) => { if (v < 0) return; const x = (i%N + .5)*S, y = ((i/N|0) + .5)*S;
+      const p = el('path', {d:SHAPES[v](S*.32), fill:COLS[v], transform:`translate(${x.toFixed(1)} ${y.toFixed(1)})`, 'data-i':i}, g);
+      if (pop && pop.has(i) && !reduce) p.animate([{opacity:0, transform:`translate(${x}px, ${y - 14}px)`}, {opacity:1, transform:`translate(${x}px, ${y}px)`}], {duration:260, easing:'ease-out'}); });
+    if (sel >= 0){ selR.setAttribute('x', (sel%N*S + 2).toFixed(1)); selR.setAttribute('y', ((sel/N|0)*S + 2).toFixed(1)); selR.setAttribute('opacity', 1); } else selR.setAttribute('opacity', 0); }
+  const say = msg => info.textContent = msg || `my level: 4200 · your score: ${score}`;
+  const wait = ms => new Promise(r => setTimeout(r, reduce ? 0 : ms));
+  async function resolve(){ let chain = 0, m;
+    while ((m = runs()).size){ chain++; score += m.size * chain;
+      const els = [...g.querySelectorAll('path')].filter(p => m.has(+p.dataset.i));
+      if (!reduce) els.forEach(p => p.animate([{opacity:1}, {opacity:0}], {duration:220, fill:'forwards'}));
+      await wait(230); m.forEach(i => B[i] = -1);
+      const born = new Set();
+      for (let c = 0; c < N; c++){ const col = []; for (let r = N-1; r >= 0; r--) if (B[r*N+c] >= 0) col.push(B[r*N+c]);
+        for (let r = N-1, k = 0; r >= 0; r--, k++){ if (k < col.length) B[r*N+c] = col[k]; else { B[r*N+c] = rnd(); born.add(r*N+c); } } }
+      draw(born); say(chain > 1 ? `chain ×${chain} ✦ your score: ${score}` : null); await wait(280); }
+    return chain; }
+  svg.addEventListener('click', async e => {
+    const t = e.target.closest('path[data-i]'); if (!t || busy) return; const i = +t.dataset.i;
+    if (sel < 0){ sel = i; draw(); return; }
+    const a = sel, adj = Math.abs(a - i) === N || (Math.abs(a - i) === 1 && (a/N|0) === (i/N|0)); sel = -1;
+    if (!adj){ sel = i; draw(); return; }
+    busy = true; [B[a], B[i]] = [B[i], B[a]]; draw();
+    if (!(await resolve())){ await wait(180); [B[a], B[i]] = [B[i], B[a]]; draw(); say('no match there, try another swap'); }
+    busy = false; });
+  root.querySelector('[data-k="new"]').addEventListener('click', () => { if (!busy) fresh(); });
+  fresh();
+})();
+/* ---------- solitaire: a pocket FreeCell, twenty cards ---------- */
+(() => {
+  const root = document.getElementById('v-sol'); if (!root) return;
+  const svg = root.querySelector('svg'), info = root.querySelector('.vinfo');
+  const d = defs(svg); glow(d, 'sg', 1.2);
+  const SU = ['♠', '♥', '♣', '♦'], RK = ['A', '2', '3', '4', '5'], W = 26, H = 36, GAP = 11;
+  const red = c => (c/5|0) % 2 === 1, rank = c => c % 5, suit = c => c/5|0;
+  const col = c => red(c) ? '#ffd9a8' : '#b8daff';
+  const COLX = [24, 66, 108, 150], TOPY = 10, COLY = 58;
+  let S, sel = null, moves = 0, busy = false;
+
+  // --- tiny solver so every deal can be won
+  const key = s => s.c.map(a => a.join(',')).join('|') + '/' + s.f.join('') + '/' + [...s.fc].sort().join(',');
+  const fits = (card, onto) => onto === undefined || (rank(onto) === rank(card) + 1 && red(onto) !== red(card));
+  function solvable(s){ const seen = new Set(); let n = 0;
+    const go = s => { if (s.f.every(v => v === 5)) return true; const k = key(s); if (seen.has(k) || ++n > 40000) return false; seen.add(k);
+      for (const m of legal(s)){ if (go(apply(s, m))) return true; } return false; };
+    return go(s); }
+  function legal(s){ const out = [], src = [];
+    s.c.forEach((a, i) => a.length && src.push({from:['c', i], card:a[a.length-1]}));
+    s.fc.forEach((c, i) => c >= 0 && src.push({from:['f', i], card:c}));
+    for (const m of src){ if (s.f[suit(m.card)] === rank(m.card)) out.push({...m, to:['h', suit(m.card)]}); }
+    for (const m of src){ s.c.forEach((a, i) => { if (m.from[0] === 'c' && m.from[1] === i) return; if (!a.length && m.from[0] === 'c' && s.c[m.from[1]].length === 1) return; if (fits(m.card, a[a.length-1])) out.push({...m, to:['c', i]}); });
+      if (m.from[0] === 'c'){ const e = s.fc.indexOf(-1); if (e >= 0) out.push({...m, to:['f', e]}); } }
+    return out; }
+  function apply(s, m){ const t = {c:s.c.map(a => a.slice()), fc:s.fc.slice(), f:s.f.slice()};
+    if (m.from[0] === 'c') t.c[m.from[1]].pop(); else t.fc[m.from[1]] = -1;
+    if (m.to[0] === 'h') t.f[m.to[1]]++; else if (m.to[0] === 'c') t.c[m.to[1]].push(m.card); else t.fc[m.to[1]] = m.card;
+    return t; }
+  function deal(){ for (let tries = 0; tries < 60; tries++){
+      const deck = [...Array(20).keys()]; for (let i = 19; i > 0; i--){ const j = Math.random()*(i+1)|0; [deck[i], deck[j]] = [deck[j], deck[i]]; }
+      const s = {c:[0, 1, 2, 3].map(i => deck.slice(i*5, i*5+5)), fc:[-1, -1], f:[0, 0, 0, 0]};
+      if (!legal(s).some(m => m.to[0] === 'h') && tries < 30) continue;       // a deal with no opening move feels dead
+      if (solvable(s)) return s; }
+    return {c:[[4, 13, 2, 11, 0], [19, 8, 17, 6, 15], [9, 18, 7, 16, 5], [14, 3, 12, 1, 10]], fc:[-1, -1], f:[0, 0, 0, 0]}; }
+
+  // --- drawing
+  const bg = el('g', {}, svg), cg = el('g', {}, svg), fx = el('g', {}, svg);
+  const slot = (x, y, label) => { el('rect', {x, y, width:W, height:H, rx:3.5, fill:'none', stroke:'#b8daff', 'stroke-opacity':.3, 'stroke-dasharray':'2 2.5'}, bg);
+    if (label){ const t = el('text', {x:x + W/2, y:y + H/2 + 3.5, 'text-anchor':'middle', 'font-size':10}, bg); t.textContent = label; t.style.fill = 'rgba(184,218,255,.3)'; } };
+  const FX = i => i < 2 ? 9 + i*30 : 76 + (i-2)*30;   // 2 cells left, 4 foundations right
+  for (let i = 0; i < 6; i++) slot(FX(i), TOPY, i < 2 ? '' : SU[i-2]);
+  COLX.forEach(x => slot(x, COLY, ''));
+  function card(c, x, y, at){ const g = el('g', {transform:`translate(${x} ${y})`, 'data-at':at || ''}, cg);
+    el('rect', {width:W, height:H, rx:3.5, fill:'#0d1e2e', stroke:col(c), 'stroke-opacity':.75, 'stroke-width':1}, g);
+    const t1 = el('text', {x:3.5, y:9.5, 'font-size':8}, g); t1.textContent = RK[rank(c)]; t1.style.fill = col(c); t1.style.letterSpacing = '0';
+    const t2 = el('text', {x:W - 3.5, y:9.5, 'font-size':7.5, 'text-anchor':'end'}, g); t2.textContent = SU[suit(c)]; t2.style.fill = col(c);
+    const t3 = el('text', {x:W/2, y:H - 7, 'font-size':13, 'text-anchor':'middle', filter:'url(#sg)'}, g); t3.textContent = SU[suit(c)]; t3.style.fill = col(c);
+    return g; }
+  function hit(x, y, w, h, at){ el('rect', {x, y, width:w, height:h, fill:'transparent', 'data-at':at}, cg); }
+  function draw(){ cg.innerHTML = '';
+    S.fc.forEach((c, i) => { hit(FX(i), TOPY, W, H, 'f' + i); if (c >= 0) card(c, FX(i), TOPY, 'f' + i); });
+    S.f.forEach((n, i) => { hit(FX(i+2), TOPY, W, H, 'h' + i); if (n) card(i*5 + n - 1, FX(i+2), TOPY, 'h' + i); });
+    S.c.forEach((a, i) => { const gap = a.length > 9 ? Math.min(GAP, (196 - COLY - H)/(a.length - 1)) : GAP;
+      hit(COLX[i] - 4, COLY, W + 8, 200 - COLY, 'c' + i);
+      a.forEach((c, k) => card(c, COLX[i], COLY + k*gap, 'c' + i)); });
+    if (sel){ const g = [...cg.querySelectorAll(`g[data-at="${sel}"]`)].pop(); if (g){ const r = g.querySelector('rect'); r.setAttribute('stroke', '#eaf4ff'); r.setAttribute('stroke-width', 2); r.setAttribute('stroke-opacity', 1); g.setAttribute('filter', 'url(#sg)'); } } }
+  const top = at => at[0] === 'c' ? S.c[+at[1]].slice(-1)[0] : at[0] === 'f' ? (S.fc[+at[1]] >= 0 ? S.fc[+at[1]] : undefined) : undefined;
+  const say = msg => info.textContent = msg || (moves ? `moves: ${moves}` : 'tap a card, then where it goes');
+  function tryMove(from, to){ const c = top(from); if (c === undefined) return false;
+    const m = legal(S).find(m => m.from[0] + m.from[1] === from && m.to[0] + m.to[1] === to);
+    if (!m) return false; S = apply(S, m); moves++; return true; }
+  function autoHome(){ let moved = true; while (moved){ moved = false;
+      for (const m of legal(S)) if (m.to[0] === 'h'){ const r = rank(m.card); // only send it home when nothing still needs it to build on
+        if (r <= 1 || S.f.every((v, i) => (i % 2) === (suit(m.card) % 2) || v >= r)){ S = apply(S, m); moved = true; break; } } } }
+  svg.addEventListener('click', e => { if (busy) return; const t = e.target.closest('[data-at]'); if (!t) return; const at = t.dataset.at;
+    if (!sel){ if (at[0] === 'h' || top(at) === undefined) return;
+      const c = top(at), home = 'h' + suit(c);                         // one tap sends it home when it can go
+      if (tryMove(at, home)){ autoHome(); draw(); after(); return; }
+      sel = at; draw(); return; }
+    const from = sel; sel = null;
+    if (from === at){ draw(); return; }
+    if (tryMove(from, at)){ autoHome(); draw(); after(); return; }
+    if (at[0] !== 'h' && top(at) !== undefined){ sel = at; draw(); say(); return; }
+    draw(); say("that card can't go there"); });
+  function after(){ if (S.f.every(v => v === 5)) win(); else if (!legal(S).length) say('stuck! try a new deal'); else say(); }
+  function win(){ say(`solved in ${moves} moves ✦`); if (reduce) return; busy = true;
+    // the old bouncing-cards finish
+    let k = 0, live = 0;
+    const launch = () => { if (k >= 20) return; const s = k % 4, n = 4 - (k/4|0); k++;
+      let x = FX(s+2), y = TOPY, vx = (Math.random() < .5 ? -1 : 1)*(1 + Math.random()*1.6), vy = -Math.random()*2, steps = 0;
+      const c = s*5 + n; const step = () => { vy += .32; x += vx; y += vy; if (y > 200 - H){ y = 200 - H; vy *= -.72; }
+        if (steps++ % 3 === 0 && fx.childNodes.length < 380){ const g = card(c, x, y); fx.appendChild(g); }
+        if (x > -W && x < 200 && steps < 400) requestAnimationFrame(step); else if (k >= 20 && !--live) done(); };
+      live++; requestAnimationFrame(step); setTimeout(launch, 260); };
+    const done = () => setTimeout(() => { fx.animate([{opacity:1}, {opacity:0}], {duration:600}).onfinish = () => { fx.innerHTML = ''; busy = false; }; }, 700);
+    launch(); }
+  function fresh(){ S = deal(); sel = null; moves = 0; busy = false; fx.innerHTML = ''; draw(); say(); }
+  root.querySelector('[data-k="new"]').addEventListener('click', fresh);
+  fresh();
 })();
 })();
