@@ -29,6 +29,8 @@ a{color:inherit}
 .nav nav{display:flex;gap:20px;align-items:center}
 .nav nav a{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .2s}
 .nav nav a:hover,.nav nav a[aria-current]{color:var(--mist)}
+/* four links on phones: the name already links home, so drop "Home" and tighten */
+@media (max-width:560px){.nav nav{gap:12px}.nav nav a{font-size:10px;letter-spacing:.1em}.nav nav a[href="../"]{display:none}}
 
 main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding-block:48px 72px;
   padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
