@@ -58,6 +58,14 @@ const N = {
       <div class="chips"><span>Node + Express</span><span>Vosk</span><span>Whisper</span><span>Llama 3.2 · Ollama</span><span>TimescaleDB</span><span>Grafana</span><span>Arduino</span><span>Vultr</span></div>
       <dl class="kv"><dt>prize</dt><dd><b>winner</b>, Project KAZE Challenge</dd><dt>team</dt><dd>with Jasmine Kumar &amp; George Farag</dd></dl>
       <div class="btns"><a class="btn" href="https://devpost.com/software/htv-b2k5st" target="_blank" rel="noopener">devpost ↗</a><a class="btn ghost" href="https://github.com/georgef166/HTVWinners" target="_blank" rel="noopener">repo ↗</a></div>`},
+  volu:{name:'volumetric display', d:[12,20], m:[29,14], type:'research', status:'award',
+    proj:{tech:['research','3D displays','Expo-sciences'], links:[]},
+    sum:'Research on volumetric displays; won the Prix Jeunesse en TI at Expo-sciences.',
+    html:`<span class="lab">research · award</span><h2>Volumetric displays</h2>
+      <p>A research project on <b>volumetric displays</b>: images that take up real 3D space, so you can walk around them instead of looking at a flat screen.</p>
+      <p>I presented it at the <b>Hydro-Québec Expo-sciences</b> to a panel of <b>10 judges</b> and won the <b>Prix Jeunesse en TI</b> from Réseau ACTION TI.</p>
+      <div class="chips"><span>research</span><span>3D displays</span><span>Expo-sciences</span></div>
+      <dl class="kv"><dt>when</dt><dd>Mar 2025</dd><dt>where</dt><dd>Gatineau, QC</dd><dt>prize</dt><dd><b>Prix Jeunesse en TI</b>, Réseau ACTION TI</dd></dl>`},
   hacks:{name:'hackathons', d:[84,80], m:[50,88], type:'events', status:'winner',
     sum:'Hack the Hill, then a win at Hack the Valley 11.',
     html:`<span class="lab">events</span><h2>Hackathons</h2>
@@ -94,7 +102,9 @@ const E = [
   ['htv','tenshi','built (and won) at Hack the Valley'],
   ['viralens','tenshi','both listen for trouble'],
   ['hacks','intern','where I learn fastest'],
-  ['uottawa','intern','co-op makes it possible']
+  ['uottawa','intern','co-op makes it possible'],
+  ['me','volu','a rabbit hole I took to the judges'],
+  ['volu','uottawa','the science fair came first']
 ];
 const ids = Object.keys(N);
 
@@ -406,7 +416,7 @@ document.getElementById('catalogue').addEventListener('click', e => { const li =
 document.getElementById('catalogue').addEventListener('keydown', e => { if (e.key==='Enter'){ const li = e.target.closest('li'); if (li) li.click(); } });
 
 
-const PROJ = ['tenshi','classmark','viralens','goal','book'].filter(id => N[id]);
+const PROJ = ['tenshi','classmark','viralens','goal','book','volu'].filter(id => N[id]);
 const pgrid = document.getElementById('pgrid');
 if (pgrid){
   pgrid.innerHTML = PROJ.map((id,i) => { const n = N[id], p = n.proj;
