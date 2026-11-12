@@ -347,4 +347,95 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   root.querySelector('[data-k="new"]').addEventListener('click', () => { if (!busy) fresh(); });
   fresh();
 })();
+/* ---------- solitaire: a pocket FreeCell, twenty cards ---------- */
+(() => {
+  const root = document.getElementById('v-sol'); if (!root) return;
+  const svg = root.querySelector('svg'), info = root.querySelector('.vinfo');
+  const d = defs(svg); glow(d, 'sg', 1.2);
+  const SU = ['♠', '♥', '♣', '♦'], RK = ['A', '2', '3', '4', '5'], W = 26, H = 36, GAP = 11;
+  const red = c => (c/5|0) % 2 === 1, rank = c => c % 5, suit = c => c/5|0;
+  const col = c => red(c) ? '#ffd9a8' : '#b8daff';
+  const COLX = [24, 66, 108, 150], TOPY = 10, COLY = 58;
+  let S, sel = null, moves = 0, busy = false;
+
+  // --- tiny solver so every deal can be won
+  const key = s => s.c.map(a => a.join(',')).join('|') + '/' + s.f.join('') + '/' + [...s.fc].sort().join(',');
+  const fits = (card, onto) => onto === undefined || (rank(onto) === rank(card) + 1 && red(onto) !== red(card));
+  function solvable(s){ const seen = new Set(); let n = 0;
+    const go = s => { if (s.f.every(v => v === 5)) return true; const k = key(s); if (seen.has(k) || ++n > 40000) return false; seen.add(k);
+      for (const m of legal(s)){ if (go(apply(s, m))) return true; } return false; };
+    return go(s); }
+  function legal(s){ const out = [], src = [];
+    s.c.forEach((a, i) => a.length && src.push({from:['c', i], card:a[a.length-1]}));
+    s.fc.forEach((c, i) => c >= 0 && src.push({from:['f', i], card:c}));
+    for (const m of src){ if (s.f[suit(m.card)] === rank(m.card)) out.push({...m, to:['h', suit(m.card)]}); }
+    for (const m of src){ s.c.forEach((a, i) => { if (m.from[0] === 'c' && m.from[1] === i) return; if (!a.length && m.from[0] === 'c' && s.c[m.from[1]].length === 1) return; if (fits(m.card, a[a.length-1])) out.push({...m, to:['c', i]}); });
+      if (m.from[0] === 'c'){ const e = s.fc.indexOf(-1); if (e >= 0) out.push({...m, to:['f', e]}); } }
+    return out; }
+  function apply(s, m){ const t = {c:s.c.map(a => a.slice()), fc:s.fc.slice(), f:s.f.slice()};
+    if (m.from[0] === 'c') t.c[m.from[1]].pop(); else t.fc[m.from[1]] = -1;
+    if (m.to[0] === 'h') t.f[m.to[1]]++; else if (m.to[0] === 'c') t.c[m.to[1]].push(m.card); else t.fc[m.to[1]] = m.card;
+    return t; }
+  function deal(){ for (let tries = 0; tries < 60; tries++){
+      const deck = [...Array(20).keys()]; for (let i = 19; i > 0; i--){ const j = Math.random()*(i+1)|0; [deck[i], deck[j]] = [deck[j], deck[i]]; }
+      const s = {c:[0, 1, 2, 3].map(i => deck.slice(i*5, i*5+5)), fc:[-1, -1], f:[0, 0, 0, 0]};
+      if (!legal(s).some(m => m.to[0] === 'h') && tries < 30) continue;       // a deal with no opening move feels dead
+      if (solvable(s)) return s; }
+    return {c:[[4, 13, 2, 11, 0], [19, 8, 17, 6, 15], [9, 18, 7, 16, 5], [14, 3, 12, 1, 10]], fc:[-1, -1], f:[0, 0, 0, 0]}; }
+
+  // --- drawing
+  const bg = el('g', {}, svg), cg = el('g', {}, svg), fx = el('g', {}, svg);
+  const slot = (x, y, label) => { el('rect', {x, y, width:W, height:H, rx:3.5, fill:'none', stroke:'#b8daff', 'stroke-opacity':.3, 'stroke-dasharray':'2 2.5'}, bg);
+    if (label){ const t = el('text', {x:x + W/2, y:y + H/2 + 3.5, 'text-anchor':'middle', 'font-size':10}, bg); t.textContent = label; t.style.fill = 'rgba(184,218,255,.3)'; } };
+  const FX = i => i < 2 ? 9 + i*30 : 76 + (i-2)*30;   // 2 cells left, 4 foundations right
+  for (let i = 0; i < 6; i++) slot(FX(i), TOPY, i < 2 ? '' : SU[i-2]);
+  COLX.forEach(x => slot(x, COLY, ''));
+  function card(c, x, y, at){ const g = el('g', {transform:`translate(${x} ${y})`, 'data-at':at || ''}, cg);
+    el('rect', {width:W, height:H, rx:3.5, fill:'#0d1e2e', stroke:col(c), 'stroke-opacity':.75, 'stroke-width':1}, g);
+    const t1 = el('text', {x:3.5, y:9.5, 'font-size':8}, g); t1.textContent = RK[rank(c)]; t1.style.fill = col(c); t1.style.letterSpacing = '0';
+    const t2 = el('text', {x:W - 3.5, y:9.5, 'font-size':7.5, 'text-anchor':'end'}, g); t2.textContent = SU[suit(c)]; t2.style.fill = col(c);
+    const t3 = el('text', {x:W/2, y:H - 7, 'font-size':13, 'text-anchor':'middle', filter:'url(#sg)'}, g); t3.textContent = SU[suit(c)]; t3.style.fill = col(c);
+    return g; }
+  function hit(x, y, w, h, at){ el('rect', {x, y, width:w, height:h, fill:'transparent', 'data-at':at}, cg); }
+  function draw(){ cg.innerHTML = '';
+    S.fc.forEach((c, i) => { hit(FX(i), TOPY, W, H, 'f' + i); if (c >= 0) card(c, FX(i), TOPY, 'f' + i); });
+    S.f.forEach((n, i) => { hit(FX(i+2), TOPY, W, H, 'h' + i); if (n) card(i*5 + n - 1, FX(i+2), TOPY, 'h' + i); });
+    S.c.forEach((a, i) => { const gap = a.length > 9 ? Math.min(GAP, (196 - COLY - H)/(a.length - 1)) : GAP;
+      hit(COLX[i] - 4, COLY, W + 8, 200 - COLY, 'c' + i);
+      a.forEach((c, k) => card(c, COLX[i], COLY + k*gap, 'c' + i)); });
+    if (sel){ const g = [...cg.querySelectorAll(`g[data-at="${sel}"]`)].pop(); if (g){ const r = g.querySelector('rect'); r.setAttribute('stroke', '#eaf4ff'); r.setAttribute('stroke-width', 2); r.setAttribute('stroke-opacity', 1); g.setAttribute('filter', 'url(#sg)'); } } }
+  const top = at => at[0] === 'c' ? S.c[+at[1]].slice(-1)[0] : at[0] === 'f' ? (S.fc[+at[1]] >= 0 ? S.fc[+at[1]] : undefined) : undefined;
+  const say = msg => info.textContent = msg || (moves ? `moves: ${moves}` : 'tap a card, then where it goes');
+  function tryMove(from, to){ const c = top(from); if (c === undefined) return false;
+    const m = legal(S).find(m => m.from[0] + m.from[1] === from && m.to[0] + m.to[1] === to);
+    if (!m) return false; S = apply(S, m); moves++; return true; }
+  function autoHome(){ let moved = true; while (moved){ moved = false;
+      for (const m of legal(S)) if (m.to[0] === 'h'){ const r = rank(m.card); // only send it home when nothing still needs it to build on
+        if (r <= 1 || S.f.every((v, i) => (i % 2) === (suit(m.card) % 2) || v >= r)){ S = apply(S, m); moved = true; break; } } } }
+  svg.addEventListener('click', e => { if (busy) return; const t = e.target.closest('[data-at]'); if (!t) return; const at = t.dataset.at;
+    if (!sel){ if (at[0] === 'h' || top(at) === undefined) return;
+      const c = top(at), home = 'h' + suit(c);                         // one tap sends it home when it can go
+      if (tryMove(at, home)){ autoHome(); draw(); after(); return; }
+      sel = at; draw(); return; }
+    const from = sel; sel = null;
+    if (from === at){ draw(); return; }
+    if (tryMove(from, at)){ autoHome(); draw(); after(); return; }
+    if (at[0] !== 'h' && top(at) !== undefined){ sel = at; draw(); say(); return; }
+    draw(); say("that card can't go there"); });
+  function after(){ if (S.f.every(v => v === 5)) win(); else if (!legal(S).length) say('stuck! try a new deal'); else say(); }
+  function win(){ say(`solved in ${moves} moves ✦`); if (reduce) return; busy = true;
+    // the old bouncing-cards finish
+    let k = 0, live = 0;
+    const launch = () => { if (k >= 20) return; const s = k % 4, n = 4 - (k/4|0); k++;
+      let x = FX(s+2), y = TOPY, vx = (Math.random() < .5 ? -1 : 1)*(1 + Math.random()*1.6), vy = -Math.random()*2, steps = 0;
+      const c = s*5 + n; const step = () => { vy += .32; x += vx; y += vy; if (y > 200 - H){ y = 200 - H; vy *= -.72; }
+        if (steps++ % 3 === 0 && fx.childNodes.length < 380){ const g = card(c, x, y); fx.appendChild(g); }
+        if (x > -W && x < 200 && steps < 400) requestAnimationFrame(step); else if (k >= 20 && !--live) done(); };
+      live++; requestAnimationFrame(step); setTimeout(launch, 260); };
+    const done = () => setTimeout(() => { fx.animate([{opacity:1}, {opacity:0}], {duration:600}).onfinish = () => { fx.innerHTML = ''; busy = false; }; }, 700);
+    launch(); }
+  function fresh(){ S = deal(); sel = null; moves = 0; busy = false; fx.innerHTML = ''; draw(); say(); }
+  root.querySelector('[data-k="new"]').addEventListener('click', fresh);
+  fresh();
+})();
 })();
