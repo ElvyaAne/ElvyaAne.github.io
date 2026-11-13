@@ -12,7 +12,7 @@ const N = {
   uottawa:{name:'uOttawa', d:[30,24], m:[24,28], type:'school', status:'Dean’s list',
     sum:'CS + Math, co-op program, CGPA 8.82/10, Dean’s Honour List.',
     html:`<span class="lab">school</span><h2>CS + Math</h2>
-      <p>Double-majoring in <b>computer science and mathematics</b> at the University of Ottawa, in the co-op program.</p>
+      <p>Joint honours in <b>computer science and mathematics</b> at the University of Ottawa, in the co-op program.</p>
       <dl class="kv"><dt>CGPA</dt><dd>8.82 / 10</dd><dt>honours</dt><dd>Dean's Honour List</dd><dt>this term</dt><dd>data structures &amp; algorithms, math, architecture</dd><dt>speaks</dt><dd>Python · C++ · Java · TypeScript · JavaScript · SQL · Verilog</dd></dl>`},
   classmark:{name:'Classmark', d:[13,48], m:[17,50], type:'web app', status:'live',
     proj:{tech:['Supabase','Vercel','auth-gated'], links:[['open','https://classmark.vercel.app']]},
@@ -92,7 +92,7 @@ const E = [
   ['uottawa','classmark','Classmark launched at uOttawa'],
   ['classmark','goal','both apps measure you honestly'],
   ['me','goal','I plan everything'],
-  ['uottawa','book','math major, systems brain'],
+  ['uottawa','book','half math, half systems brain'],
   ['book','leet','same muscles: C++ and data structures'],
   ['leet','intern','the grind has a destination'],
     ['me','viralens','my first ML rabbit hole'],
