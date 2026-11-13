@@ -67,13 +67,14 @@ const N = {
       <div class="chips"><span>research</span><span>3D displays</span><span>Expo-sciences</span></div>
       <dl class="kv"><dt>when</dt><dd>Mar 2025</dd><dt>where</dt><dd>Gatineau, QC</dd><dt>prize</dt><dd><b>Prix Jeunesse en TI</b>, Réseau ACTION TI</dd></dl>`},
   web:{name:'websites', d:[33,61], m:[52,32], type:'web design', status:'live',
-    proj:{tech:['design','responsive','Vercel'], links:[["Cecilia's site",'https://portfolio-website-cecilia-jammoul.vercel.app/']]},
-    sum:'I build websites for other people too, like Cecilia’s portfolio.',
+    proj:{tech:['design','responsive','Vercel'], links:[["Cecilia's site",'https://portfolio-website-cecilia-jammoul.vercel.app/'],["Stella's site",'https://stella-steinberg-portfolio.vercel.app/stella.html']]},
+    sum:'I build websites for other people too, like Cecilia’s and Stella’s portfolios.',
     html:`<span class="lab">web design · client work</span><h2>I build websites</h2>
-      <p>Not just my own: I also <b>design and build websites for other people</b>.</p>
-      <p>Example: <b>Cecilia Jammoul's portfolio</b>, an electrical engineering student at uOttawa. Her site runs on a radio theme: channels for each section, a "Vol. 1" masthead, and an "end of signal" footer.</p>
+      <p>Not just my own: I also <b>design and build websites for other people</b>, each with its own theme.</p>
+      <p><b>Cecilia Jammoul</b>, electrical engineering at uOttawa: a radio theme, with channels for each section, a "Vol. 1" masthead and an "end of signal" footer.</p>
+      <p><b>Stella Steinberg</b>, electrical engineering at uOttawa: an electronics bench, with oscilloscope readouts, datasheet tags and "designed to conduct" to sign off.</p>
       <div class="chips"><span>design</span><span>responsive</span><span>Vercel</span></div>
-      <div class="btns"><a class="btn" href="https://portfolio-website-cecilia-jammoul.vercel.app/" target="_blank" rel="noopener">Cecilia's site ↗</a></div>`},
+      <div class="btns"><a class="btn" href="https://portfolio-website-cecilia-jammoul.vercel.app/" target="_blank" rel="noopener">Cecilia's site ↗</a><a class="btn" href="https://stella-steinberg-portfolio.vercel.app/stella.html" target="_blank" rel="noopener">Stella's site ↗</a></div>`},
   hacks:{name:'hackathons', d:[84,80], m:[50,88], type:'events', status:'winner',
     sum:'Hack the Hill, then a win at Hack the Valley 11.',
     html:`<span class="lab">events</span><h2>Hackathons</h2>
