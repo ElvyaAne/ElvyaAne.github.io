@@ -438,4 +438,157 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   root.querySelector('[data-k="new"]').addEventListener('click', fresh);
   fresh();
 })();
+/* ---------- reading: a book you page through while the clock runs on ---------- */
+(() => {
+  const root = document.getElementById('v-read'); if (!root) return;
+  const svg = root.querySelector('svg'), info = root.querySelector('.vinfo');
+  const d = defs(svg); glow(d, 'rg', 1.6);
+  const PAGES = 12, X0 = 24, X1 = 176, MID = 100, Y0 = 52, Y1 = 158;
+  let spread = 0, turning = false;
+  // lamp glow behind the book
+  const lamp = el('radialGradient', {id:'lamp', cx:'.5', cy:'.4', r:'.55'}, d);
+  el('stop', {offset:'0', 'stop-color':'#ffd9a8', 'stop-opacity':'.16'}, lamp); el('stop', {offset:'1', 'stop-color':'#ffd9a8', 'stop-opacity':'0'}, lamp);
+  el('rect', {x:0, y:0, width:200, height:200, fill:'url(#lamp)'}, svg);
+  // a few stars that come out as the night goes on
+  const sky = el('g', {}, svg), stars = [];
+  for (let i = 0; i < 14; i++){ let x; do x = 12 + Math.random()*176; while (x > 64 && x < 136); const s = el('circle', {cx:x.toFixed(1), cy:(8 + Math.random()*34).toFixed(1), r:(.5 + Math.random()*.8).toFixed(2), fill:'#eaf4ff', opacity:0}, sky); stars.push(s); }
+  const clock = el('text', {x:100, y:26, 'text-anchor':'middle', 'font-size':9}, svg); clock.style.fill = '#b8daff';
+  const pageL = `M${MID} ${Y0 + 3}Q${(MID + X0)/2} ${Y0 - 4} ${X0} ${Y0}V${Y1}Q${(MID + X0)/2} ${Y1 - 4} ${MID} ${Y1 + 3}Z`;
+  const pageR = `M${MID} ${Y0 + 3}Q${(MID + X1)/2} ${Y0 - 4} ${X1} ${Y0}V${Y1}Q${(MID + X1)/2} ${Y1 - 4} ${MID} ${Y1 + 3}Z`;
+  const book = el('g', {}, svg);
+  el('path', {d:`M${X0 - 4} ${Y0 + 2}V${Y1 + 4}Q${(MID + X0)/2} ${Y1} ${MID} ${Y1 + 8}Q${(MID + X1)/2} ${Y1} ${X1 + 4} ${Y1 + 4}V${Y0 + 2}`, fill:'none', stroke:'#b8daff', 'stroke-opacity':.45, 'stroke-width':1.2}, book);
+  const L = el('g', {'data-side':'L'}, book), R = el('g', {'data-side':'R'}, book), flipG = el('g', {}, svg);
+  const paper = {fill:'#0d1e2e', stroke:'#b8daff', 'stroke-opacity':.7, 'stroke-width':1};
+  // made-up "text": rows of soft dashes, seeded per page so a page always looks the same
+  const rng = seed => () => (seed = (seed*9301 + 49297) % 233280) / 233280;
+  function lines(g, side, n){ const r = rng(n*7 + 3), x0 = side === 'L' ? X0 + 9 : MID + 8, w = MID - X0 - 17;
+    if (n === 0 && side === 'L'){ icon(g, (X0 + MID)/2, 88, 1.3); const t = el('text', {x:(X0 + MID)/2, y:116, 'text-anchor':'middle', 'font-size':8}, g); t.textContent = 'chapter one'; t.style.fill = '#eaf4ff'; t.style.fontFamily = 'Fraunces, Georgia, serif'; t.style.fontStyle = 'italic'; t.style.letterSpacing = '0'; return; }
+    const pic = n % 5 === 3;
+    for (let y = Y0 + 12, k = 0; y < Y1 - 12; y += 7, k++){
+      if (pic && y > 78 && y < 118){ if (y < 86) drawPic(g, x0 + w/2, 98, n); continue; }
+      const len = k === 0 && n % 2 ? w*.6 : (r() < .12 ? w*(.35 + r()*.3) : w*(.86 + r()*.14));
+      el('rect', {x:(x0 + (k === 0 && n % 2 ? w*.4 : 0)).toFixed(1), y, width:len.toFixed(1), height:1.6, rx:.8, fill:'#b8daff', opacity:.42}, g); }
+    const pn = el('text', {x:side === 'L' ? X0 + 9 : X1 - 9, y:Y1 - 5, 'text-anchor':side === 'L' ? 'start' : 'end', 'font-size':6}, g); pn.textContent = n + 1; pn.style.fill = 'rgba(184,218,255,.55)'; }
+  let genre = 'romance';
+  const GENRE = {romance:'a romance', scifi:'some sci-fi', lesmis:'Les Misérables'};
+  function icon(g, cx, cy, k){ const p = el('g', {transform:`translate(${cx} ${cy}) scale(${k})`, filter:'url(#rg)'}, g);
+    const S = at => el('path', {fill:'none', stroke:'#ffd9a8', 'stroke-width':1.1, 'stroke-linecap':'round', 'stroke-linejoin':'round', ...at}, p);
+    if (genre === 'romance') S({d:'M0 9C-12 1-10-9-4-8C-2-8 0-6 0-4C0-6 2-8 4-8C10-9 12 1 0 9Z', fill:'rgba(255,217,168,.2)'});
+    else if (genre === 'scifi'){ el('circle', {r:6.5, fill:'rgba(184,218,255,.18)', stroke:'#b8daff', 'stroke-width':1.1}, p);
+      S({d:'M-13 3Q0 -4 13 -3', stroke:'#ffd9a8'}); el('circle', {cx:11, cy:-9, r:.9, fill:'#eaf4ff'}, p); el('circle', {cx:-10, cy:-7, r:.7, fill:'#eaf4ff'}, p); }
+    else { S({d:'M-6 10H6M-4 10L-2 4H2L4 10M0 4V-3M-3 -3H3', stroke:'#b8daff'}); // a candlestick, lit
+      S({d:'M0 -5Q-2.5 -8 0 -12Q2.5 -8 0 -5Z', fill:'#ffd9a8'}); } }
+  const drawPic = (g, cx, cy) => icon(g, cx, cy, 1.1);
+  const time = s => { const m = 22*60 + 30 + s*26, h = (m/60|0) % 24, mm = m % 60; return `${(h % 12) || 12}:${String(mm).padStart(2, '0')} ${h >= 12 && h < 24 ? 'pm' : 'am'}`; };
+  const QUIPS = ['', '', 'one more chapter', '', 'okay, one more', '', 'just to the end of this one', '', '', 'it\'s getting good', ''];
+  function draw(){ L.innerHTML = ''; R.innerHTML = '';
+    el('path', {d:pageL, ...paper}, L); el('path', {d:pageR, ...paper}, R);
+    lines(L, 'L', spread*2); if (spread*2 + 1 < PAGES - 1) lines(R, 'R', spread*2 + 1);
+    else { const t = el('text', {x:(MID + X1)/2, y:104, 'text-anchor':'middle', 'font-size':8}, R); t.textContent = 'the end ✦'; t.style.fill = '#ffd9a8'; t.style.fontFamily = 'Fraunces, Georgia, serif'; t.style.fontStyle = 'italic'; t.style.letterSpacing = '0'; }
+    clock.textContent = time(spread);
+    stars.forEach((s, i) => s.setAttribute('opacity', i < spread*2.8 ? .8 : 0));
+    const end = spread*2 + 2 >= PAGES;
+    info.textContent = end ? `finished at ${time(spread)}. worth it` : spread === 0 ? `tonight: ${GENRE[genre]}. tap the right page` : QUIPS[spread] || `page ${spread*2 + 1} of ${PAGES}`; }
+  function turn(dir){ if (turning) return; const next = spread + dir; if (next < 0 || next*2 >= PAGES) return;
+    if (reduce){ spread = next; draw(); return; }
+    turning = true; const fp = el('path', {d:dir > 0 ? pageR : pageL, ...paper}, flipG); const t0 = performance.now(), dur = 520;
+    const step = now => { const k = Math.min(1, (now - t0)/dur), e = k < .5 ? 2*k*k : 1 - Math.pow(-2*k + 2, 2)/2, sx = Math.cos(e*Math.PI);
+      fp.setAttribute('transform', `translate(${MID} 0) scale(${sx.toFixed(3)} 1) translate(${-MID} 0)`);
+      fp.setAttribute('fill', Math.abs(sx) < .15 ? '#16304a' : '#0d1e2e');
+      if (k >= .5 && spread !== next){ spread = next; draw(); }
+      if (k < 1) requestAnimationFrame(step); else { fp.remove(); turning = false; } };
+    requestAnimationFrame(step); }
+  svg.addEventListener('click', e => { const s = e.target.closest('[data-side]'); if (!s) return; turn(s.dataset.side === 'R' ? 1 : -1); });
+  root.querySelector('[data-k="new"]').addEventListener('click', () => { if (!turning){ spread = 0; draw(); } });
+  root.querySelectorAll('.vchips [data-k]').forEach(b => b.addEventListener('click', () => { if (turning) return;
+    root.querySelectorAll('.vchips [data-k]').forEach(x => x.setAttribute('aria-pressed', x === b)); genre = b.dataset.k; spread = 0; draw(); }));
+  draw();
+})();
+/* ---------- musicals: a little stage, pick a show and the curtain goes up ---------- */
+(() => {
+  const root = document.getElementById('v-stage'); if (!root) return;
+  const svg = root.querySelector('svg'), info = root.querySelector('.vinfo');
+  const d = defs(svg); glow(d, 'mg', 1.6); glow(d, 'mb', 1);
+  const SHOWS = {
+    hamilton:   {name:'Hamilton',    light:'#f2c14e'},
+    heathers:   {name:'Heathers',    light:'#ff5a5f'},
+    meangirls:  {name:'Mean Girls',  light:'#ff7eb9'},
+    beetlejuice:{name:'Beetlejuice', light:'#8fe36b'},
+    six:        {name:'Six',         light:'#d36bff'}};
+  const L = 16, R = 184, TOP = 46, FLOOR = 164, MID = 100;
+  // marquee with chasing bulbs
+  el('rect', {x:34, y:8, width:132, height:28, rx:6, fill:'#0d1e2e', stroke:'#b8daff', 'stroke-opacity':.6}, svg);
+  const bulbs = [];
+  for (let x = 40; x <= 160; x += 8){ bulbs.push(el('circle', {cx:x, cy:12, r:1.2, fill:'#ffd9a8'}, svg)); }
+  for (let x = 160; x >= 40; x -= 8){ bulbs.push(el('circle', {cx:x, cy:32, r:1.2, fill:'#ffd9a8'}, svg)); }
+  const title = el('text', {x:MID, y:26, 'text-anchor':'middle', 'font-size':11, filter:'url(#mb)'}, svg);
+  title.style.fill = '#eaf4ff'; title.style.fontFamily = 'Fraunces, Georgia, serif'; title.style.fontStyle = 'italic'; title.style.letterSpacing = '0';
+  // stage: arch, floor, spotlight
+  el('path', {d:`M${L} ${FLOOR + 10}V${TOP + 10}Q${L} ${TOP} ${L + 10} ${TOP}H${R - 10}Q${R} ${TOP} ${R} ${TOP + 10}V${FLOOR + 10}`, fill:'none', stroke:'#b8daff', 'stroke-opacity':.55, 'stroke-width':1.4}, svg);
+  el('line', {x1:L, y1:FLOOR, x2:R, y2:FLOOR, stroke:'#b8daff', 'stroke-opacity':.4}, svg);
+  for (let x = L + 8; x < R; x += 12) el('line', {x1:x, y1:FLOOR, x2:MID + (x - MID)*1.25, y2:FLOOR + 10, stroke:'#b8daff', 'stroke-opacity':.12}, svg);
+  const beam = el('path', {d:`M${MID - 6} ${TOP}L${MID - 46} ${FLOOR}H${MID + 46}L${MID + 6} ${TOP}Z`, opacity:0}, svg);
+  const pool = el('ellipse', {cx:MID, cy:FLOOR, rx:48, ry:6, opacity:0}, svg);
+  const back = el('g', {}, svg), prop = el('g', {filter:'url(#mg)'}, svg), fx = el('g', {}, svg);
+  // curtains: drawn closed, opened by squeezing them toward the sides
+  const curtain = side => { const g = el('g', {}, svg), x0 = side < 0 ? L + 1 : MID, w = MID - L - 1;
+    el('rect', {x:x0, y:TOP + 1, width:w, height:FLOOR - TOP + 8, fill:'#1b3552'}, g);
+    for (let k = 1; k < 7; k++) el('line', {x1:x0 + k*w/7, y1:TOP + 2, x2:x0 + k*w/7, y2:FLOOR + 8, stroke:'#b8daff', 'stroke-opacity':.22}, g);
+    el('rect', {x:x0, y:TOP + 1, width:w, height:FLOOR - TOP + 8, fill:'none', stroke:'#b8daff', 'stroke-opacity':.45}, g);
+    return g; };
+  const CL = curtain(-1), CR = curtain(1);
+  el('path', {d:`M${L} ${TOP + 1}H${R}V${TOP + 9}Q${MID} ${TOP + 15} ${L} ${TOP + 9}Z`, fill:'#1b3552', stroke:'#b8daff', 'stroke-opacity':.45}, svg); // valance
+  const setOpen = k => { const s = 1 - .84*k;       // k: 0 closed, 1 open
+    CL.setAttribute('transform', `translate(${L} 0) scale(${s.toFixed(3)} 1) translate(${-L} 0)`);
+    CR.setAttribute('transform', `translate(${R} 0) scale(${s.toFixed(3)} 1) translate(${-R} 0)`); };
+  const S = (tag, at, g = prop) => el(tag, {fill:'none', stroke:'#eaf4ff', 'stroke-width':1.4, 'stroke-linecap':'round', 'stroke-linejoin':'round', ...at}, g);
+  const crown = (x, y, s, c, gem) => { S('path', {d:`M${x - 7*s} ${y + 4*s}L${x - 8*s} ${y - 4*s}L${x - 4*s} ${y}L${x} ${y - 6*s}L${x + 4*s} ${y}L${x + 8*s} ${y - 4*s}L${x + 7*s} ${y + 4*s}Z`, stroke:c, fill:'rgba(242,193,78,.18)'});
+    el('circle', {cx:x, cy:y + 1.2*s, r:1.7*s, fill:gem}, prop); };
+  const PROPS = {
+    hamilton(){ // gold and black: a quill in a dark inkpot, and one gold star
+      S('path', {d:'M92 150h22l-3-14h-16z', fill:'#0b0f16', stroke:'#f2c14e'});
+      S('path', {d:'M103 137L128 82Q134 92 124 108Q118 120 106 134', stroke:'#f2c14e', fill:'rgba(242,193,78,.15)'});
+      S('path', {d:'M128 82Q114 96 108 128', stroke:'#c98f2a', 'stroke-width':.8});
+      S('path', {d:'M78 84l2 5 5 .5-4 3 1.5 5-4.5-3-4.5 3 1.5-5-4-3 5-.5z', fill:'#f2c14e', stroke:'#f2c14e', 'stroke-width':.6}); },
+    heathers(){ // a red, a green and a yellow mallet, and a blue ball
+      [[-22, -14, '#ff4d4d'], [0, 0, '#3fcf6b'], [22, 14, '#ffd84d']].forEach(([dx, a, c]) => { const g = el('g', {transform:`translate(${100 + dx} 152) rotate(${a})`}, prop);
+        S('line', {x1:0, y1:0, x2:0, y2:-58, stroke:'#e9dcc8'}, g); S('rect', {x:-9, y:-64, width:18, height:7, rx:2, fill:c, stroke:c}, g); });
+      S('circle', {cx:136, cy:156, r:5, fill:'#4d8dff', stroke:'#4d8dff'}); },
+    meangirls(){ // all pink: a notebook with a heart on the cover
+      S('rect', {x:76, y:96, width:48, height:58, rx:3, fill:'rgba(255,126,185,.25)', stroke:'#ff7eb9'});
+      S('line', {x1:82, y1:96, x2:82, y2:154, stroke:'#ff7eb9', 'stroke-width':.8});
+      S('path', {d:'M103 135C90 126 92 114 100 116C102 116 103 118 103 119C103 118 104 116 106 116C114 114 116 126 103 135Z', fill:'#ff4fa0', stroke:'#ff4fa0'}); },
+    beetlejuice(){ // black and white stripes, a green-glowing ghost with a purple grin
+      for (let x = 22; x < 180; x += 12) el('rect', {x, y:TOP + 12, width:6, height:FLOOR - TOP - 12, fill:'#f4f4f4', opacity:.22}, back);
+      S('path', {d:'M84 150V112Q84 92 100 92Q116 92 116 112V150l-5-6-5 6-6-6-5 6-5-6z', fill:'rgba(143,227,107,.18)', stroke:'#8fe36b'});
+      S('circle', {cx:94, cy:112, r:2.2, fill:'#111', stroke:'#8fe36b'}); S('circle', {cx:106, cy:112, r:2.2, fill:'#111', stroke:'#8fe36b'});
+      S('path', {d:'M95 122q5 4 10 0', 'stroke-width':1.2, stroke:'#b07cff'}); },
+    six(){ // six gold crowns, each with its own coloured jewel
+      const gems = ['#ff4d6d', '#ff9f1c', '#ffe14d', '#3fd17a', '#3fa7ff', '#b26bff'];
+      for (let i = 0; i < 6; i++){ const x = 100 + Math.cos(Math.PI*(1 - (i + .5)/6))*-52, y = 140 - Math.sin(Math.PI*((i + .5)/6))*30;
+        crown(x, y, 1.1, '#f2c14e', gems[i]); } }};
+  let cur = null, busy = false, t = 0;
+  function dress(k){ prop.innerHTML = ''; back.innerHTML = ''; fx.innerHTML = ''; PROPS[k](); const c = SHOWS[k].light;
+    beam.setAttribute('fill', c); pool.setAttribute('fill', c); title.textContent = SHOWS[k].name; }
+  const tween = (from, to, ms, fn) => new Promise(res => { if (reduce){ fn(to); return res(); } const t0 = performance.now();
+    const step = now => { const k = Math.min(1, (now - t0)/ms), e = k < .5 ? 2*k*k : 1 - Math.pow(-2*k + 2, 2)/2; fn(from + (to - from)*e); k < 1 ? requestAnimationFrame(step) : res(); };
+    requestAnimationFrame(step); });
+  const light = k => { beam.setAttribute('opacity', (.13*k).toFixed(3)); pool.setAttribute('opacity', (.22*k).toFixed(3)); };
+  async function show(k){ if (busy || k === cur) return; busy = true;
+    if (cur) await tween(1, 0, 420, v => { setOpen(v); light(v); });
+    cur = k; dress(k); info.textContent = `now showing: ${SHOWS[k].name}`;
+    await tween(0, 1, 900, v => { setOpen(v); light(v); }); busy = false; }
+  // applause when you tap the stage
+  svg.addEventListener('click', () => { if (!cur || busy) return; info.textContent = 'bravo! ✦';
+    for (let i = 0; i < 9; i++){ const s = el('text', {x:(40 + Math.random()*120).toFixed(1), y:FLOOR - 4, 'text-anchor':'middle', 'font-size':(5 + Math.random()*5).toFixed(1)}, fx); s.textContent = '✦'; s.style.fill = i % 2 ? '#ffd9a8' : '#eaf4ff';
+      if (!reduce) s.animate([{transform:'translateY(0)', opacity:1}, {transform:`translateY(${-60 - Math.random()*50}px)`, opacity:0}], {duration:900 + Math.random()*700, easing:'ease-out', fill:'forwards'}).onfinish = () => s.remove(); else setTimeout(() => s.remove(), 600); }
+    setTimeout(() => { if (cur) info.textContent = `now showing: ${SHOWS[cur].name}`; }, 1600); });
+  chips(root, show);
+  // marquee bulbs chase while it's on screen
+  const vis = onScreen(svg, () => requestAnimationFrame(tick));
+  function tick(){ if (!vis()) return; t++; if (t % 6 === 0) bulbs.forEach((b, i) => b.setAttribute('opacity', (i + (t/6|0)) % 3 ? .35 : 1)); if (!reduce) requestAnimationFrame(tick); }
+  setOpen(0); dress('hamilton'); title.textContent = 'tonight'; light(0);
+  if (reduce) bulbs.forEach(b => b.setAttribute('opacity', .8));
+  setTimeout(() => show('hamilton'), 400);
+})();
 })();
