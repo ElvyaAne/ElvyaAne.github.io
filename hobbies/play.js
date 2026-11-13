@@ -510,11 +510,11 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   const svg = root.querySelector('svg'), info = root.querySelector('.vinfo');
   const d = defs(svg); glow(d, 'mg', 1.6); glow(d, 'mb', 1);
   const SHOWS = {
-    hamilton:   {name:'Hamilton',    light:'#ffd9a8'},
-    heathers:   {name:'Heathers',    light:'#d9c8ff'},
-    meangirls:  {name:'Mean Girls',  light:'#d9c8ff'},
-    beetlejuice:{name:'Beetlejuice', light:'#b8daff'},
-    six:        {name:'Six',         light:'#ffd9a8'}};
+    hamilton:   {name:'Hamilton',    light:'#f2c14e'},
+    heathers:   {name:'Heathers',    light:'#ff5a5f'},
+    meangirls:  {name:'Mean Girls',  light:'#ff7eb9'},
+    beetlejuice:{name:'Beetlejuice', light:'#8fe36b'},
+    six:        {name:'Six',         light:'#d36bff'}};
   const L = 16, R = 184, TOP = 46, FLOOR = 164, MID = 100;
   // marquee with chasing bulbs
   el('rect', {x:34, y:8, width:132, height:28, rx:6, fill:'#0d1e2e', stroke:'#b8daff', 'stroke-opacity':.6}, svg);
@@ -542,29 +542,31 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
     CL.setAttribute('transform', `translate(${L} 0) scale(${s.toFixed(3)} 1) translate(${-L} 0)`);
     CR.setAttribute('transform', `translate(${R} 0) scale(${s.toFixed(3)} 1) translate(${-R} 0)`); };
   const S = (tag, at, g = prop) => el(tag, {fill:'none', stroke:'#eaf4ff', 'stroke-width':1.4, 'stroke-linecap':'round', 'stroke-linejoin':'round', ...at}, g);
-  const crown = (x, y, s, c) => S('path', {d:`M${x - 7*s} ${y + 4*s}L${x - 8*s} ${y - 4*s}L${x - 4*s} ${y}L${x} ${y - 6*s}L${x + 4*s} ${y}L${x + 8*s} ${y - 4*s}L${x + 7*s} ${y + 4*s}Z`, stroke:c, fill:'rgba(255,217,168,.12)'});
+  const crown = (x, y, s, c, gem) => { S('path', {d:`M${x - 7*s} ${y + 4*s}L${x - 8*s} ${y - 4*s}L${x - 4*s} ${y}L${x} ${y - 6*s}L${x + 4*s} ${y}L${x + 8*s} ${y - 4*s}L${x + 7*s} ${y + 4*s}Z`, stroke:c, fill:'rgba(242,193,78,.18)'});
+    el('circle', {cx:x, cy:y + 1.2*s, r:1.7*s, fill:gem}, prop); };
   const PROPS = {
-    hamilton(){ // a quill in an inkpot, and one bright star
-      S('path', {d:'M92 150h22l-3-14h-16z', fill:'rgba(184,218,255,.12)'});
-      S('path', {d:'M103 137L128 82Q134 92 124 108Q118 120 106 134', stroke:'#ffd9a8'});
-      S('path', {d:'M128 82Q114 96 108 128', stroke:'#ffd9a8', 'stroke-width':.8});
-      S('path', {d:'M78 84l2 5 5 .5-4 3 1.5 5-4.5-3-4.5 3 1.5-5-4-3 5-.5z', fill:'#ffd9a8', stroke:'#ffd9a8', 'stroke-width':.6}); },
-    heathers(){ // three croquet mallets and a ball
-      [[-22, -14], [0, 0], [22, 14]].forEach(([dx, a]) => { const g = el('g', {transform:`translate(${100 + dx} 152) rotate(${a})`}, prop);
-        S('line', {x1:0, y1:0, x2:0, y2:-58}, g); S('rect', {x:-9, y:-64, width:18, height:7, rx:2, fill:'rgba(217,200,255,.18)', stroke:'#d9c8ff'}, g); });
-      S('circle', {cx:136, cy:156, r:5, fill:'rgba(217,200,255,.25)', stroke:'#d9c8ff'}); },
-    meangirls(){ // a closed notebook with a heart on the cover
-      S('rect', {x:76, y:96, width:48, height:58, rx:3, fill:'rgba(217,200,255,.14)', stroke:'#d9c8ff'});
-      S('line', {x1:82, y1:96, x2:82, y2:154, stroke:'#d9c8ff', 'stroke-width':.8});
-      S('path', {d:'M103 135C90 126 92 114 100 116C102 116 103 118 103 119C103 118 104 116 106 116C114 114 116 126 103 135Z', fill:'#d9c8ff', stroke:'#d9c8ff'}); },
-    beetlejuice(){ // a striped backdrop and a small friendly ghost
-      for (let x = 34; x < 168; x += 12) el('rect', {x, y:TOP + 12, width:6, height:FLOOR - TOP - 12, fill:'#eaf4ff', opacity:.08}, back);
-      S('path', {d:'M84 150V112Q84 92 100 92Q116 92 116 112V150l-5-6-5 6-6-6-5 6-5-6z', fill:'rgba(234,244,255,.12)'});
-      S('circle', {cx:94, cy:112, r:2.2, fill:'#eaf4ff'}); S('circle', {cx:106, cy:112, r:2.2, fill:'#eaf4ff'});
-      S('path', {d:'M95 122q5 4 10 0', 'stroke-width':1}); },
-    six(){ // six crowns in an arc
+    hamilton(){ // gold and black: a quill in a dark inkpot, and one gold star
+      S('path', {d:'M92 150h22l-3-14h-16z', fill:'#0b0f16', stroke:'#f2c14e'});
+      S('path', {d:'M103 137L128 82Q134 92 124 108Q118 120 106 134', stroke:'#f2c14e', fill:'rgba(242,193,78,.15)'});
+      S('path', {d:'M128 82Q114 96 108 128', stroke:'#c98f2a', 'stroke-width':.8});
+      S('path', {d:'M78 84l2 5 5 .5-4 3 1.5 5-4.5-3-4.5 3 1.5-5-4-3 5-.5z', fill:'#f2c14e', stroke:'#f2c14e', 'stroke-width':.6}); },
+    heathers(){ // a red, a green and a yellow mallet, and a blue ball
+      [[-22, -14, '#ff4d4d'], [0, 0, '#3fcf6b'], [22, 14, '#ffd84d']].forEach(([dx, a, c]) => { const g = el('g', {transform:`translate(${100 + dx} 152) rotate(${a})`}, prop);
+        S('line', {x1:0, y1:0, x2:0, y2:-58, stroke:'#e9dcc8'}, g); S('rect', {x:-9, y:-64, width:18, height:7, rx:2, fill:c, stroke:c}, g); });
+      S('circle', {cx:136, cy:156, r:5, fill:'#4d8dff', stroke:'#4d8dff'}); },
+    meangirls(){ // all pink: a notebook with a heart on the cover
+      S('rect', {x:76, y:96, width:48, height:58, rx:3, fill:'rgba(255,126,185,.25)', stroke:'#ff7eb9'});
+      S('line', {x1:82, y1:96, x2:82, y2:154, stroke:'#ff7eb9', 'stroke-width':.8});
+      S('path', {d:'M103 135C90 126 92 114 100 116C102 116 103 118 103 119C103 118 104 116 106 116C114 114 116 126 103 135Z', fill:'#ff4fa0', stroke:'#ff4fa0'}); },
+    beetlejuice(){ // black and white stripes, a green-glowing ghost with a purple grin
+      for (let x = 22; x < 180; x += 12) el('rect', {x, y:TOP + 12, width:6, height:FLOOR - TOP - 12, fill:'#f4f4f4', opacity:.22}, back);
+      S('path', {d:'M84 150V112Q84 92 100 92Q116 92 116 112V150l-5-6-5 6-6-6-5 6-5-6z', fill:'rgba(143,227,107,.18)', stroke:'#8fe36b'});
+      S('circle', {cx:94, cy:112, r:2.2, fill:'#111', stroke:'#8fe36b'}); S('circle', {cx:106, cy:112, r:2.2, fill:'#111', stroke:'#8fe36b'});
+      S('path', {d:'M95 122q5 4 10 0', 'stroke-width':1.2, stroke:'#b07cff'}); },
+    six(){ // six gold crowns, each with its own coloured jewel
+      const gems = ['#ff4d6d', '#ff9f1c', '#ffe14d', '#3fd17a', '#3fa7ff', '#b26bff'];
       for (let i = 0; i < 6; i++){ const x = 100 + Math.cos(Math.PI*(1 - (i + .5)/6))*-52, y = 140 - Math.sin(Math.PI*((i + .5)/6))*30;
-        crown(x, y, 1, i % 2 ? '#eaf4ff' : '#ffd9a8'); } }};
+        crown(x, y, 1.1, '#f2c14e', gems[i]); } }};
   let cur = null, busy = false, t = 0;
   function dress(k){ prop.innerHTML = ''; back.innerHTML = ''; fx.innerHTML = ''; PROPS[k](); const c = SHOWS[k].light;
     beam.setAttribute('fill', c); pool.setAttribute('fill', c); title.textContent = SHOWS[k].name; }
