@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..600,100,1;1,9..144,300..600,100,1&family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="../notes/notes.css?v=9">
-<link rel="stylesheet" href="hobbies.css?v=10">
+<link rel="stylesheet" href="hobbies.css?v=11">
 </head><body>
 <canvas id="night" aria-hidden="true"></canvas>
 <header class="nav">
@@ -135,12 +135,27 @@
         <div>
           <span class="lab">hobby · books</span>
           <h3>Reading</h3>
-          <p>I like to read a lot, whenever I can find the time.</p>
-          <p class="tryit">Turn the pages and keep an eye on the clock.</p>
+          <p>I like to read a lot, whenever I can find the time, and across all kinds of genres, from romance to science fiction.</p>
+          <p>One of my favourite books is probably <b>Les Misérables</b>.</p>
+          <p class="tryit">Pick a book, turn the pages and keep an eye on the clock.</p>
         </div>
         <div class="viz" id="v-read">
-          <div class="vbar"><button type="button" class="vbtn" data-k="new">start over ↺</button></div>
+          <div class="vbar"><div class="vchips" role="group" aria-label="Kind of book"><button type="button" data-k="romance" aria-pressed="true">romance</button><button type="button" data-k="scifi" aria-pressed="false">sci-fi</button><button type="button" data-k="lesmis" aria-pressed="false">Les Mis</button></div><button type="button" class="vbtn ghost" data-k="new">start over ↺</button></div>
           <div class="vbox"><svg viewBox="0 0 200 200" role="img" aria-label="An open book whose pages turn while a clock runs late into the night"></svg></div>
+          <span class="lab vinfo" role="status"></span>
+        </div>
+      </article>
+      <article class="hc flip">
+        <div>
+          <span class="lab">hobby · theatre</span>
+          <h3>Musicals</h3>
+          <p>I love musicals because they mix everything: singing, dancing and a story.</p>
+          <p>My favourites are <b>Hamilton</b>, <b>Heathers</b>, <b>Mean Girls</b>, <b>Beetlejuice</b> and <b>Six</b>.</p>
+          <p class="tryit">Pick a show and the curtain goes up. Tap the stage to applaud.</p>
+        </div>
+        <div class="viz" id="v-stage">
+          <div class="vbar"><div class="vchips" role="group" aria-label="Musical"><button type="button" data-k="hamilton" aria-pressed="true">Hamilton</button><button type="button" data-k="heathers" aria-pressed="false">Heathers</button><button type="button" data-k="meangirls" aria-pressed="false">Mean Girls</button><button type="button" data-k="beetlejuice" aria-pressed="false">Beetlejuice</button><button type="button" data-k="six" aria-pressed="false">Six</button></div></div>
+          <div class="vbox"><svg viewBox="0 0 200 200" role="img" aria-label="A small stage whose curtain opens on the chosen musical"></svg></div>
           <span class="lab vinfo" role="status"></span>
         </div>
       </article>
@@ -148,6 +163,6 @@
 </main>
 <footer>© 2026 Elvya Ané · off the clock</footer>
 <script src="hobbies.js?v=2"></script>
-<script src="play.js?v=9"></script>
+<script src="play.js?v=11"></script>
 <script src="../js/scrolldot.js"></script>
 </body></html>
