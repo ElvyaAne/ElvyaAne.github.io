@@ -66,6 +66,14 @@ const N = {
       <p>I presented it at the <b>Hydro-Québec Expo-sciences</b> to a panel of <b>10 judges</b> and won the <b>Prix Jeunesse en TI</b> from Réseau ACTION TI.</p>
       <div class="chips"><span>research</span><span>3D displays</span><span>Expo-sciences</span></div>
       <dl class="kv"><dt>when</dt><dd>Mar 2025</dd><dt>where</dt><dd>Gatineau, QC</dd><dt>prize</dt><dd><b>Prix Jeunesse en TI</b>, Réseau ACTION TI</dd></dl>`},
+  web:{name:'websites', d:[33,61], m:[52,32], type:'web design', status:'live',
+    proj:{tech:['design','responsive','Vercel'], links:[["Cecilia's site",'https://portfolio-website-cecilia-jammoul.vercel.app/']]},
+    sum:'I build websites for other people too, like Cecilia’s portfolio.',
+    html:`<span class="lab">web design · client work</span><h2>I build websites</h2>
+      <p>Not just my own: I also <b>design and build websites for other people</b>.</p>
+      <p>Example: <b>Cecilia Jammoul's portfolio</b>, an electrical engineering student at uOttawa. Her site runs on a radio theme: channels for each section, a "Vol. 1" masthead, and an "end of signal" footer.</p>
+      <div class="chips"><span>design</span><span>responsive</span><span>Vercel</span></div>
+      <div class="btns"><a class="btn" href="https://portfolio-website-cecilia-jammoul.vercel.app/" target="_blank" rel="noopener">Cecilia's site ↗</a></div>`},
   hacks:{name:'hackathons', d:[84,80], m:[50,88], type:'events', status:'winner',
     sum:'Hack the Hill, then a win at Hack the Valley 11.',
     html:`<span class="lab">events</span><h2>Hackathons</h2>
@@ -104,7 +112,9 @@ const E = [
   ['hacks','intern','where I learn fastest'],
   ['uottawa','intern','co-op makes it possible'],
   ['me','volu','a rabbit hole I took to the judges'],
-  ['volu','uottawa','the science fair came first']
+  ['volu','uottawa','the science fair came first'],
+  ['me','web','I make sites for people too'],
+  ['web','classmark','both live on the web']
 ];
 const ids = Object.keys(N);
 
@@ -416,7 +426,7 @@ document.getElementById('catalogue').addEventListener('click', e => { const li =
 document.getElementById('catalogue').addEventListener('keydown', e => { if (e.key==='Enter'){ const li = e.target.closest('li'); if (li) li.click(); } });
 
 
-const PROJ = ['tenshi','classmark','viralens','goal','book','volu'].filter(id => N[id]);
+const PROJ = ['tenshi','classmark','viralens','goal','book','volu','web'].filter(id => N[id]);
 const pgrid = document.getElementById('pgrid');
 if (pgrid){
   pgrid.innerHTML = PROJ.map((id,i) => { const n = N[id], p = n.proj;
