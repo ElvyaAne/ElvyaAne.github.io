@@ -438,4 +438,62 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   root.querySelector('[data-k="new"]').addEventListener('click', fresh);
   fresh();
 })();
+/* ---------- reading: a book you page through while the clock runs on ---------- */
+(() => {
+  const root = document.getElementById('v-read'); if (!root) return;
+  const svg = root.querySelector('svg'), info = root.querySelector('.vinfo');
+  const d = defs(svg); glow(d, 'rg', 1.6);
+  const PAGES = 12, X0 = 24, X1 = 176, MID = 100, Y0 = 52, Y1 = 158;
+  let spread = 0, turning = false;
+  // lamp glow behind the book
+  const lamp = el('radialGradient', {id:'lamp', cx:'.5', cy:'.4', r:'.55'}, d);
+  el('stop', {offset:'0', 'stop-color':'#ffd9a8', 'stop-opacity':'.16'}, lamp); el('stop', {offset:'1', 'stop-color':'#ffd9a8', 'stop-opacity':'0'}, lamp);
+  el('rect', {x:0, y:0, width:200, height:200, fill:'url(#lamp)'}, svg);
+  // a few stars that come out as the night goes on
+  const sky = el('g', {}, svg), stars = [];
+  for (let i = 0; i < 14; i++){ let x; do x = 12 + Math.random()*176; while (x > 64 && x < 136); const s = el('circle', {cx:x.toFixed(1), cy:(8 + Math.random()*34).toFixed(1), r:(.5 + Math.random()*.8).toFixed(2), fill:'#eaf4ff', opacity:0}, sky); stars.push(s); }
+  const clock = el('text', {x:100, y:26, 'text-anchor':'middle', 'font-size':9}, svg); clock.style.fill = '#b8daff';
+  const pageL = `M${MID} ${Y0 + 3}Q${(MID + X0)/2} ${Y0 - 4} ${X0} ${Y0}V${Y1}Q${(MID + X0)/2} ${Y1 - 4} ${MID} ${Y1 + 3}Z`;
+  const pageR = `M${MID} ${Y0 + 3}Q${(MID + X1)/2} ${Y0 - 4} ${X1} ${Y0}V${Y1}Q${(MID + X1)/2} ${Y1 - 4} ${MID} ${Y1 + 3}Z`;
+  const book = el('g', {}, svg);
+  el('path', {d:`M${X0 - 4} ${Y0 + 2}V${Y1 + 4}Q${(MID + X0)/2} ${Y1} ${MID} ${Y1 + 8}Q${(MID + X1)/2} ${Y1} ${X1 + 4} ${Y1 + 4}V${Y0 + 2}`, fill:'none', stroke:'#b8daff', 'stroke-opacity':.45, 'stroke-width':1.2}, book);
+  const L = el('g', {'data-side':'L'}, book), R = el('g', {'data-side':'R'}, book), flipG = el('g', {}, svg);
+  const paper = {fill:'#0d1e2e', stroke:'#b8daff', 'stroke-opacity':.7, 'stroke-width':1};
+  // made-up "text": rows of soft dashes, seeded per page so a page always looks the same
+  const rng = seed => () => (seed = (seed*9301 + 49297) % 233280) / 233280;
+  function lines(g, side, n){ const r = rng(n*7 + 3), x0 = side === 'L' ? X0 + 9 : MID + 8, w = MID - X0 - 17;
+    if (n === 0 && side === 'L'){ const t = el('text', {x:(X0 + MID)/2, y:100, 'text-anchor':'middle', 'font-size':8}, g); t.textContent = 'chapter one'; t.style.fill = '#eaf4ff'; t.style.fontFamily = 'Fraunces, Georgia, serif'; t.style.fontStyle = 'italic'; t.style.letterSpacing = '0'; return; }
+    const pic = n % 5 === 3;
+    for (let y = Y0 + 12, k = 0; y < Y1 - 12; y += 7, k++){
+      if (pic && y > 78 && y < 118){ if (y < 86) drawPic(g, x0 + w/2, 98, n); continue; }
+      const len = k === 0 && n % 2 ? w*.6 : (r() < .12 ? w*(.35 + r()*.3) : w*(.86 + r()*.14));
+      el('rect', {x:(x0 + (k === 0 && n % 2 ? w*.4 : 0)).toFixed(1), y, width:len.toFixed(1), height:1.6, rx:.8, fill:'#b8daff', opacity:.42}, g); }
+    const pn = el('text', {x:side === 'L' ? X0 + 9 : X1 - 9, y:Y1 - 5, 'text-anchor':side === 'L' ? 'start' : 'end', 'font-size':6}, g); pn.textContent = n + 1; pn.style.fill = 'rgba(184,218,255,.55)'; }
+  function drawPic(g, cx, cy, n){ const p = el('g', {filter:'url(#rg)'}, g);   // a tiny constellation, a different one each time
+    const r = rng(n*13 + 1), pts = Array.from({length:5}, () => [cx - 18 + r()*36, cy - 13 + r()*26]);
+    el('polyline', {points:pts.map(q => q.map(v => v.toFixed(1)).join(',')).join(' '), fill:'none', stroke:'#b8daff', 'stroke-opacity':.5, 'stroke-width':.7}, p);
+    pts.forEach(([x, y], i) => el('circle', {cx:x.toFixed(1), cy:y.toFixed(1), r:i === 2 ? 1.8 : 1.1, fill:i === 2 ? '#ffd9a8' : '#eaf4ff'}, p)); }
+  const time = s => { const m = 22*60 + 30 + s*26, h = (m/60|0) % 24, mm = m % 60; return `${(h % 12) || 12}:${String(mm).padStart(2, '0')} ${h >= 12 && h < 24 ? 'pm' : 'am'}`; };
+  const QUIPS = ['', '', 'one more chapter', '', 'okay, one more', '', 'just to the end of this one', '', '', 'it\'s getting good', ''];
+  function draw(){ L.innerHTML = ''; R.innerHTML = '';
+    el('path', {d:pageL, ...paper}, L); el('path', {d:pageR, ...paper}, R);
+    lines(L, 'L', spread*2); if (spread*2 + 1 < PAGES - 1) lines(R, 'R', spread*2 + 1);
+    else { const t = el('text', {x:(MID + X1)/2, y:104, 'text-anchor':'middle', 'font-size':8}, R); t.textContent = 'the end ✦'; t.style.fill = '#ffd9a8'; t.style.fontFamily = 'Fraunces, Georgia, serif'; t.style.fontStyle = 'italic'; t.style.letterSpacing = '0'; }
+    clock.textContent = time(spread);
+    stars.forEach((s, i) => s.setAttribute('opacity', i < spread*2.8 ? .8 : 0));
+    const end = spread*2 + 2 >= PAGES;
+    info.textContent = end ? `finished at ${time(spread)}. worth it` : spread === 0 ? 'tap the right page to turn it' : QUIPS[spread] || `page ${spread*2 + 1} of ${PAGES}`; }
+  function turn(dir){ if (turning) return; const next = spread + dir; if (next < 0 || next*2 >= PAGES) return;
+    if (reduce){ spread = next; draw(); return; }
+    turning = true; const fp = el('path', {d:dir > 0 ? pageR : pageL, ...paper}, flipG); const t0 = performance.now(), dur = 520;
+    const step = now => { const k = Math.min(1, (now - t0)/dur), e = k < .5 ? 2*k*k : 1 - Math.pow(-2*k + 2, 2)/2, sx = Math.cos(e*Math.PI);
+      fp.setAttribute('transform', `translate(${MID} 0) scale(${sx.toFixed(3)} 1) translate(${-MID} 0)`);
+      fp.setAttribute('fill', Math.abs(sx) < .15 ? '#16304a' : '#0d1e2e');
+      if (k >= .5 && spread !== next){ spread = next; draw(); }
+      if (k < 1) requestAnimationFrame(step); else { fp.remove(); turning = false; } };
+    requestAnimationFrame(step); }
+  svg.addEventListener('click', e => { const s = e.target.closest('[data-side]'); if (!s) return; turn(s.dataset.side === 'R' ? 1 : -1); });
+  root.querySelector('[data-k="new"]').addEventListener('click', () => { if (!turning){ spread = 0; draw(); } });
+  draw();
+})();
 })();
