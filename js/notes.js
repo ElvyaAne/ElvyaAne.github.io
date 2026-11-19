@@ -13,7 +13,7 @@ const N = {
     sum:'CS + Math, co-op program, CGPA 8.82/10, Dean’s Honour List.',
     html:`<span class="lab">school</span><h2>CS + Math</h2>
       <p>Joint honours in <b>computer science and mathematics</b> at the University of Ottawa, in the co-op program.</p>
-      <dl class="kv"><dt>CGPA</dt><dd>8.82 / 10</dd><dt>honours</dt><dd>Dean's Honour List</dd><dt>this term</dt><dd>data structures &amp; algorithms, math, architecture</dd><dt>speaks</dt><dd>Python · C++ · Java · TypeScript · JavaScript · SQL · Verilog</dd></dl>`},
+      <dl class="kv"><dt>CGPA</dt><dd>8.82 / 10</dd><dt>honours</dt><dd>Dean's Honour List</dd><dt>admission</dt><dd>$3,000 scholarship (the max), from high school grades</dd><dt>high school</dt><dd>Sec 4 provincial exams: 98th percentile in Quebec in sci &amp; tech (97%), 84th in math (99%)</dd><dt>this term</dt><dd>data structures &amp; algorithms, math, architecture</dd><dt>speaks</dt><dd>Python · C++ · Java · TypeScript · JavaScript · SQL · Verilog</dd></dl>`},
   classmark:{name:'Classmark', d:[13,48], m:[17,50], type:'web app', status:'live',
     proj:{tech:['Supabase','Vercel','auth-gated'], links:[['open','https://classmark.vercel.app']]},
     sum:'See your percentile among classmates; a uOttawa email unlocks your own numbers.',
