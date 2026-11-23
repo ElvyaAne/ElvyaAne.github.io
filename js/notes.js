@@ -428,19 +428,58 @@ document.getElementById('catalogue').addEventListener('keydown', e => { if (e.ke
 
 
 const PROJ = ['tenshi','classmark','viralens','goal','book','volu','web'].filter(id => N[id]);
-const pgrid = document.getElementById('pgrid');
-if (pgrid){
-  pgrid.innerHTML = PROJ.map((id,i) => { const n = N[id], p = n.proj;
-    return `<article class="pc${i<2?' wide':''}"><span class="lab">${n.type} · ${n.status}</span><h3>${n.name}</h3><p>${n.sum}</p>`
-      + `<div class="chips">${p.tech.map(t => `<span>${t}</span>`).join('')}</div>`
-      + `<div class="pa"><button class="btn" type="button" data-star="${id}">open its star ✦</button>${p.links.map(([l,u]) => `<a class="btn ghost" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join('')}</div></article>`; }).join('');
-  pgrid.addEventListener('click', e => {
-    const b = e.target.closest('[data-star]'); if (!b) return;
-    const id = b.dataset.star;
-    if (mobile()){ visit(id); return; }
-    stage.scrollIntoView({behavior:reduce?'auto':'smooth', block:'center'});
-    setTimeout(() => visit(id, true), reduce ? 0 : 550);
+const pshelf = document.getElementById('pshelf');
+if (pshelf){
+  const SIZE = {tenshi:1, classmark:.92, volu:.82, web:.74, viralens:.74, goal:.62, book:.62};
+  const ray = '<svg class="ps-ray%" viewBox="-50 -50 100 100" aria-hidden="true"><path d="M0-50C6-8 8-6 50 0C8 6 6 8 0 50C-6 8-8 6-50 0C-8-6-6-8 0-50Z"/></svg>';
+  const EASE = 'cubic-bezier(.2,.8,.2,1)';
+  const kind = n => /prize|award|winner/.test(n.status) ? 'award' : n.status === 'live' ? 'live' : 'forming';
+  const S = PROJ.map((id, i) => {
+    const n = N[id], k = kind(n), b = document.createElement('button');
+    b.type = 'button'; b.className = 'pstar ' + k; b.dataset.id = id; b.setAttribute('aria-expanded', 'false');
+    b.style.cssText = `--s:${SIZE[id] || .7};--d:${i*.7}s;--fd:${(6.5 + (i*1.37)%3).toFixed(2)}s;--fo:${(-i*1.3).toFixed(1)}s;--fx:${(i%2?1:-1)*(5+i%3*2)}px`;
+    b.innerHTML = `<span class="ps-art" aria-hidden="true"><span class="ps-glow"></span>`
+      + (k === 'forming' ? '<span class="ps-orbit"><i></i></span>' : '') + (k === 'award' ? '<span class="ps-ring"></span>' : '')
+      + ray.replace('%', '') + (k !== 'forming' ? ray.replace('%', ' ps-ray2') : '')
+      + `<span class="ps-core"></span></span><span class="ps-lbl">${n.name}<em>${n.status}</em></span>`;
+    b.addEventListener('click', e => toggle(i, e.detail === 0));
+    pshelf.appendChild(b); return b;
   });
+  const info = document.createElement('div'); info.className = 'pinfo'; info.hidden = true; pshelf.appendChild(info);
+  let openI = -1;
+  const toTop = () => { const t = pshelf.getBoundingClientRect().top; if (t < 70) scrollBy({top:t-90, behavior:reduce?'auto':'smooth'}); };
+  function open(i, kb){
+    const sb = S[i], first = sb.getBoundingClientRect(), id = sb.dataset.id;
+    pshelf.classList.add('open'); openI = i;
+    S.forEach((b, k) => { b.classList.toggle('sel', k === i); b.setAttribute('aria-expanded', String(k === i)); });
+    info.hidden = false;
+    info.innerHTML = `<button class="pback" type="button">← all projects</button>${N[id].html}<button class="psky" type="button">see it in the sky ✦</button>`;
+    info.querySelector('.pback').onclick = close;
+    info.querySelector('.psky').onclick = () => {
+      if (mobile()){ visit(id); return; }
+      stage.scrollIntoView({behavior:reduce?'auto':'smooth', block:'center'});
+      setTimeout(() => visit(id, true), reduce ? 0 : 550);
+    };
+    toTop(); if (kb) info.querySelector('.pback').focus({preventScroll:true});
+    if (reduce) return;
+    const last = sb.getBoundingClientRect();
+    sb.animate([{transform:`translate(${first.left-last.left}px,${first.top-last.top}px) scale(${first.width/last.width})`, transformOrigin:'top left'},{transform:'none', transformOrigin:'top left'}], {duration:750, easing:EASE});
+    info.animate([{opacity:0, transform:'translateX(40px)'},{opacity:1, transform:'none'}], {duration:650, delay:250, easing:EASE, fill:'backwards'});
+  }
+  function close(){
+    const i = openI; if (i < 0) return;
+    const sb = S[i], first = sb.getBoundingClientRect();
+    pshelf.classList.remove('open'); openI = -1; info.hidden = true;
+    S.forEach(b => { b.classList.remove('sel'); b.setAttribute('aria-expanded', 'false'); });
+    sb.focus({preventScroll:true});
+    const r = sb.getBoundingClientRect(); if (r.top < 70 || r.bottom > innerHeight) sb.scrollIntoView({block:'center'});
+    if (reduce) return;
+    const last = sb.getBoundingClientRect();
+    sb.animate([{transform:`translate(${first.left-last.left}px,${first.top-last.top}px)`},{transform:'none'}], {duration:650, easing:EASE});
+    S.forEach((b, k) => { if (k !== i) b.animate([{opacity:0, transform:'translateY(12px)'},{opacity:1, transform:'none'}], {duration:500, delay:150 + k*40, easing:EASE, fill:'backwards'}); });
+  }
+  function toggle(i, kb){ if (openI === i) close(); else { if (openI >= 0) close(); open(i, kb); } }
+  addEventListener('keydown', e => { if (e.key === 'Escape' && openI >= 0) close(); });
 }
 
 

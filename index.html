@@ -272,20 +272,64 @@ footer{max-width:none;border-top:0;margin-top:-2px;background:#183350;color:#b9d
 .shelf{position:relative;z-index:1;max-width:1320px;margin:0 auto;padding-block:84px 8px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
 .shelf .cat-head{align-items:end}
 .shelf .cat-head h2{margin-top:14px}
-.pgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px}
-.pc{grid-column:span 2;display:flex;flex-direction:column;padding:22px 22px 20px;border-radius:18px;background:linear-gradient(160deg,rgba(30,66,102,.55),rgba(13,30,46,.55));border:1px solid var(--line);transition:border-color .25s,transform .25s}
-.pc.wide{grid-column:span 3}
-.pc:hover{border-color:rgba(155,238,255,.45);transform:translateY(-2px)}
-.pc h3{font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:400;font-size:32px;line-height:1.05;margin:10px 0 8px;letter-spacing:-.01em}
-.pc.wide h3{font-size:40px}
-.pc p{color:var(--dim);margin:0 0 14px;flex:1}
-.pc .chips{margin-bottom:16px}
-.pa{display:flex;flex-wrap:wrap;gap:8px}
-.pa .btn{padding:8px 13px}
+/* each project is a star on the shelf; click one and it slides aside to show its notes */
+.pshelf{display:flex;flex-wrap:wrap;justify-content:center;row-gap:30px;margin-top:20px}
+.pstar{flex:0 0 25%;min-width:0;--px:calc(var(--s)*118px);position:relative;padding:150px 10px 20px;display:flex;flex-direction:column;align-items:center;background:none;border:0;border-radius:18px;cursor:pointer;color:var(--mist);font:inherit}
+.ps-art{position:absolute;left:50%;top:74px;width:0;height:0;pointer-events:none;transition:top .3s cubic-bezier(.3,1.6,.5,1);animation:psfloat var(--fd,7s) ease-in-out var(--fo,0s) infinite}
+.ps-art>*{position:absolute;left:0;top:0}
+.pstar:hover .ps-art{top:68px;animation-play-state:paused}
+@keyframes psfloat{0%,100%{translate:0 0;rotate:0deg}25%{translate:var(--fx) -9px;rotate:4deg}50%{translate:0 -15px;rotate:0deg}75%{translate:calc(var(--fx)*-1) -6px;rotate:-4deg}}
+.ps-glow{width:var(--px);height:var(--px);margin:calc(var(--px)/-2) 0 0 calc(var(--px)/-2);border-radius:50%;background:radial-gradient(circle,rgba(196,255,247,.55) 0,rgba(155,238,255,.22) 28%,transparent 66%);animation:pstw 3.4s ease-in-out var(--d) infinite}
+.ps-core{width:calc(var(--px)*.11);height:calc(var(--px)*.11);margin:calc(var(--px)*-.055) 0 0 calc(var(--px)*-.055);border-radius:50%;background:#ffffff;box-shadow:0 0 10px 3px #ffffff,0 0 26px 8px rgba(155,238,255,.7);transition:transform .3s}
+.pstar:hover .ps-core,.pstar.sel .ps-core{transform:scale(1.5)}
+.ps-ray{width:calc(var(--px)*.9);height:calc(var(--px)*.9);margin:calc(var(--px)*-.45) 0 0 calc(var(--px)*-.45);fill:#eaf4ff;filter:drop-shadow(0 0 6px rgba(155,238,255,.9));animation:psspin 18s linear infinite,pstw 2.6s ease-in-out var(--d) infinite}
+.ps-ray2{transform:rotate(45deg) scale(.55);opacity:.7;animation:psspin2 26s linear infinite reverse}
+.ps-ring{width:calc(var(--px)*.95);height:calc(var(--px)*.95);margin:calc(var(--px)*-.475) 0 0 calc(var(--px)*-.475);border-radius:50%;border:1px solid rgba(196,255,247,.55);animation:psring 3.2s ease-out var(--d) infinite}
+.pstar.award .ps-ray{fill:#f4fffd}
+.pstar.forming .ps-ray{opacity:.75;animation:psspin 30s linear infinite,psform 2.2s ease-in-out var(--d) infinite}
+.ps-orbit{width:calc(var(--px)*.8);height:calc(var(--px)*.8);margin:calc(var(--px)*-.4) 0 0 calc(var(--px)*-.4);border-radius:50%;border:1px dashed rgba(184,218,255,.35);animation:psspin 7s linear infinite}
+.ps-orbit i{position:absolute;left:50%;top:-3px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--sky);box-shadow:0 0 8px 2px var(--sky)}
+@keyframes pstw{50%{opacity:.55;transform:scale(.86)}}
+@keyframes psform{50%{opacity:.35;transform:scale(.7) rotate(20deg)}}
+@keyframes psspin{to{transform:rotate(360deg)}}
+@keyframes psspin2{from{transform:rotate(45deg) scale(.55)}to{transform:rotate(405deg) scale(.55)}}
+@keyframes psring{0%{transform:scale(.5);opacity:.9}100%{transform:scale(1.6);opacity:0}}
+.ps-lbl{font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font-style:italic;font-size:26px;line-height:1.1;text-align:center;text-shadow:0 1px 14px rgba(9,23,37,.9);transition:color .2s}
+.ps-lbl em{display:block;margin-top:7px;font-family:var(--f-mono);font-style:normal;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.pstar.award .ps-lbl em{color:var(--rose)}
+.pstar:hover .ps-lbl{color:var(--sky)}
+.phint{text-align:center;margin:22px 0 0}
+.pshelf.open{display:grid;grid-template-columns:300px minmax(0,1fr);column-gap:56px;align-items:start}
+.pshelf.open .pstar:not(.sel){display:none}
+.pshelf.open .pstar.sel{--px:calc(var(--s)*200px);padding-top:250px;position:sticky;top:90px}
+.pshelf.open .pstar.sel .ps-art{top:120px}
+.pshelf.open .pstar.sel .ps-lbl{font-size:34px}
+.pshelf.open+.phint{visibility:hidden}
+.pinfo{padding-top:24px;max-width:66ch}
+.pinfo h2{font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font-style:italic;font-weight:400;font-size:clamp(44px,5vw,68px);line-height:1;letter-spacing:-.02em;margin:10px 0 18px}
+.pinfo p{margin:0 0 16px;color:#d3e4f5;font-size:17px;line-height:1.65}
+.pinfo p b{color:var(--mist);font-weight:500}
+.pinfo .kv{font-size:15px}
+.pback,.psky{background:none;border:0;padding:0;cursor:pointer;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);transition:color .2s}
+.pback{display:block;margin-bottom:22px}
+.psky{margin-top:6px;color:var(--sky)}
+.pback:hover,.psky:hover{color:var(--mist)}
 .star.proj .lbl{color:var(--mist);border:1px solid rgba(155,238,255,.4);background:rgba(20,47,74,.75)}
 .star.proj.on .lbl{background:var(--lav);color:var(--night);border-color:var(--lav)}
-@media (max-width:980px){.pgrid{grid-template-columns:1fr 1fr}.pc,.pc.wide{grid-column:span 1}.pc.wide:first-child{grid-column:1/-1}}
-@media (max-width:600px){.shelf{padding-block:64px 0}.pgrid{grid-template-columns:1fr}.pc,.pc.wide,.pc.wide:first-child{grid-column:auto}.pc.wide h3,.pc h3{font-size:32px}}
+@media (max-width:600px){.shelf{padding-block:64px 0}}
+@media (max-width:700px){
+  .pshelf{row-gap:20px}
+  .pstar{flex-basis:50%;--px:calc(var(--s)*96px);padding-top:122px}
+  .ps-art{top:60px}.pstar:hover .ps-art{top:56px}
+  .ps-lbl{font-size:21px}
+  .pshelf.open{grid-template-columns:1fr}
+  .pshelf.open .pstar.sel{--px:calc(var(--s)*110px);position:relative;top:auto;padding:26px 0 26px 128px;align-items:flex-start;min-height:132px;justify-content:center}
+  .pshelf.open .pstar.sel .ps-art{left:60px;top:66px}
+  .pshelf.open .pstar.sel .ps-lbl,.pshelf.open .pstar.sel .ps-lbl em{text-align:left;font-size:30px}
+  .pshelf.open .pstar.sel .ps-lbl em{font-size:10px}
+  .pinfo{padding-top:20px}
+  .pinfo p{font-size:16px}
+}
 
 @media (max-width:440px){.nav .hud{display:none}.notesbtn{font-size:15px}.navr{gap:9px}.nav .me{font-size:17px}}
 @media (max-width:370px){.notesbtn{font-size:14px}.navr{gap:7px}}
@@ -377,7 +421,8 @@ footer{max-width:none;border-top:0;margin-top:-2px;background:#183350;color:#b9d
 
 <section class="shelf" id="projects" aria-labelledby="projTitle">
   <div class="cat-head"><div><span class="chart">Things I've built</span><h2 id="projTitle">Projects</h2></div><span class="lab">each one is also a ringed star in the sky below ↓</span></div>
-  <div class="pgrid" id="pgrid"></div>
+  <div class="pshelf" id="pshelf"></div>
+  <p class="phint lab">pick a star to open it ✦</p>
 </section>
 
 <div class="sky" id="sky">
