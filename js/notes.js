@@ -94,7 +94,7 @@ const N = {
     sum:'Looking for a software or ML/AI internship.',
     html:`<span class="lab">the wish</span><h2>Summer 2027</h2>
       <p>Looking for an internship in <b>software or ML/AI</b>. Ottawa, Toronto, anywhere in Canada, or US/remote.</p>
-      <div class="btns"><button class="btn" id="copy" type="button"><span id="copytxt">elvya.ane@gmail.com</span> · copy</button><a class="btn ghost" href="https://github.com/ElvyaAne" target="_blank" rel="noopener">GitHub ↗</a></div>`}
+      <div class="btns"><button class="btn" data-addr="elvya.ane@gmail.com" type="button"><span>elvya.ane@gmail.com</span> · copy</button><button class="btn" data-addr="eane091@uottawa.ca" type="button"><span>eane091@uottawa.ca</span> · copy</button><a class="btn ghost" href="https://github.com/ElvyaAne" target="_blank" rel="noopener">GitHub ↗</a></div>`}
 };
 const E = [
   ['me','uottawa','where I study'],
@@ -240,7 +240,7 @@ function renderWin(animate){
   const back = links.map(([a,b,why]) => { const o = a===active ? b : a; return `<button class="backlink" data-go="${o}"><b>[[${slug(o)}]]</b><span>${why}</span></button>`; }).join('');
   bodyEl.innerHTML = N[active].html + `<div class="back"><span class="lab">linked notes · ${links.length}</span>${back}</div>`;
   bodyEl.scrollTop = 0;
-  const c = document.getElementById('copy'); if (c) wireCopy(c);
+  bodyEl.querySelectorAll('[data-addr]').forEach(wireCopy);
   if (window.__fillLC) window.__fillLC();
   if (animate && !reduce){
     bodyEl.classList.remove('enter'); void bodyEl.offsetWidth; bodyEl.classList.add('enter');
@@ -495,7 +495,7 @@ tick(); setInterval(tick, 30000);
 
 
 function wireCopy(btn){
-  const txt = btn.querySelector('#copytxt'), addr = 'elvya.ane@gmail.com';
+  const txt = btn.querySelector('span'), addr = btn.dataset.addr;
   btn.addEventListener('click', () => {
     const done = () => { txt.textContent = 'copied ✦'; setTimeout(() => txt.textContent = addr, 1400); };
     const sel = () => { const r = document.createRange(); r.selectNodeContents(txt); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };

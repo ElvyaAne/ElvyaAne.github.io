@@ -273,12 +273,12 @@ const navs = [...document.querySelectorAll('.nav nav a')], secs = navs.map(a => 
 function navOn(){ let k = 0; secs.forEach((s,i) => { if (s && s.getBoundingClientRect().top < innerHeight*.45) k = i; }); navs.forEach((a,i) => a.classList.toggle('on', i===k)); }
 
 
-$('copy2').addEventListener('click', () => {
-  const t = $('copytxt2'), addr = 'elvya.ane@gmail.com';
+document.querySelectorAll('.copy [data-addr]').forEach(b => b.addEventListener('click', () => {
+  const t = b.querySelector('span'), addr = b.dataset.addr;
   const done = () => { t.textContent = 'copied ✦'; setTimeout(() => t.textContent = addr, 1400); };
   const sel = () => { const r = document.createRange(); r.selectNodeContents(t); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
   try { navigator.clipboard.writeText(addr).then(done, sel); } catch(e){ sel(); }
-});
+}));
 
 
 const FALLBACK = {easy:53, medium:9, hard:1, all:4082, maxStreak:16, activeDays:37, updated:'2026-10-17'};
