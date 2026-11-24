@@ -42,7 +42,10 @@ const H = [
     <g class="c3"><rect x="30" y="22" width="34" height="50" rx="5" fill="#16314d"/><text x="38" y="38" font-family="Fraunces,Georgia,serif" font-size="13" fill="#eaf4ff" stroke="none">A</text><path d="M47 48c-6 6 0 12 0 12s6-6 0-12z" fill="#eaf4ff" stroke="none"/></g></g>`},
   {name:'Reading', status:'Les Mis forever', s:.9, svg:`
     <g ${S}><path d="M50 30q-16-10-36-6v50q20-4 36 6z" ${F}/><path d="M50 30q16-10 36-6v50q-20-4-36 6z" ${F}/><path d="M50 30v50"/></g>
-    <path class="f-page" d="M50 30q16-10 36-6v50q-20-4-36 6z" fill="rgba(234,244,255,.35)" stroke="#eaf4ff" stroke-width="2"/>
+    <path class="f-page" d="M50 30Q66 20 86 24L86 74Q66 70 50 80Z" fill="rgba(234,244,255,.4)" stroke="#eaf4ff" stroke-width="2" stroke-linejoin="round" opacity="0">
+      <animate attributeName="d" dur="3.6s" repeatCount="indefinite" keyTimes="0;.2;.36;.48;.56;.68;.82;1" values="M50 30Q66 20 86 24L86 74Q66 70 50 80Z;M50 30Q66 20 86 24L86 74Q66 70 50 80Z;M50 30Q64 16 76 14L76 64Q64 66 50 80Z;M50 30Q56 10 58 6L58 56Q56 62 50 80Z;M50 30Q44 10 42 6L42 56Q44 62 50 80Z;M50 30Q36 16 24 14L24 64Q36 66 50 80Z;M50 30Q34 20 14 24L14 74Q34 70 50 80Z;M50 30Q34 20 14 24L14 74Q34 70 50 80Z"/>
+      <animate attributeName="fill" dur="3.6s" repeatCount="indefinite" keyTimes="0;.36;.48;.56;.68;1" values="rgba(234,244,255,.4);rgba(234,244,255,.55);rgba(155,238,255,.35);rgba(184,218,255,.3);rgba(184,218,255,.22);rgba(184,218,255,.22)"/>
+      <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite" keyTimes="0;.12;.2;.82;.92;1" values="0;1;1;1;0;0"/></path>
     <path class="f-moon" d="M80 6a9 9 0 1 0 8 13a7 7 0 1 1-8-13z" fill="#ffd9a8"/>`},
   {name:'Musicals', status:'Hamilton & co.', s:.95, svg:`
     <g ${S}><path d="M12 16h76"/><path d="M12 16v70M88 16v70"/><path d="M8 86h84"/></g>
