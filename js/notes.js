@@ -28,7 +28,7 @@ const N = {
     html:`<span class="lab">web app · building</span><h2>Goal!</h2>
       <p>A planning app that also <b>analyzes how you actually spent your time</b>, so a goal gets honest feedback instead of a checkbox.</p>
       <div class="chips"><span>Node</span><span>Express</span><span>PostgreSQL</span><span>vanilla JS</span></div>`},
-  book:{name:'order book', d:[64,18], m:[73,20], type:'systems', status:'in progress',
+  book:{name:'Order Book', d:[64,18], m:[73,20], type:'systems', status:'in progress',
     proj:{tech:['C++','data structures','low latency'], links:[]},
     sum:'A limit order book and matching engine in C++.',
     html:`<span class="lab">systems · in progress</span><h2>Order book</h2>
@@ -58,7 +58,7 @@ const N = {
       <div class="chips"><span>Node + Express</span><span>Vosk</span><span>Whisper</span><span>Llama 3.2 · Ollama</span><span>TimescaleDB</span><span>Grafana</span><span>Arduino</span><span>Vultr</span></div>
       <dl class="kv"><dt>prize</dt><dd><b>winner</b>, Project KAZE Challenge</dd><dt>team</dt><dd>with Jasmine Kumar &amp; George Farag</dd></dl>
       <div class="btns"><a class="btn" href="https://devpost.com/software/htv-b2k5st" target="_blank" rel="noopener">devpost ↗</a><a class="btn ghost" href="https://github.com/georgef166/HTVWinners" target="_blank" rel="noopener">repo ↗</a></div>`},
-  volu:{name:'volumetric display', d:[12,20], m:[29,14], type:'research', status:'award',
+  volu:{name:'Volumetric Display', d:[12,20], m:[29,14], type:'research', status:'award',
     proj:{tech:['research','3D displays','Expo-sciences'], links:[]},
     sum:'Research on volumetric displays; won the Prix Jeunesse en TI at Expo-sciences.',
     html:`<span class="lab">research · award</span><h2>Volumetric displays</h2>
@@ -66,7 +66,7 @@ const N = {
       <p>I presented it at the <b>Hydro-Québec Expo-sciences</b> to a panel of <b>10 judges</b> and won the <b>Prix Jeunesse en TI</b> from Réseau ACTION TI.</p>
       <div class="chips"><span>research</span><span>3D displays</span><span>Expo-sciences</span></div>
       <dl class="kv"><dt>when</dt><dd>Mar 2025</dd><dt>where</dt><dd>Gatineau, QC</dd><dt>prize</dt><dd><b>Prix Jeunesse en TI</b>, Réseau ACTION TI</dd></dl>`},
-  web:{name:'websites', d:[33,61], m:[52,32], type:'web design', status:'live',
+  web:{name:'Websites', d:[33,61], m:[52,32], type:'web design', status:'live',
     proj:{tech:['design','responsive','Vercel'], links:[["Cecilia's site",'https://portfolio-website-cecilia-jammoul.vercel.app/'],["Stella's site",'https://stella-steinberg-portfolio.vercel.app/stella.html']]},
     sum:'I build websites for other people too, like Cecilia’s and Stella’s portfolios.',
     html:`<span class="lab">web design · client work</span><h2>I build websites</h2>
