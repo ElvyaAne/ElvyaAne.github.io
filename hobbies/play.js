@@ -324,7 +324,7 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
       const p = el('path', {d:SHAPES[v](S*.32), fill:COLS[v], transform:`translate(${x.toFixed(1)} ${y.toFixed(1)})`, 'data-i':i}, g);
       if (pop && pop.has(i) && !reduce) p.animate([{opacity:0, transform:`translate(${x}px, ${y - 14}px)`}, {opacity:1, transform:`translate(${x}px, ${y}px)`}], {duration:260, easing:'ease-out'}); });
     if (sel >= 0){ selR.setAttribute('x', (sel%N*S + 2).toFixed(1)); selR.setAttribute('y', ((sel/N|0)*S + 2).toFixed(1)); selR.setAttribute('opacity', 1); } else selR.setAttribute('opacity', 0); }
-  const say = msg => info.textContent = msg || `my level: 4200 · your score: ${score}`;
+  const say = msg => info.textContent = msg || `my level: 4400 · your score: ${score}`;
   const wait = ms => new Promise(r => setTimeout(r, reduce ? 0 : ms));
   async function resolve(){ let chain = 0, m;
     while ((m = runs()).size){ chain++; score += m.size * chain;
