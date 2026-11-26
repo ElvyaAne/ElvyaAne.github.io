@@ -531,7 +531,7 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   const pool = el('ellipse', {cx:MID, cy:FLOOR, rx:48, ry:6, opacity:0}, svg);
   const back = el('g', {}, svg), prop = el('g', {filter:'url(#mg)'}, svg), fx = el('g', {}, svg);
   // curtains: two velvet drapes, each a row of soft folds. Opening sweeps them aside and ties them back with a gold cord.
-  const VEL = {dk:'#24061a', md:'#5a1236', lt:'#a8406a'}, GOLD = '#ffd9a8';
+  const VEL = {dk:'#0a1230', md:'#1d2c63', lt:'#4d64b8'}, GOLD = '#ffd9a8';
   const grad = (id, stops, at) => { const g = el('linearGradient', {id, ...at}, d); stops.forEach(([o, c, a = 1]) => el('stop', {offset:o, 'stop-color':c, 'stop-opacity':a}, g)); };
   grad('fold', [[0, VEL.dk], [.3, VEL.md], [.55, VEL.lt], [.78, VEL.md], [1, VEL.dk]], {x1:0, y1:0, x2:1, y2:0});
   grad('cshade', [[0, '#000', .55], [.2, '#000', 0], [.75, '#000', 0], [1, '#000', .4]], {x1:0, y1:0, x2:0, y2:1});
