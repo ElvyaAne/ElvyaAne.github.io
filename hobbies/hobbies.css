@@ -61,3 +61,9 @@ body{background:linear-gradient(180deg,#1a3959 0%,#3a6089 38%,#5d7ca4 72%,#7a90b
 @media (max-width:980px){.hc.flip > .viz{order:0}}
 @media (min-width:981px){.hc{grid-template-columns:minmax(0,1fr) 432px}.hc.flip{grid-template-columns:432px minmax(0,1fr)}.viz{width:100%}}
 #v-match path[data-i],#v-sol [data-at],#v-read [data-side],#v-stage svg{cursor:pointer}
+/* svg buttons (gym +5 / unload): no browser focus box on click; a soft glow ring for keyboard focus, a brighter fill while pressed */
+.vbox g.node{outline:none;-webkit-tap-highlight-color:transparent}
+.vbox g.node rect{transition:fill-opacity .15s,stroke-opacity .15s}
+.vbox g.node:hover rect{stroke-opacity:.8}
+.vbox g.node:active rect{fill-opacity:.3}
+.vbox g.node:focus-visible rect{stroke:#eaf4ff;stroke-opacity:1;filter:drop-shadow(0 0 2px rgba(184,218,255,.9))}
