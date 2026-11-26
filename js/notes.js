@@ -75,6 +75,11 @@ const N = {
       <p><b>Stella Steinberg</b>, electrical engineering at uOttawa: an electronics bench, with oscilloscope readouts, datasheet tags and "designed to conduct" to sign off.</p>
       <div class="chips"><span>design</span><span>responsive</span><span>Vercel</span></div>
       <div class="btns"><a class="btn" href="https://portfolio-website-cecilia-jammoul.vercel.app/" target="_blank" rel="noopener">Cecilia's site ↗</a><a class="btn" href="https://stella-steinberg-portfolio.vercel.app/stella.html" target="_blank" rel="noopener">Stella's site ↗</a></div>`},
+  gdg:{name:'GDG on Campus', d:[46,31], m:[14,36], type:'community', status:'founder',
+    sum:'Founder and organizer of Google Developer Group on Campus at uOttawa.',
+    html:`<span class="lab">community · founder</span><h2>Google Developer Group</h2>
+      <p>I <b>founded and organize</b> the <b>Google Developer Group (GDG) on Campus</b> at the University of Ottawa, a student community for people who like building things with tech.</p>
+      <dl class="kv"><dt>club</dt><dd>GDG on Campus</dd><dt>where</dt><dd>University of Ottawa</dd><dt>role</dt><dd><b>founder</b> &amp; organizer</dd></dl>`},
   hacks:{name:'hackathons', d:[84,80], m:[50,88], type:'events', status:'winner',
     sum:'Hack the Hill, then a win at Hack the Valley 11.',
     html:`<span class="lab">events</span><h2>Hackathons</h2>
@@ -115,7 +120,9 @@ const E = [
   ['me','volu','a rabbit hole I took to the judges'],
   ['volu','uottawa','the science fair came first'],
   ['me','web','I make sites for people too'],
-  ['web','classmark','both live on the web']
+  ['web','classmark','both live on the web'],
+  ['uottawa','gdg','a club I started on campus'],
+  ['gdg','hacks','builders find builders']
 ];
 const ids = Object.keys(N);
 
@@ -255,7 +262,7 @@ tabsEl.addEventListener('click', e => {
 });
 bodyEl.addEventListener('click', e => { const g = e.target.closest('[data-go]'); if (g) visit(g.dataset.go, true); });
 
-const quips = { classmark:'one of my favorite builds', book:'ooh, the fast one', viralens:'listen closely… *cough*', intern:'make a wish ✦', leet:'and counting!', hacks:'collecting these ✦', hth:'Ottawa, home turf', htv:'fresh off a win ✦', tenshi:'don’t die on us :D', goal:'goals, but honest', uottawa:'home base', me:'origin star ✦' };
+const quips = { classmark:'one of my favorite builds', book:'ooh, the fast one', viralens:'listen closely… *cough*', intern:'make a wish ✦', leet:'and counting!', hacks:'collecting these ✦', hth:'Ottawa, home turf', htv:'fresh off a win ✦', tenshi:'don’t die on us :D', goal:'goals, but honest', uottawa:'home base', gdg:'hello, world ✦', me:'origin star ✦' };
 let pendingTab = null, landedId = null;
 const winEl = document.getElementById('win');
 function visit(id, fromNote){
