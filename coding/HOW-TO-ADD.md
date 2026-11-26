@@ -16,7 +16,7 @@ coding/files/git/page-02.jpg
 
 ## 2. Point the topic at its pages
 
-Find the topic in `coding/topics.json` (ids: `html`, `css`, `javascript`, `ruby-cpp`, `react`, `linux-terminal`, `github-git`, `sql`) and fill in its `"pages"` list. To add a brand new topic, add a block inside `"topics": [ ... ]` (put a comma between blocks):
+Find the topic in `coding/topics.json` (ids: `html`, `css`, `javascript`, `ruby-cpp`, `react`, `linux-terminal`, `github-git`, `sql`, `neetcode-150`) and fill in its `"pages"` list. To add a brand new topic, add a block inside `"topics": [ ... ]` (put a comma between blocks):
 
 ```json
 {
@@ -38,3 +38,9 @@ Find the topic in `coding/topics.json` (ids: `html`, `css`, `javascript`, `ruby-
 - A page can carry its own caption: `{ "file": "files/git/page-01.jpg", "caption": "merge vs rebase" }`.
 - Topics show in the order they're listed.
 - `documents` works like the class notes: `{ "title": "All pages", "file": "files/git/git-notes.pdf", "note": "6 pages" }` for a PDF or a link.
+
+## NeetCode 150
+
+The NeetCode 150 topic also has `"list": "neetcode150.json"`, which adds the typed-up pattern notes and the full problem list under the scanned page.
+- To add notes for another day, add a block to `"notes"` in `coding/neetcode150.json`: `{ "day": "November 2nd", "topics": [{ "title": "Intervals", "category": "Intervals", "patterns": [{ "name": "Merging overlaps", "text": "..." }] }] }`. `category` must match a category name in the list below it; that category then gets an "in my notes" link.
+- A pattern with no `"text"` shows as just the highlighted heading.

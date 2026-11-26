@@ -1,0 +1,461 @@
+{
+  "notes": [
+    {
+      "day": "October 25th",
+      "topics": [
+        {
+          "title": "Two pointers",
+          "category": "Two Pointers",
+          "patterns": [
+            {
+              "name": "Converging pointers",
+              "text": "One pointer starts at the left, one at the right, and they move toward each other based on a comparison."
+            },
+            {
+              "name": "Parallel pointers",
+              "text": "Both pointers move forward, either one fast and one slow, or each pointer walking through its own list."
+            },
+            {
+              "name": "Trigger-based pointers",
+              "text": "The first pointer runs ahead, and the second only moves when something \"triggers\" it: a gap is reached or a constraint is broken. Most sliding window problems fall here."
+            }
+          ]
+        },
+        {
+          "title": "Arrays & Hashing",
+          "category": "Arrays & Hashing",
+          "patterns": [
+            {
+              "name": "\"Have I seen this before?\" (hash set)",
+              "text": "You store what you've seen in a set so checking for something takes `O(1)` instead of scanning again."
+            },
+            {
+              "name": "Counting frequencies (hash map: item → count)",
+              "text": "You count how many times each thing appears, then compare or sort those counts."
+            },
+            {
+              "name": "Complement lookup (hash map: value → index)",
+              "text": "As you go, you store what you've seen and ask whether the piece you need is already in the map."
+            },
+            {
+              "name": "Array tricks (no hashing, but same section)",
+              "text": "Product of array except self: build a prefix product pass left → right, then a suffix pass right → left. Prefix/suffix thinking shows up constantly.\n\nEncode & decode strings: a design problem. Prefix each string with its length & a delimiter so any character can safely appear inside the strings."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": "October 26th",
+      "topics": [
+        {
+          "title": "Sliding window",
+          "category": "Sliding Window",
+          "patterns": [
+            {
+              "name": "Variable-size window (expand, then shrink when broken)",
+              "text": "The right pointer always moves forward to grow the window. The left pointer only moves when the window breaks a rule, and then it shrinks until the window is valid again."
+            },
+            {
+              "name": "Fixed-size window (slide one step at a time)",
+              "text": "The window size never changes. Each step, add the new element on the right and remove the old one on the left."
+            },
+            {
+              "name": "Window with a monotonic deque",
+              "text": "You need the max or min of every window quickly, so you keep a deque in sorted order."
+            }
+          ]
+        },
+        {
+          "title": "Binary search",
+          "category": "Binary Search",
+          "patterns": [
+            {
+              "name": "Classic search on sorted data",
+              "text": "The array is sorted, so you cut the search space in half each step."
+            },
+            {
+              "name": "Binary search on the answer",
+              "text": "You're searching a range of possible answers, not an array. For each guess, you check \"does this work?\" and go lower or higher."
+            },
+            {
+              "name": "Modified binary search (rotated arrays)",
+              "text": "The array is sorted but rotated, so you first figure out which half is properly sorted, then decide where to go."
+            },
+            {
+              "name": "Searching for the closest match",
+              "text": "You're not looking for an exact value but for the largest one that's still ≤ a target."
+            },
+            {
+              "name": "Partition search"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": "October 27th",
+      "topics": [
+        {
+          "title": "Linked lists",
+          "category": "Linked List",
+          "patterns": [
+            {
+              "name": "Rewiring pointers (reversal)",
+              "text": "You change where each node's `next` points. The core skill is saving `next` before you overwrite it so you don't lose the rest of the list."
+            },
+            {
+              "name": "Fast/slow and gap pointers",
+              "text": "Two pointers move through the list at different speeds or with a fixed distance between them."
+            },
+            {
+              "name": "Building a new list with a dummy node",
+              "text": "You create a fake starting node so you never have to handle \"what if the list is empty\" separately."
+            },
+            {
+              "name": "Linked list + hash map",
+              "text": "The list alone isn't enough, so a hash map gives you instant access to nodes."
+            }
+          ]
+        },
+        {
+          "title": "Stacks",
+          "category": "Stack",
+          "patterns": [
+            {
+              "name": "Matching the most recent thing",
+              "text": "A stack remembers what you opened last, so you can match it when it closes."
+            },
+            {
+              "name": "Stack as a design or calculation tool"
+            },
+            {
+              "name": "Backtracking (building choices step by step)"
+            },
+            {
+              "name": "Monotonic stack",
+              "text": "You keep the stack in increasing or decreasing order, popping anything that breaks the order. This is how you solve \"next greater/smaller element\" problems in `O(n)`."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": "October 28th",
+      "topics": [
+        {
+          "title": "Trees",
+          "category": "Trees",
+          "patterns": [
+            {
+              "name": "Basic DFS recursion",
+              "text": "You ask each child for an answer, then combine the two answers at the current node. The base case is almost always `if not node: return ...`"
+            },
+            {
+              "name": "Bottom-up with an extra answer on the side",
+              "text": "The recursion returns one thing (usually height), but the answer you actually want is something else, which you update along the way."
+            },
+            {
+              "name": "Top-down: passing info down to children",
+              "text": "Instead of collecting answers from below, you send information down as you go."
+            },
+            {
+              "name": "BFS (level by level)",
+              "text": "Use a queue to visit the tree one level at a time."
+            },
+            {
+              "name": "Using the BST property",
+              "text": "In a binary search tree, left < node < right, so you often know which way to go without checking both sides."
+            },
+            {
+              "name": "Building and rebuilding trees"
+            }
+          ]
+        },
+        {
+          "title": "Tries",
+          "category": "Tries",
+          "sub": "Tree where each node is a letter.",
+          "patterns": [
+            {
+              "name": "The basic trie"
+            },
+            {
+              "name": "Trie + DFS"
+            },
+            {
+              "name": "Trie + backtracking"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": "October 29th",
+      "topics": [
+        {
+          "title": "Backtracking",
+          "category": "Backtracking",
+          "patterns": [
+            {
+              "name": "Subsets (include it or skip it)",
+              "text": "For each element, you make one decision: take it or don't."
+            },
+            {
+              "name": "Combinations (pick toward a target)",
+              "text": "You build combinations that add up to a target, passing a start index so you never go backwards and create repeats."
+            },
+            {
+              "name": "Permutations (order matters)",
+              "text": "Every arrangement counts, so instead of a start index you track which elements are already used."
+            },
+            {
+              "name": "Building strings piece by piece"
+            },
+            {
+              "name": "Grids and boards with constraints"
+            }
+          ]
+        },
+        {
+          "title": "Heap / priority queue",
+          "category": "Heap / Priority Queue",
+          "patterns": [
+            {
+              "name": "Top K with a heap of size K",
+              "text": "To find the K largest, keep a min-heap of size K. If it grows past K, pop the smallest. What's left is the top K."
+            },
+            {
+              "name": "Simulation (keep grabbing the biggest)",
+              "text": "You repeatedly take the most important item, process it, and maybe push something back."
+            },
+            {
+              "name": "Merging multiple sorted lists"
+            },
+            {
+              "name": "Two heaps"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "day": "October 30th",
+      "topics": [
+        {
+          "title": "Graphs",
+          "category": "Graphs",
+          "patterns": [
+            {
+              "name": "Grid DFS/BFS (flood fill)",
+              "text": "The grid is the graph: each cell is a node, and its up/down/left/right neighbours are its edges. You start from a cell and spread out, marking cells as visited."
+            },
+            {
+              "name": "Multi-source BFS",
+              "text": "Several starting points spread at the same time, so you put all of them in the queue before you begin."
+            },
+            {
+              "name": "Copying a graph"
+            },
+            {
+              "name": "Topological sort (directed graphs, dependencies)",
+              "text": "When some things must come before others, you need an order that respects every dependency, and a cycle means there's no valid order."
+            },
+            {
+              "name": "Union-Find and connectivity (undirected graphs)",
+              "text": "You figure out which nodes are connected to each other. Union-Find merges groups and quickly tells you whether two nodes are already in the same group."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "categories": [
+    { "name": "Arrays & Hashing", "problems": [
+      {"title": "Contains Duplicate", "slug": "contains-duplicate", "level": "easy"},
+      {"title": "Valid Anagram", "slug": "valid-anagram", "level": "easy"},
+      {"title": "Two Sum", "slug": "two-sum", "level": "easy"},
+      {"title": "Group Anagrams", "slug": "group-anagrams", "level": "medium"},
+      {"title": "Top K Frequent Elements", "slug": "top-k-frequent-elements", "level": "medium"},
+      {"title": "Encode and Decode Strings", "slug": "encode-and-decode-strings", "level": "medium"},
+      {"title": "Product of Array Except Self", "slug": "product-of-array-except-self", "level": "medium"},
+      {"title": "Valid Sudoku", "slug": "valid-sudoku", "level": "medium"},
+      {"title": "Longest Consecutive Sequence", "slug": "longest-consecutive-sequence", "level": "medium"}
+    ] },
+    { "name": "Two Pointers", "problems": [
+      {"title": "Valid Palindrome", "slug": "valid-palindrome", "level": "easy"},
+      {"title": "Two Sum II - Input Array Is Sorted", "slug": "two-sum-ii-input-array-is-sorted", "level": "medium"},
+      {"title": "3Sum", "slug": "3sum", "level": "medium"},
+      {"title": "Container With Most Water", "slug": "container-with-most-water", "level": "medium"},
+      {"title": "Trapping Rain Water", "slug": "trapping-rain-water", "level": "hard"}
+    ] },
+    { "name": "Sliding Window", "problems": [
+      {"title": "Best Time to Buy and Sell Stock", "slug": "best-time-to-buy-and-sell-stock", "level": "easy"},
+      {"title": "Longest Substring Without Repeating Characters", "slug": "longest-substring-without-repeating-characters", "level": "medium"},
+      {"title": "Longest Repeating Character Replacement", "slug": "longest-repeating-character-replacement", "level": "medium"},
+      {"title": "Permutation in String", "slug": "permutation-in-string", "level": "medium"},
+      {"title": "Minimum Window Substring", "slug": "minimum-window-substring", "level": "hard"},
+      {"title": "Sliding Window Maximum", "slug": "sliding-window-maximum", "level": "hard"}
+    ] },
+    { "name": "Stack", "problems": [
+      {"title": "Valid Parentheses", "slug": "valid-parentheses", "level": "easy"},
+      {"title": "Min Stack", "slug": "min-stack", "level": "medium"},
+      {"title": "Evaluate Reverse Polish Notation", "slug": "evaluate-reverse-polish-notation", "level": "medium"},
+      {"title": "Generate Parentheses", "slug": "generate-parentheses", "level": "medium"},
+      {"title": "Daily Temperatures", "slug": "daily-temperatures", "level": "medium"},
+      {"title": "Car Fleet", "slug": "car-fleet", "level": "medium"},
+      {"title": "Largest Rectangle in Histogram", "slug": "largest-rectangle-in-histogram", "level": "hard"}
+    ] },
+    { "name": "Binary Search", "problems": [
+      {"title": "Binary Search", "slug": "binary-search", "level": "easy"},
+      {"title": "Search a 2D Matrix", "slug": "search-a-2d-matrix", "level": "medium"},
+      {"title": "Koko Eating Bananas", "slug": "koko-eating-bananas", "level": "medium"},
+      {"title": "Find Minimum in Rotated Sorted Array", "slug": "find-minimum-in-rotated-sorted-array", "level": "medium"},
+      {"title": "Search in Rotated Sorted Array", "slug": "search-in-rotated-sorted-array", "level": "medium"},
+      {"title": "Time Based Key-Value Store", "slug": "time-based-key-value-store", "level": "medium"},
+      {"title": "Median of Two Sorted Arrays", "slug": "median-of-two-sorted-arrays", "level": "hard"}
+    ] },
+    { "name": "Linked List", "problems": [
+      {"title": "Reverse Linked List", "slug": "reverse-linked-list", "level": "easy"},
+      {"title": "Merge Two Sorted Lists", "slug": "merge-two-sorted-lists", "level": "easy"},
+      {"title": "Linked List Cycle", "slug": "linked-list-cycle", "level": "easy"},
+      {"title": "Reorder List", "slug": "reorder-list", "level": "medium"},
+      {"title": "Remove Nth Node From End of List", "slug": "remove-nth-node-from-end-of-list", "level": "medium"},
+      {"title": "Copy List With Random Pointer", "slug": "copy-list-with-random-pointer", "level": "medium"},
+      {"title": "Add Two Numbers", "slug": "add-two-numbers", "level": "medium"},
+      {"title": "Find the Duplicate Number", "slug": "find-the-duplicate-number", "level": "medium"},
+      {"title": "LRU Cache", "slug": "lru-cache", "level": "medium"},
+      {"title": "Merge k Sorted Lists", "slug": "merge-k-sorted-lists", "level": "hard"},
+      {"title": "Reverse Nodes in k-Group", "slug": "reverse-nodes-in-k-group", "level": "hard"}
+    ] },
+    { "name": "Trees", "problems": [
+      {"title": "Invert Binary Tree", "slug": "invert-binary-tree", "level": "easy"},
+      {"title": "Maximum Depth of Binary Tree", "slug": "maximum-depth-of-binary-tree", "level": "easy"},
+      {"title": "Diameter of Binary Tree", "slug": "diameter-of-binary-tree", "level": "easy"},
+      {"title": "Balanced Binary Tree", "slug": "balanced-binary-tree", "level": "easy"},
+      {"title": "Same Tree", "slug": "same-tree", "level": "easy"},
+      {"title": "Subtree of Another Tree", "slug": "subtree-of-another-tree", "level": "easy"},
+      {"title": "Lowest Common Ancestor of a BST", "slug": "lowest-common-ancestor-of-a-binary-search-tree", "level": "medium"},
+      {"title": "Binary Tree Level Order Traversal", "slug": "binary-tree-level-order-traversal", "level": "medium"},
+      {"title": "Binary Tree Right Side View", "slug": "binary-tree-right-side-view", "level": "medium"},
+      {"title": "Count Good Nodes in Binary Tree", "slug": "count-good-nodes-in-binary-tree", "level": "medium"},
+      {"title": "Validate Binary Search Tree", "slug": "validate-binary-search-tree", "level": "medium"},
+      {"title": "Kth Smallest Element in a BST", "slug": "kth-smallest-element-in-a-bst", "level": "medium"},
+      {"title": "Construct Binary Tree from Preorder and Inorder Traversal", "slug": "construct-binary-tree-from-preorder-and-inorder-traversal", "level": "medium"},
+      {"title": "Binary Tree Maximum Path Sum", "slug": "binary-tree-maximum-path-sum", "level": "hard"},
+      {"title": "Serialize and Deserialize Binary Tree", "slug": "serialize-and-deserialize-binary-tree", "level": "hard"}
+    ] },
+    { "name": "Heap / Priority Queue", "problems": [
+      {"title": "Kth Largest Element in a Stream", "slug": "kth-largest-element-in-a-stream", "level": "easy"},
+      {"title": "Last Stone Weight", "slug": "last-stone-weight", "level": "easy"},
+      {"title": "K Closest Points to Origin", "slug": "k-closest-points-to-origin", "level": "medium"},
+      {"title": "Kth Largest Element in an Array", "slug": "kth-largest-element-in-an-array", "level": "medium"},
+      {"title": "Task Scheduler", "slug": "task-scheduler", "level": "medium"},
+      {"title": "Design Twitter", "slug": "design-twitter", "level": "medium"},
+      {"title": "Find Median from Data Stream", "slug": "find-median-from-data-stream", "level": "hard"}
+    ] },
+    { "name": "Backtracking", "problems": [
+      {"title": "Subsets", "slug": "subsets", "level": "medium"},
+      {"title": "Combination Sum", "slug": "combination-sum", "level": "medium"},
+      {"title": "Combination Sum II", "slug": "combination-sum-ii", "level": "medium"},
+      {"title": "Permutations", "slug": "permutations", "level": "medium"},
+      {"title": "Subsets II", "slug": "subsets-ii", "level": "medium"},
+      {"title": "Word Search", "slug": "word-search", "level": "medium"},
+      {"title": "Palindrome Partitioning", "slug": "palindrome-partitioning", "level": "medium"},
+      {"title": "Letter Combinations of a Phone Number", "slug": "letter-combinations-of-a-phone-number", "level": "medium"},
+      {"title": "N-Queens", "slug": "n-queens", "level": "hard"}
+    ] },
+    { "name": "Tries", "problems": [
+      {"title": "Implement Trie (Prefix Tree)", "slug": "implement-trie-prefix-tree", "level": "medium"},
+      {"title": "Design Add and Search Words Data Structure", "slug": "design-add-and-search-words-data-structure", "level": "medium"},
+      {"title": "Word Search II", "slug": "word-search-ii", "level": "hard"}
+    ] },
+    { "name": "Graphs", "problems": [
+      {"title": "Number of Islands", "slug": "number-of-islands", "level": "medium"},
+      {"title": "Max Area of Island", "slug": "max-area-of-island", "level": "medium"},
+      {"title": "Clone Graph", "slug": "clone-graph", "level": "medium"},
+      {"title": "Walls and Gates", "slug": "walls-and-gates", "level": "medium"},
+      {"title": "Rotting Oranges", "slug": "rotting-oranges", "level": "medium"},
+      {"title": "Pacific Atlantic Water Flow", "slug": "pacific-atlantic-water-flow", "level": "medium"},
+      {"title": "Surrounded Regions", "slug": "surrounded-regions", "level": "medium"},
+      {"title": "Course Schedule", "slug": "course-schedule", "level": "medium"},
+      {"title": "Course Schedule II", "slug": "course-schedule-ii", "level": "medium"},
+      {"title": "Graph Valid Tree", "slug": "graph-valid-tree", "level": "medium"},
+      {"title": "Number of Connected Components in an Undirected Graph", "slug": "number-of-connected-components-in-an-undirected-graph", "level": "medium"},
+      {"title": "Redundant Connection", "slug": "redundant-connection", "level": "medium"},
+      {"title": "Word Ladder", "slug": "word-ladder", "level": "hard"}
+    ] },
+    { "name": "Advanced Graphs", "problems": [
+      {"title": "Reconstruct Itinerary", "slug": "reconstruct-itinerary", "level": "hard"},
+      {"title": "Min Cost to Connect All Points", "slug": "min-cost-to-connect-all-points", "level": "medium"},
+      {"title": "Network Delay Time", "slug": "network-delay-time", "level": "medium"},
+      {"title": "Swim in Rising Water", "slug": "swim-in-rising-water", "level": "hard"},
+      {"title": "Alien Dictionary", "slug": "alien-dictionary", "level": "hard"},
+      {"title": "Cheapest Flights Within K Stops", "slug": "cheapest-flights-within-k-stops", "level": "medium"}
+    ] },
+    { "name": "1-D Dynamic Programming", "problems": [
+      {"title": "Climbing Stairs", "slug": "climbing-stairs", "level": "easy"},
+      {"title": "Min Cost Climbing Stairs", "slug": "min-cost-climbing-stairs", "level": "easy"},
+      {"title": "House Robber", "slug": "house-robber", "level": "medium"},
+      {"title": "House Robber II", "slug": "house-robber-ii", "level": "medium"},
+      {"title": "Longest Palindromic Substring", "slug": "longest-palindromic-substring", "level": "medium"},
+      {"title": "Palindromic Substrings", "slug": "palindromic-substrings", "level": "medium"},
+      {"title": "Decode Ways", "slug": "decode-ways", "level": "medium"},
+      {"title": "Coin Change", "slug": "coin-change", "level": "medium"},
+      {"title": "Maximum Product Subarray", "slug": "maximum-product-subarray", "level": "medium"},
+      {"title": "Word Break", "slug": "word-break", "level": "medium"},
+      {"title": "Longest Increasing Subsequence", "slug": "longest-increasing-subsequence", "level": "medium"},
+      {"title": "Partition Equal Subset Sum", "slug": "partition-equal-subset-sum", "level": "medium"}
+    ] },
+    { "name": "2-D Dynamic Programming", "problems": [
+      {"title": "Unique Paths", "slug": "unique-paths", "level": "medium"},
+      {"title": "Longest Common Subsequence", "slug": "longest-common-subsequence", "level": "medium"},
+      {"title": "Best Time to Buy and Sell Stock with Cooldown", "slug": "best-time-to-buy-and-sell-stock-with-cooldown", "level": "medium"},
+      {"title": "Coin Change II", "slug": "coin-change-ii", "level": "medium"},
+      {"title": "Target Sum", "slug": "target-sum", "level": "medium"},
+      {"title": "Interleaving String", "slug": "interleaving-string", "level": "medium"},
+      {"title": "Longest Increasing Path in a Matrix", "slug": "longest-increasing-path-in-a-matrix", "level": "hard"},
+      {"title": "Distinct Subsequences", "slug": "distinct-subsequences", "level": "hard"},
+      {"title": "Edit Distance", "slug": "edit-distance", "level": "medium"},
+      {"title": "Burst Balloons", "slug": "burst-balloons", "level": "hard"},
+      {"title": "Regular Expression Matching", "slug": "regular-expression-matching", "level": "hard"}
+    ] },
+    { "name": "Greedy", "problems": [
+      {"title": "Maximum Subarray", "slug": "maximum-subarray", "level": "medium"},
+      {"title": "Jump Game", "slug": "jump-game", "level": "medium"},
+      {"title": "Jump Game II", "slug": "jump-game-ii", "level": "medium"},
+      {"title": "Gas Station", "slug": "gas-station", "level": "medium"},
+      {"title": "Hand of Straights", "slug": "hand-of-straights", "level": "medium"},
+      {"title": "Merge Triplets to Form Target Triplet", "slug": "merge-triplets-to-form-target-triplet", "level": "medium"},
+      {"title": "Partition Labels", "slug": "partition-labels", "level": "medium"},
+      {"title": "Valid Parenthesis String", "slug": "valid-parenthesis-string", "level": "medium"}
+    ] },
+    { "name": "Intervals", "problems": [
+      {"title": "Insert Interval", "slug": "insert-interval", "level": "medium"},
+      {"title": "Merge Intervals", "slug": "merge-intervals", "level": "medium"},
+      {"title": "Non-overlapping Intervals", "slug": "non-overlapping-intervals", "level": "medium"},
+      {"title": "Meeting Rooms", "slug": "meeting-rooms", "level": "easy"},
+      {"title": "Meeting Rooms II", "slug": "meeting-rooms-ii", "level": "medium"},
+      {"title": "Minimum Interval to Include Each Query", "slug": "minimum-interval-to-include-each-query", "level": "hard"}
+    ] },
+    { "name": "Math & Geometry", "problems": [
+      {"title": "Rotate Image", "slug": "rotate-image", "level": "medium"},
+      {"title": "Spiral Matrix", "slug": "spiral-matrix", "level": "medium"},
+      {"title": "Set Matrix Zeroes", "slug": "set-matrix-zeroes", "level": "medium"},
+      {"title": "Happy Number", "slug": "happy-number", "level": "easy"},
+      {"title": "Plus One", "slug": "plus-one", "level": "easy"},
+      {"title": "Pow(x, n)", "slug": "powx-n", "level": "medium"},
+      {"title": "Multiply Strings", "slug": "multiply-strings", "level": "medium"},
+      {"title": "Detect Squares", "slug": "detect-squares", "level": "medium"}
+    ] },
+    { "name": "Bit Manipulation", "problems": [
+      {"title": "Single Number", "slug": "single-number", "level": "easy"},
+      {"title": "Number of 1 Bits", "slug": "number-of-1-bits", "level": "easy"},
+      {"title": "Counting Bits", "slug": "counting-bits", "level": "easy"},
+      {"title": "Reverse Bits", "slug": "reverse-bits", "level": "easy"},
+      {"title": "Missing Number", "slug": "missing-number", "level": "easy"},
+      {"title": "Sum of Two Integers", "slug": "sum-of-two-integers", "level": "medium"},
+      {"title": "Reverse Integer", "slug": "reverse-integer", "level": "medium"}
+    ] }
+  ]
+}
