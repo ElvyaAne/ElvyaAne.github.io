@@ -530,17 +530,52 @@ const onScreen = (node, fn) => { let on = false; new IntersectionObserver(es => 
   const beam = el('path', {d:`M${MID - 6} ${TOP}L${MID - 46} ${FLOOR}H${MID + 46}L${MID + 6} ${TOP}Z`, opacity:0}, svg);
   const pool = el('ellipse', {cx:MID, cy:FLOOR, rx:48, ry:6, opacity:0}, svg);
   const back = el('g', {}, svg), prop = el('g', {filter:'url(#mg)'}, svg), fx = el('g', {}, svg);
-  // curtains: drawn closed, opened by squeezing them toward the sides
-  const curtain = side => { const g = el('g', {}, svg), x0 = side < 0 ? L + 1 : MID, w = MID - L - 1;
-    el('rect', {x:x0, y:TOP + 1, width:w, height:FLOOR - TOP + 8, fill:'#1b3552'}, g);
-    for (let k = 1; k < 7; k++) el('line', {x1:x0 + k*w/7, y1:TOP + 2, x2:x0 + k*w/7, y2:FLOOR + 8, stroke:'#b8daff', 'stroke-opacity':.22}, g);
-    el('rect', {x:x0, y:TOP + 1, width:w, height:FLOOR - TOP + 8, fill:'none', stroke:'#b8daff', 'stroke-opacity':.45}, g);
-    return g; };
+  // curtains: two velvet drapes, each a row of soft folds. Opening sweeps them aside and ties them back with a gold cord.
+  const VEL = {dk:'#0a1230', md:'#1d2c63', lt:'#4d64b8'}, GOLD = '#ffd9a8';
+  const grad = (id, stops, at) => { const g = el('linearGradient', {id, ...at}, d); stops.forEach(([o, c, a = 1]) => el('stop', {offset:o, 'stop-color':c, 'stop-opacity':a}, g)); };
+  grad('fold', [[0, VEL.dk], [.3, VEL.md], [.55, VEL.lt], [.78, VEL.md], [1, VEL.dk]], {x1:0, y1:0, x2:1, y2:0});
+  grad('cshade', [[0, '#000', .55], [.2, '#000', 0], [.75, '#000', 0], [1, '#000', .4]], {x1:0, y1:0, x2:0, y2:1});
+  grad('swag', [[0, VEL.dk], [.45, VEL.md], [.8, VEL.lt], [1, VEL.md]], {x1:0, y1:0, x2:0, y2:1});
+  const CT = TOP + 1, CB = FLOOR + 7, TIE = CT + (CB - CT)*.6, N = 7, HW = MID - L;
+  const tassel = (x, y, k) => `M${x} ${y - 1.4*k}a${1.4*k} ${1.4*k} 0 1 1 0 ${2.8*k}a${1.4*k} ${1.4*k} 0 1 1 0 ${-2.8*k}M${x - .9*k} ${y + 1.6*k}L${x - 2.3*k} ${y + 7.5*k}Q${x} ${y + 8.4*k} ${x + 2.3*k} ${y + 7.5*k}L${x + .9*k} ${y + 1.6*k}Z`;
+  const curtain = side => { const g = el('g', {}, svg), xo = side < 0 ? L : R, s = -side;
+    const strips = [...Array(N)].map(() => [el('path', {fill:'url(#fold)'}, g), el('path', {fill:'url(#cshade)'}, g)]);
+    const edge = el('path', {fill:'none', stroke:GOLD, 'stroke-opacity':.55, 'stroke-width':.8}, g);
+    const hem = el('path', {fill:'none', stroke:GOLD, 'stroke-opacity':.7, 'stroke-width':1.6, 'stroke-dasharray':'.4 1.1'}, g);
+    const cord = el('g', {}, svg);
+    const band = el('path', {fill:'none', stroke:GOLD, 'stroke-width':2, 'stroke-linecap':'round'}, cord);
+    const tas = el('path', {fill:GOLD, 'fill-opacity':.9}, cord);
+    return {g, cord, set(k){
+      // boundary j (0 = outer edge, N = inner edge): x at the top, at the tie-back and at the hem. The inner edge leads, the rest follow.
+      const B = [...Array(N + 1)].map((_, j) => { const f = j/N, kj = Math.max(0, Math.min(1, k*1.3 - (1 - f)*.3)), e = kj*kj*(3 - 2*kj);
+        const closed = f*(HW + 1), X = open => xo + s*(closed + (open - closed)*e);
+        return {t:X(f*HW*.36), m:X(3 + f*HW*.1), b:X(f*HW*.24), sag:6*e*f}; });
+      const down = p => `C${p.t} ${CT + (TIE - CT)*.45} ${p.m} ${TIE - (TIE - CT)*.35} ${p.m} ${TIE}C${p.m} ${TIE + 14} ${p.b} ${CB - 22} ${p.b} ${CB - p.sag}`;
+      const up = p => `C${p.b} ${CB - 22} ${p.m} ${TIE + 14} ${p.m} ${TIE}C${p.m} ${TIE - (TIE - CT)*.35} ${p.t} ${CT + (TIE - CT)*.45} ${p.t} ${CT}`;
+      const lip = (a, b) => `Q${(a.b + b.b)/2} ${CB + 2.5 - (a.sag + b.sag)/2} ${b.b} ${CB - b.sag}`;
+      let h = `M${B[0].b} ${CB - B[0].sag}`;
+      strips.forEach(([fold, shade], j) => { const a = B[j], b = B[j + 1], p = `M${a.t} ${CT}${down(a)}${lip(a, b)}${up(b)}Z`;
+        fold.setAttribute('d', p); shade.setAttribute('d', p); h += lip(a, b); });
+      edge.setAttribute('d', `M${B[N].t} ${CT}${down(B[N])}`); hem.setAttribute('d', h);
+      // the tie-back fades in as the drape gathers
+      const m0 = B[0].m, m1 = B[N].m, w = Math.abs(m1 - m0), tx = Math.min(m0, m1) - 1.5, ty = TIE + 2;
+      cord.setAttribute('opacity', Math.max(0, k*1.6 - .6).toFixed(3));
+      band.setAttribute('d', `M${tx} ${ty - 1}Q${tx + (w + 3)/2} ${ty + 2.5} ${tx + w + 3} ${ty - 1}`);
+      const cx = side < 0 ? tx + w + 2 : tx + 1;
+      tas.setAttribute('d', tassel(cx, ty + 1, 1)); }}; };
   const CL = curtain(-1), CR = curtain(1);
-  el('path', {d:`M${L} ${TOP + 1}H${R}V${TOP + 9}Q${MID} ${TOP + 15} ${L} ${TOP + 9}Z`, fill:'#1b3552', stroke:'#b8daff', 'stroke-opacity':.45}, svg); // valance
-  const setOpen = k => { const s = 1 - .84*k;       // k: 0 closed, 1 open
-    CL.setAttribute('transform', `translate(${L} 0) scale(${s.toFixed(3)} 1) translate(${-L} 0)`);
-    CR.setAttribute('transform', `translate(${R} 0) scale(${s.toFixed(3)} 1) translate(${-R} 0)`); };
+  // valance: a velvet pelmet with four swags, gold trim and a tassel between each swag
+  el('rect', {x:L, y:TOP, width:R - L, height:7, rx:1.5, fill:VEL.md}, svg);
+  const SW = (R - L)/4;
+  for (let i = 0; i < 4; i++){ const x = L + i*SW;
+    el('path', {d:`M${x} ${TOP + 5}Q${x + SW/2} ${TOP + 24} ${x + SW} ${TOP + 5}Z`, fill:'url(#swag)'}, svg);
+    el('path', {d:`M${x + 4} ${TOP + 7}Q${x + SW/2} ${TOP + 18} ${x + SW - 4} ${TOP + 7}`, fill:'none', stroke:VEL.dk, 'stroke-opacity':.7, 'stroke-width':.8}, svg);
+    el('path', {d:`M${x + 8} ${TOP + 6}Q${x + SW/2} ${TOP + 13} ${x + SW - 8} ${TOP + 6}`, fill:'none', stroke:VEL.lt, 'stroke-opacity':.5, 'stroke-width':.7}, svg);
+    el('path', {d:`M${x} ${TOP + 5}Q${x + SW/2} ${TOP + 24} ${x + SW} ${TOP + 5}`, fill:'none', stroke:GOLD, 'stroke-opacity':.75, 'stroke-width':.9}, svg); }
+  el('line', {x1:L, y1:TOP + .5, x2:R, y2:TOP + .5, stroke:GOLD, 'stroke-opacity':.6, 'stroke-width':.9}, svg);
+  for (let i = 0; i <= 4; i++){ const x = Math.min(R - 2, Math.max(L + 2, L + i*SW));
+    el('path', {d:tassel(x, TOP + 8, .75), fill:GOLD, 'fill-opacity':.9}, svg); }
+  const setOpen = k => { CL.set(k); CR.set(k); };       // k: 0 closed, 1 open
   const S = (tag, at, g = prop) => el(tag, {fill:'none', stroke:'#eaf4ff', 'stroke-width':1.4, 'stroke-linecap':'round', 'stroke-linejoin':'round', ...at}, g);
   const crown = (x, y, s, c, gem) => { S('path', {d:`M${x - 7*s} ${y + 4*s}L${x - 8*s} ${y - 4*s}L${x - 4*s} ${y}L${x} ${y - 6*s}L${x + 4*s} ${y}L${x + 8*s} ${y - 4*s}L${x + 7*s} ${y + 4*s}Z`, stroke:c, fill:'rgba(242,193,78,.18)'});
     el('circle', {cx:x, cy:y + 1.2*s, r:1.7*s, fill:gem}, prop); };

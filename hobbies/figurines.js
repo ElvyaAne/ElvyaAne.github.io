@@ -8,6 +8,23 @@ const cards = [...grid.querySelectorAll('.hc')];
 const S = 'stroke="#eaf4ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"';
 const F = 'fill="rgba(184,218,255,.22)"';
 
+// musicals: two cartoon velvet drapes (midnight blue) that glide open, hold while the dancer bows, then close.
+// Each drape is one smooth path whose shape is morphed (SMIL, so it also runs in Safari); with reduced motion they stay open.
+const MB = '#1d2c63';
+function drape(dir){
+  const X = v => (50 - dir*(50 - v)).toFixed(1);            // mirror the left drape for the right one
+  const shape = (xt, xm, xb) => `M${X(13)} 15L${X(xt)} 15C${X(xt)} 32 ${X(xm)} 44 ${X(xm)} 57C${X(xm)} 68 ${X(xb)} 76 ${X(xb)} 84Q${X((13 + xb)/2)} 88 ${X(13)} 84Z`;
+  const fold = f => (xt, xm, xb) => { const at = v => 13 + f*(v - 13);
+    return `M${X(at(xt))} 17C${X(at(xt))} 32 ${X(at(xm))} 44 ${X(at(xm))} 57C${X(at(xm))} 68 ${X(at(xb))} 76 ${X(at(xb))} 82`; };
+  const CLOSED = [50.5, 50.5, 50.5], OPEN = [31, 18, 25];
+  const anim = fn => reduce ? '' : `<animate attributeName="d" dur="7s" repeatCount="indefinite" calcMode="spline" keyTimes="0;.12;.36;.8;.96;1" keySplines="0 0 1 1;.5 0 .2 1;0 0 1 1;.5 0 .3 1;0 0 1 1" values="${[CLOSED, CLOSED, OPEN, OPEN, CLOSED, CLOSED].map(a => fn(...a)).join(';')}"/>`;
+  const p = (fn, at) => `<path d="${fn(...OPEN)}" ${at}>${anim(fn)}</path>`;
+  const tie = reduce ? '' : `<animate attributeName="opacity" dur="7s" repeatCount="indefinite" keyTimes="0;.3;.36;.8;.84;1" values="0;0;1;1;0;0"/>`;
+  return p(shape, `fill="${MB}" stroke="#eaf4ff" stroke-width="2.6" stroke-linejoin="round"`)
+    + [1/3, 2/3].map(f => p(fold(f), 'fill="none" stroke="rgba(184,218,255,.55)" stroke-width="1.6" stroke-linecap="round"')).join('')
+    + `<path d="M${X(12)} 57Q${X(16)} 61 ${X(21)} 57" stroke="#ffd9a8" stroke-width="2.4" stroke-linecap="round" fill="none">${tie}</path>`;
+}
+
 // each figurine: a tiny flat lavender/white drawing with its own little idle motion
 const H = [
   {name:'Sudoku', status:'monthly trophies', s:1, svg:`
@@ -48,11 +65,11 @@ const H = [
       <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite" keyTimes="0;.12;.2;.82;.92;1" values="0;1;1;1;0;0"/></path>
     <path class="f-moon" d="M80 6a9 9 0 1 0 8 13a7 7 0 1 1-8-13z" fill="#ffd9a8"/>`},
   {name:'Musicals', status:'Hamilton & co.', s:.95, svg:`
-    <g ${S}><path d="M12 16h76"/><path d="M12 16v70M88 16v70"/><path d="M8 86h84"/></g>
-    <path class="f-curL" d="M14 18q12 34 2 66h-2z" fill="rgba(196,255,247,.3)" stroke="#c4fff7" stroke-width="2"/>
-    <path class="f-curR" d="M86 18q-12 34-2 66h2z" fill="rgba(196,255,247,.3)" stroke="#c4fff7" stroke-width="2"/>
+    <g ${S}><path d="M12 14h76"/><path d="M12 14v72M88 14v72"/><path d="M8 86h84"/></g>
+    <path d="M30 26 50 40 70 26" stroke="rgba(255,217,168,.6)" stroke-width="1.5" fill="none"/>
     <g class="f-bow" ${S}><circle cx="50" cy="44" r="6" ${F}/><path d="M50 50v18M50 56 40 50M50 56 60 50M50 68 44 82M50 68 56 82"/></g>
-    <path d="M30 26 50 40 70 26" stroke="rgba(255,217,168,.6)" stroke-width="1.5" fill="none"/>`},
+    ${drape(1)}${drape(-1)}
+    <path d="M12 14q6.3 8 12.7 0t12.7 0 12.6 0 12.7 0 12.7 0 12.6 0z" fill="${MB}" stroke="#eaf4ff" stroke-width="2.6" stroke-linejoin="round"/>`},
 ];
 
 const EASE = 'cubic-bezier(.2,.8,.2,1)';

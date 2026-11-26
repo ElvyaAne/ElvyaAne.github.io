@@ -50,10 +50,8 @@
 .f-cards .c3{animation:ffan3 3s ease-in-out infinite}
 @keyframes ffan3{0%,100%{transform:rotate(0)}40%,70%{transform:rotate(12deg)}}
 .f-moon{animation:fpulse 3s ease-in-out infinite;filter:drop-shadow(0 0 5px rgba(255,217,168,.9))}
-.f-curL{transform-origin:0 50%;animation:fcur 4s ease-in-out infinite}.f-curR{transform-origin:100% 50%;animation:fcur 4s ease-in-out infinite}
-@keyframes fcur{0%,100%{transform:scaleX(2.6)}35%,75%{transform:scaleX(1)}}
-.f-bow{transform-origin:50% 100%;animation:fbow 4s ease-in-out infinite}
-@keyframes fbow{0%,45%,100%{transform:none}55%,65%{transform:rotate(0) scaleY(.82) translateY(4px)}}
+.f-bow{transform-origin:50% 100%;animation:fbow 7s ease-in-out infinite}
+@keyframes fbow{0%,46%,70%,100%{transform:none}54%,62%{transform:scaleY(.82) translateY(4px)}}
 /* open: the chosen figurine slides aside, the hobby opens on the bare sky */
 .hshelf.open{display:grid;grid-template-columns:260px minmax(0,1fr);column-gap:48px;align-items:start}
 .hshelf.open .hfig:not(.sel){display:none}
