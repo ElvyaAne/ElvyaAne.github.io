@@ -76,9 +76,9 @@ const N = {
       <div class="chips"><span>design</span><span>responsive</span><span>Vercel</span></div>
       <div class="btns"><a class="btn" href="https://portfolio-website-cecilia-jammoul.vercel.app/" target="_blank" rel="noopener">Cecilia's site ↗</a><a class="btn" href="https://stella-steinberg-portfolio.vercel.app/stella.html" target="_blank" rel="noopener">Stella's site ↗</a></div>`},
   gdg:{name:'GDG on Campus', d:[46,31], m:[14,36], type:'community', status:'founder',
-    sum:'Founder and organizer of Google Developer Group on Campus at uOttawa.',
+    sum:'Co-founder and organizer of Google Developer Group on Campus at uOttawa.',
     html:`<span class="lab">community · founder</span><h2>Google Developer Group</h2>
-      <p>I <b>founded and organize</b> the <b>Google Developer Group (GDG) on Campus</b> at the University of Ottawa, a student community for people who like building things with tech.</p>
+      <p>I <b>Co-founded and organize</b> the <b>Google Developer Group (GDG) on Campus</b> at the University of Ottawa, a student community for people who like building things with tech.</p>
       <dl class="kv"><dt>club</dt><dd>GDG on Campus</dd><dt>where</dt><dd>University of Ottawa</dd><dt>role</dt><dd><b>founder</b> &amp; organizer</dd></dl>`},
   hacks:{name:'hackathons', d:[84,80], m:[50,88], type:'events', status:'winner',
     sum:'Hack the Hill, then a win at Hack the Valley 11.',
