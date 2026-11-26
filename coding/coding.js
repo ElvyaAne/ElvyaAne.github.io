@@ -53,7 +53,7 @@ const card = t => { const ps = pages(t), ds = t.documents || [], cover = t.cover
     <span class="top"><span class="code">${esc(t.tag || '')}</span><span class="term">${esc(t.when || (t.together ? 'one set of notes' : ''))}</span></span>
     <span class="nm">${esc(t.title)}</span>
     ${t.blurb ? `<p class="bl">${inline(t.blurb)}</p>` : ''}
-    <span class="meta">${ps.length ? `<span>${plural(ps.length, 'page')}</span>` : '<span class="soon">pages coming soon</span>'}${ds.length ? `<span>${plural(ds.length, 'file')}</span>` : ''}</span>
+    <span class="meta">${ps.length ? `<span>${plural(ps.length, 'page')}</span>` : '<span class="soon">pages coming soon</span>'}${t.extra ? `<span>${esc(t.extra)}</span>` : ''}${ds.length ? `<span>${plural(ds.length, 'file')}</span>` : ''}</span>
   </a></li>`; };
 
 function list(topics){
@@ -79,7 +79,43 @@ function topic(topics){
         <span class="pn">${esc(p.caption || `page ${i + 1}`)}</span></a></li>`).join('')}</ol>` : '')
     + (ds.length ? `<section class="panel"><span class="lab">files</span><ul class="docs">${ds.map(d => { const u = d.file || d.url || '#';
         return `<li><a href="${esc(safeUrl(u))}" target="_blank" rel="noopener"><span class="ty">${esc(ext(d))}</span><span class="t">${esc(d.title || u)}${d.note ? `<small>${inline(d.note)}</small>` : ''}</span><span class="ar">↗</span></a></li>`; }).join('')}</ul></section>` : '')
+    + (t.list ? '<div id="pList"><p class="empty">Loading the list…</p></div>' : '')
     || EMPTY;
+  if (t.list) fetch(t.list, {cache:'no-cache'}).then(r => { if (!r.ok) throw r.status; return r.json(); })
+    .then(problemSet).catch(() => { $('pList').innerHTML = '<p class="empty">Couldn\'t load the list. Try refreshing.</p>'; });
+}
+
+// A problem set (like the NeetCode 150): my typed-up pattern notes by day, then every problem grouped by category.
+const slug = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const LV = {easy:'E', medium:'M', hard:'H'};
+function problemSet(j){
+  const cats = j.categories || [], noted = {};
+  (j.notes || []).forEach(d => (d.topics || []).forEach(s => { noted[s.category] = {day: d.day, id: 'n-' + slug(s.category)}; }));
+  const total = cats.reduce((n, c) => n + c.problems.length, 0);
+  const count = lv => cats.reduce((n, c) => n + c.problems.filter(p => p.level === lv).length, 0);
+  const notes = (j.notes || []).length ? `<section class="ps-notes"><span class="lab">my notes, typed up</span>${j.notes.map(d => `
+    <div class="ps-day"><h2 class="ps-date">${esc(d.day)}</h2>${(d.topics || []).map(s => `
+      <article class="panel ps-topic" id="n-${slug(s.category)}"><h3>${esc(s.title)}</h3>${s.sub ? `<p class="ps-sub">${inline(s.sub)}</p>` : ''}
+        <ul class="ps-pats">${(s.patterns || []).map(p => `<li${p.text ? '' : ' class="bare"'}><mark>${inline(p.name)}</mark>${p.text ? paras(p.text) : ''}</li>`).join('')}</ul>
+      </article>`).join('')}</div>`).join('')}</section>` : '';
+  const list = `<section class="ps-list"><span class="lab">the list</span>
+    <h2 class="ps-h">All ${total} problems</h2>
+    <p class="ps-split"><span class="lv easy">${count('easy')} easy</span><span class="lv medium">${count('medium')} medium</span><span class="lv hard">${count('hard')} hard</span></p>
+    <div class="ps-filter" role="group" aria-label="Show problems">${['all','easy','medium','hard'].map(f => `<button type="button" data-f="${f}"${f === 'all' ? ' aria-pressed="true"' : ' aria-pressed="false"'}>${f}</button>`).join('')}</div>
+    ${cats.map((c, i) => { const n = noted[c.name];
+      return `<details class="ps-cat"${i === 0 ? ' open' : ''}><summary><span class="ci">${String(i + 1).padStart(2, '0')}</span><span class="cn">${esc(c.name)}</span>
+        ${n ? `<a class="cnote" href="#${n.id}">✦ in my notes</a>` : ''}<span class="cc">${c.problems.length}</span></summary>
+        <ol class="ps-probs">${c.problems.map(p => `<li data-l="${esc(p.level)}"><a href="https://leetcode.com/problems/${encodeURIComponent(p.slug)}/" target="_blank" rel="noopener">
+          <span class="pt">${esc(p.title)}</span><span class="lv ${esc(p.level)}" title="${esc(p.level)}">${esc(p.level)}</span><span class="ar">↗</span></a></li>`).join('')}</ol></details>`; }).join('')}
+  </section>`;
+  $('pList').innerHTML = notes + list;
+  document.querySelectorAll('.cnote').forEach(a => a.addEventListener('click', e => { e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'start'}); }));
+  const btns = [...document.querySelectorAll('.ps-filter button')];
+  btns.forEach(b => b.addEventListener('click', () => {
+    const f = b.dataset.f; btns.forEach(x => x.setAttribute('aria-pressed', x === b));
+    document.querySelectorAll('.ps-probs li').forEach(li => { li.hidden = f !== 'all' && li.dataset.l !== f; });
+    document.querySelectorAll('.ps-cat').forEach(d => { const any = d.querySelector('.ps-probs li:not([hidden])'); d.hidden = !any; if (f !== 'all') d.open = true; });
+  }));
 }
 
 // Full-size view for a note page: tap a page to open it, then ✕, Esc, or tapping outside closes it.

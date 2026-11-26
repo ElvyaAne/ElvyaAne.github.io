@@ -12,6 +12,7 @@
     { "id": "react", "title": "React", "tag": "web", "blurb": "Building interfaces out of components.", "pages": [] },
     { "id": "linux-terminal", "title": "Linux + terminal", "tag": "tools", "together": true, "blurb": "Getting around a computer from the command line.", "when": "June 2026", "pages": [{ "file": "files/linux-terminal/linux-terminal.jpg", "caption": "June 23-25" }] },
     { "id": "github-git", "title": "GitHub + git", "tag": "tools", "together": true, "blurb": "Version control, and sharing code with other people.", "pages": [{ "file": "files/github-git/git-branching.jpg", "caption": "Git branching" }] },
-    { "id": "sql", "title": "SQL", "tag": "databases", "blurb": "Asking databases questions.", "pages": [] }
+    { "id": "sql", "title": "SQL", "tag": "databases", "blurb": "Asking databases questions.", "pages": [] },
+    { "id": "neetcode-150", "title": "NeetCode 150", "tag": "interview prep", "when": "October 25-30", "blurb": "The patterns behind the NeetCode 150 problems, one or two topics a day.", "list": "neetcode150.json", "thoughts": "This is especially useful for the part that has nothing to do with the job but you will have to do it eventually it's a rite of passage. Good luck on those interviews and hopefully, everything goes well. May the odds be ever in your favour!", "extra": "150 problems", "pages": [{ "file": "files/neetcode-150/neetcode-notes.png", "caption": "October 25-30" }] }
   ]
 }
