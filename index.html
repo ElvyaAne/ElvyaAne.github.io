@@ -305,7 +305,7 @@ footer{max-width:none;border-top:0;margin-top:-2px;background:#183350;color:#b9d
 .pshelf.open .pstar.sel .ps-art{top:120px}
 .pshelf.open .pstar.sel .ps-lbl{font-size:34px}
 .pshelf.open+.phint{visibility:hidden}
-.pinfo{padding-top:24px;max-width:66ch}
+.pinfo{padding-top:24px;max-width:66ch;min-width:0}
 .pinfo h2{font-family:var(--f-display);font-variation-settings:"SOFT" 100,"WONK" 1;font-style:italic;font-weight:400;font-size:clamp(44px,5vw,68px);line-height:1;letter-spacing:-.02em;margin:10px 0 18px}
 .pinfo p{margin:0 0 16px;color:#d3e4f5;font-size:17px;line-height:1.65}
 .pinfo p b{color:var(--mist);font-weight:500}
@@ -314,6 +314,39 @@ footer{max-width:none;border-top:0;margin-top:-2px;background:#183350;color:#b9d
 .pback{display:block;margin-bottom:22px}
 .psky{margin-top:6px;color:var(--sky)}
 .pback:hover,.psky:hover{color:var(--mist)}
+.pgal{margin:30px 0 26px}
+.pgal-grid{display:flex;justify-content:center;align-items:flex-start;flex-wrap:wrap;margin-top:16px;padding:26px 0 30px}
+.pgal-ph{position:relative;flex:0 0 35%;padding:10px 10px 0;margin:0 -.3%;background:#f3eee4;border:0;border-radius:3px;color:#24364a;font:inherit;cursor:zoom-in;box-shadow:0 18px 34px -12px rgba(0,0,0,.85);transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.pgal-ph.tall{flex-basis:28%}
+.pgal-ph img{display:block;width:100%;height:auto;aspect-ratio:var(--ar);object-fit:contain;border-radius:1px;background:#0a1826;filter:saturate(.95);transition:filter .35s}
+.pgal-ph span{display:block;padding:10px 4px 13px;font-family:var(--f-display);font-style:italic;font-variation-settings:"SOFT" 100,"WONK" 1;font-size:17px;line-height:1.2;text-align:center}
+.pgal-ph::before{content:'';position:absolute;left:50%;top:-11px;width:72px;height:22px;margin-left:-36px;background:rgba(184,218,255,.45);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);transform:rotate(-3deg);pointer-events:none}
+.pgal-ph[data-k="0"]{transform:rotate(-5deg) translateY(10px);z-index:1}
+.pgal-ph[data-k="1"]{transform:rotate(2.5deg) translateY(30px);z-index:2}
+.pgal-ph[data-k="2"]{transform:rotate(6deg) translateY(4px);z-index:1}
+.pgal-ph:hover,.pgal-ph:focus-visible{transform:rotate(0) translateY(-6px) scale(1.06);z-index:3;box-shadow:0 26px 46px -12px rgba(0,0,0,.9),0 0 34px -6px rgba(155,238,255,.5)}
+.pgal-ph:focus-visible{outline:2px solid var(--sky);outline-offset:4px}
+.pgal-ph:hover img{filter:none}
+.plb{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:56px 72px;background:rgba(7,16,27,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.plb figure{margin:0;display:flex;flex-direction:column;align-items:center;max-width:100%;max-height:100%}
+.plb img{display:block;width:auto;height:auto;max-width:min(100%,1100px);max-height:calc(100vh - 150px);max-height:calc(100dvh - 150px);border-radius:12px;border:1px solid rgba(155,238,255,.25);box-shadow:0 0 60px -10px rgba(155,238,255,.25)}
+.plb figcaption{display:flex;gap:16px;justify-content:space-between;width:100%;margin-top:14px;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--lav)}
+.plb-n{color:var(--dim)}
+.plb button{position:absolute;background:none;border:0;cursor:pointer;color:var(--mist);font-size:34px;line-height:1;padding:10px 14px;transition:color .2s}
+.plb button:hover,.plb button:focus-visible{color:var(--sky)}
+.plb-x{top:12px;right:14px;font-size:22px!important}
+.plb-p{left:12px;top:50%;translate:0 -50%}
+.plb-q{right:12px;top:50%;translate:0 -50%}
+@media (max-width:700px){
+  .pgal-grid{padding:20px 0 16px;row-gap:26px}
+  .pgal-ph{flex-basis:52%;padding:6px 6px 0;margin:0 .6%}
+  .pgal-ph.tall{flex-basis:41%}
+  .pgal-ph[data-k="2"]{flex-basis:60%;transform:rotate(-3deg)}
+  .pgal-ph span{font-size:13px;padding:7px 2px 9px}
+  .pgal-ph::before{width:48px;height:15px;margin-left:-24px;top:-8px}
+  .plb{padding:56px 12px 40px}
+  .plb-p,.plb-q{top:auto;bottom:6px;translate:none}
+}
 .star.proj .lbl{color:var(--mist);border:1px solid rgba(155,238,255,.4);background:rgba(20,47,74,.75)}
 .star.proj.on .lbl{background:var(--lav);color:var(--night);border-color:var(--lav)}
 @media (max-width:600px){.shelf{padding-block:64px 0}}
