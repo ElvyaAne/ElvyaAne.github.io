@@ -50,6 +50,9 @@ const N = {
       <div class="btns"><a class="btn ghost" href="https://github.com/ElvyaAne/viralense" target="_blank" rel="noopener">repo ↗</a></div>`},
   tenshi:{name:'Tenshi', d:[44,79], m:[46,71], type:'safety + hardware', status:'prize winner',
     proj:{tech:['Node','Vosk','Llama 3.2','TimescaleDB','Arduino'], links:[['Devpost','https://devpost.com/software/htv-b2k5st'],['repo','https://github.com/georgef166/HTVWinners']]},
+    photoset:'Hack the Valley 11', photos:[['img/tenshi/kaze-2nd-place.webp',894,1200,'Project KAZE results','The Project KAZE results screen at the Hack the Valley 11 closing ceremony, showing Tenshi'],
+      ['img/tenshi/team-htv.webp',1200,894,'team at Hack the Valley','The Tenshi team standing behind giant light-up HTV letters at Hack the Valley 11'],
+      ['img/tenshi/building-tenshi.webp',1200,894,'building Tenshi','Two laptops running the Tenshi app, wired to the Arduino board for the necklace']],
     sum:'A dead man’s switch for nights out: if you stop answering, a friend gets your location.',
     html:`<span class="lab">safety + hardware · Hack the Valley 11</span><h2>Tenshi</h2>
       <p><i>"Don't die on us :D"</i> A <b>dead man's switch for nights out</b>, for when you can't ask for help: a spiked drink, a dead phone.</p>
@@ -460,7 +463,13 @@ if (pshelf){
     pshelf.classList.add('open'); openI = i;
     S.forEach((b, k) => { b.classList.toggle('sel', k === i); b.setAttribute('aria-expanded', String(k === i)); });
     info.hidden = false;
-    info.innerHTML = `<button class="pback" type="button">← all projects</button>${N[id].html}<button class="psky" type="button">see it in the sky ✦</button>`;
+    const ph = N[id].photos;
+    info.innerHTML = `<button class="pback" type="button">← all projects</button>${N[id].html}`
+      + (ph ? `<section class="pgal" aria-label="${N[id].name} photos"><span class="lab">✦ photos · ${N[id].photoset || ph.length + ' shots'}</span><div class="pgal-grid">`
+        + ph.map(([src, w, h, cap, alt], k) => `<button type="button" class="pgal-ph${h > w ? ' tall' : ''}" data-k="${k}" style="--ar:${w}/${h}" aria-label="enlarge photo: ${cap}"><img src="${src}" width="${w}" height="${h}" alt="${alt}" loading="lazy" decoding="async"><span>${cap}</span></button>`).join('')
+        + '</div></section>' : '')
+      + `<button class="psky" type="button">see it in the sky ✦</button>`;
+    if (ph) info.querySelectorAll('.pgal-ph').forEach(b => b.onclick = () => lightbox(ph, +b.dataset.k, b));
     info.querySelector('.pback').onclick = close;
     info.querySelector('.psky').onclick = () => {
       if (mobile()){ visit(id); return; }
@@ -484,6 +493,43 @@ if (pshelf){
     const last = sb.getBoundingClientRect();
     sb.animate([{transform:`translate(${first.left-last.left}px,${first.top-last.top}px)`},{transform:'none'}], {duration:650, easing:EASE});
     S.forEach((b, k) => { if (k !== i) b.animate([{opacity:0, transform:'translateY(12px)'},{opacity:1, transform:'none'}], {duration:500, delay:150 + k*40, easing:EASE, fill:'backwards'}); });
+  }
+  let lb = null;
+  function lightbox(ph, k, from){
+    if (!lb){
+      lb = document.createElement('div'); lb.className = 'plb'; lb.hidden = true;
+      lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true'); lb.setAttribute('aria-label', 'photo viewer');
+      lb.innerHTML = '<figure><img alt=""><figcaption><span class="plb-cap"></span><span class="plb-n"></span></figcaption></figure>'
+        + '<button type="button" class="plb-x" aria-label="close">✕</button><button type="button" class="plb-p" aria-label="previous photo">‹</button><button type="button" class="plb-q" aria-label="next photo">›</button>';
+      document.body.appendChild(lb);
+      lb.addEventListener('click', e => { if (e.target === lb || e.target.closest('.plb-x')) lb.shut(); });
+      lb.querySelector('.plb-p').onclick = () => lb.go(-1);
+      lb.querySelector('.plb-q').onclick = () => lb.go(1);
+      addEventListener('keydown', e => {
+        if (lb.hidden) return;
+        if (e.key === 'Escape'){ e.stopImmediatePropagation(); lb.shut(); }
+        else if (e.key === 'ArrowLeft') lb.go(-1);
+        else if (e.key === 'ArrowRight') lb.go(1);
+      }, true);
+      let tx = null;
+      lb.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+      lb.addEventListener('touchend', e => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; tx = null; if (Math.abs(dx) > 50) lb.go(dx < 0 ? 1 : -1); });
+    }
+    const img = lb.querySelector('img');
+    lb.show = j => {
+      lb.k = (j + lb.ph.length) % lb.ph.length; const [src, w, h, cap, alt] = lb.ph[lb.k];
+      img.src = src; img.width = w; img.height = h; img.alt = alt;
+      lb.querySelector('.plb-cap').textContent = cap;
+      lb.querySelector('.plb-n').textContent = `${lb.k + 1} / ${lb.ph.length}`;
+      if (!reduce) img.animate([{opacity:0, transform:'scale(.97)'},{opacity:1, transform:'none'}], {duration:380, easing:EASE});
+    };
+    lb.go = d => lb.show(lb.k + d);
+    lb.shut = () => { lb.hidden = true; document.documentElement.style.overflow = ''; if (lb.from) lb.from.focus({preventScroll:true}); };
+    lb.ph = ph; lb.from = from;
+    lb.querySelectorAll('.plb-p,.plb-q').forEach(b => b.hidden = ph.length < 2);
+    lb.hidden = false; document.documentElement.style.overflow = 'hidden';
+    lb.show(k); lb.querySelector('.plb-x').focus({preventScroll:true});
+    if (!reduce) lb.animate([{opacity:0},{opacity:1}], {duration:300, easing:EASE});
   }
   function toggle(i, kb){ if (openI === i) close(); else { if (openI >= 0) close(); open(i, kb); } }
   addEventListener('keydown', e => { if (e.key === 'Escape' && openI >= 0) close(); });
